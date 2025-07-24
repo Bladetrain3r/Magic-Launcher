@@ -85,19 +85,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Drag and drop to reorder shortcuts
 - "Duplicate to..." function to copy shortcuts to other folders
 - Custom arrangement with reset to auto-arrange option
-- Import .desktop files from system
-- Export/import shortcut collections
+- Alternative icon formats (ICO, PNG) (Use PIL to covert to bmp for simplicity)
+- Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 
 ### Medium Term  
-- Function key hotkeys (F1-F10)
-- Recent items tracking
+- Import .desktop and .shortcut files from system
 - Multiple launcher profiles
-- Grid size preferences
 - Custom color schemes
+- Default app association customisation by file extension
 
 ### Long Term
-- Plugin system for extended functionality
-- Network launcher (shared shortcuts)
 - Gamepad/controller support
 - Touch screen support
-- Alternative icon formats (ICO, PNG)
+- Function key hotkeys (F1-F10)
+- Full screen support and clean display focus switching
+
+### Super Maybe
+- Plugin system for extended functionality
+- Network launcher (shared shortcuts)
+- Recent items tracking
+- Taskbar to switch apps
