@@ -242,6 +242,8 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 ### Known Issues
 - Launching multiple terminal apps at once is permitted and will cause a mess in your TTY
 - Unicode doesn't work via WSL
+- Right-click dialogue starts popping up every time you mouse over certain coordinates, sometimes. Right click event not handling properly?
+- Occasionally multiple right click dialogues start appearing for bo reason
 
 ## License
 
