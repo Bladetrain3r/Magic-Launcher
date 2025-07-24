@@ -1,0 +1,93 @@
+# Discovered Features
+Through simple design choices, Magic Launcher gained several unintended but useful capabilities:
+## Cross-Environment Isolation
+
+Separate configs per environment (Windows/WSL/Remote)
+Each environment's ~/.config/launcher/ is independent
+Run different launcher instances with completely different shortcuts
+Share code, not configurations
+
+## Terminal Integration
+
+Launched from terminal = terminal apps output to that terminal
+GUI apps detach properly while terminal apps stay connected
+Works with interactive terminal programs (vim, htop, ssh)
+No need for terminal window management
+
+## Remote Execution
+
+SSH shortcuts work seamlessly: ssh -t server htop
+Chain commands: ssh server 'cd /logs && tail -f app.log'
+Remote interactive sessions just work
+No special handling needed
+
+## Working Directory Intelligence
+
+Executables launch from their directory
+Games/apps find their data files correctly
+Scripts run in proper context
+Automatic cwd detection from executable path
+
+## URL Handling
+
+Windows: Opens in default Windows browser
+WSL with X11: Opens in Linux browser through X forwarding
+No environment detection needed
+Same shortcut works everywhere
+
+## File/Folder Opening
+
+Documents open in default editors
+Folders open in native file explorer
+Works cross-platform without modification
+Supports quoted paths with spaces
+
+## Visual Feedback
+
+Broken shortcuts show red X overlay
+Still editable/deletable when broken
+Immediate visual indication of problems
+No functionality blocked
+
+## Script Chaining
+
+Wrapper scripts can perform complex operations
+Download → Edit → Cleanup workflows
+Terminal minimizes during execution
+Returns when complete
+
+# Emergency Reordering
+
+# Duplicate + Delete = Move to end
+Manual JSON editing for precise control
+Scriptable via JSON manipulation
+No complex drag-drop needed
+
+# Icon Flexibility
+
+Unicode/emoji characters work as icons
+BMP images auto-import to central storage
+Mix text and image icons freely
+Icons portable with config
+
+# Natural Organization
+
+Folders for categories
+Search supersedes manual organization
+Recursive search finds items anywhere
+Path shown in search results
+
+# Configuration as Interface
+
+JSON files editable as "settings panel"
+Launcher shortcuts to config folder
+Version control friendly
+Easy backup/sharing
+
+### These features emerged naturally from:
+
+Not capturing subprocess output
+Using standard config locations
+Keeping shortcuts as simple JSON
+Launching via basic subprocess calls
+Not trying to be clever about environment detection

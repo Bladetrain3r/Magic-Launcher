@@ -58,6 +58,13 @@ All configuration is stored in `~/.config/launcher/`:
    - **Arguments**: Command-line arguments
    - **Icon**: Single character or .bmp filename
 
+### Shortcuts.json
+
+- This is the source of truth for all shortcut data
+- Icons are loaded in the order they are retrieved from the shortcuts file
+- Reordering of shortcuts is best done via editing
+- Needs better validation
+
 ### Icon System
 
 - **Text Icons**: Any 1-2 character string (e.g., "G" for Games)
@@ -171,6 +178,22 @@ Copy and paste right into the icon field!
 }
 ```
 
+### Run SSH commands or remotely view logs if running in Linux
+```json
+  "Dev DB SysLogs": {
+    "type": "shortcut",
+    "icon": "D",
+    "path": "/mnt/c/Users/Jimmy/getlogs.sh",
+    "args": ""
+  },
+  "Dev DB Top": {
+    "type": "shortcut",
+    "icon": "T",
+    "path": "ssh",
+    "args": "utu@111.211.121.212 -t \"top\""
+  }
+```
+
 ## Design Philosophy
 
 Magic Launcher follows the Unix philosophy: do one thing and do it well. It's not a desktop environment or file manager - it's purely a shortcut organizer and launcher. This focused approach means:
@@ -209,6 +232,10 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Ensure X11 forwarding is enabled: `ssh -X user@host`
 - The fixed 720p resolution should work on most displays
 
+### Known Issues
+- Launching multiple terminal apps at once is permitted and will cause a mess in your TTY
+- Unicode doesn't work via WSL
+
 ## License
 
 This project is released into the public domain. See LICENSE file for details.
@@ -220,7 +247,10 @@ Contributions are welcome! The codebase is modular and well-documented. Key area
 - Import/export functionality  
 - Platform-specific improvements
 - Documentation and examples
+- Security issues
+- Bugs
 - Useful extensions to the core emphasising immediate utility
+- The goal remains to keep bloat relatively minimal and focus on task high.
 
 ## Acknowledgments
 
