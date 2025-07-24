@@ -5,6 +5,8 @@ FROM python:3.9-slim
 RUN apt-get update && apt-get install -y \
     python3-tk \
     x11-apps \
+    xdg-utils \
+    firefox-esr \
     # Basic utilities that shortcuts might use
     curl \
     wget \
@@ -40,6 +42,6 @@ RUN echo '#!/bin/bash\ncd /app/launcher && python3 app.py' > /start.sh && \
 # Default command
 CMD ["/start.sh"]
 
-# Build with: docker build -t magic-launcher .
+# Build with: docker build -t magic-launche:latest .
 # Run with: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.config/launcher:/root/.config/launcher magic-launcher
 # Isolate Config Directory: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix magic-launcher
