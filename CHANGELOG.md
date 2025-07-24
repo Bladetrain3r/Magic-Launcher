@@ -99,6 +99,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Better handling of unbuffered output like tail -f
 
 ### Long Term
+- Two modes: Admin/Unlocked and Locked/User. Admin by default unless proper private key is provided.
+```
+Visual indicators:
+
+Red padlock icon in title bar when locked
+Disabled + and edit buttons
+Right-click menu only shows "Properties"
+Maybe different title bar color
+
+The key check could be:
+
+Hash the key file contents
+Compare to stored hash in ./config/launcher/key
+If match, enable edit mode
+
+e.g. python app.py --unlock ~/.ssh/admin_key
+```
 - Gamepad/controller support
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
 - Full screen support and clean display focus switching
@@ -106,8 +123,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Neaten up scrollbar
 
 ### Super Maybe
-- Plugin system for extended functionality
-- Network launcher (shared shortcuts)
 - Recent items tracking
-- Taskbar to switch apps
 - Icon and font scaling
