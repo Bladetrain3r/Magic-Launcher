@@ -18,6 +18,7 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 1. Clone or download the repository
 2. Ensure Python 3.6+ is installed
 3. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
+4. (Optional) Install xdg-utils and/or x11-apps to get GUI passthrough
 
 ## Usage
 
