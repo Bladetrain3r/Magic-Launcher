@@ -65,6 +65,18 @@ DEFAULT_SHORTCUTS = {
         'type': 'folder',
         'icon': 'S',
         'items': {}
+    },
+    'Hello World shell': {
+        'type': 'shortcut',
+        'icon': 'sh',
+        'path': 'echo',
+        'args': 'Hello, World from Bash!',
+    },
+    'Hello World PWSH': {
+        'type': 'shortcut',
+        'icon': 'PS',
+        'path': 'powershell',
+        'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"',
     }
 }
 
