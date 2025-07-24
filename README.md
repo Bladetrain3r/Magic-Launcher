@@ -194,6 +194,13 @@ Copy and paste right into the icon field!
   }
 ```
 
+### X11 Remote Forwarding
+You can run Magic Launcher on a remote server using X forwarding.
+Best on a LAN but it will function over WAN too.
+```bash
+ssh -X -t user@server "python3 /~/Magic-Launcher/launcher/app.py"
+```
+
 ## Design Philosophy
 
 Magic Launcher follows the Unix philosophy: do one thing and do it well. It's not a desktop environment or file manager - it's purely a shortcut organizer and launcher. This focused approach means:
