@@ -82,26 +82,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Roadmap / Future Ideas
 
 ### Short Term
-- Drag and drop to reorder shortcuts
+- Arrow key navigation
+- Space as right click
+- Enter as double click
+- Ctrl + N for new shortcut
 - "Duplicate to..." function to copy shortcuts to other folders
-- Custom arrangement with reset to auto-arrange option
-- Alternative icon formats (ICO, PNG) (Use PIL to covert to bmp for simplicity)
+- Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 
 ### Medium Term  
 - Import .desktop and .shortcut files from system
+- Shortcut re-order in GUI
 - Multiple launcher profiles
 - Custom color schemes
 - Default app association customisation by file extension
+- Better handling of unbuffered output like tail -f
 
 ### Long Term
 - Gamepad/controller support
-- Touch screen support
-- Function key hotkeys (F1-F10)
+- Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
 - Full screen support and clean display focus switching
+- Grid size scaling
+- Neaten up scrollbar
 
 ### Super Maybe
 - Plugin system for extended functionality
 - Network launcher (shared shortcuts)
 - Recent items tracking
 - Taskbar to switch apps
+- Icon and font scaling
