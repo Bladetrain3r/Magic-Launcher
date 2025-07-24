@@ -65,6 +65,55 @@ All configuration is stored in `~/.config/launcher/`:
 - Icons are automatically imported when browsing
 - Recommended size: 64x64 pixels (will be scaled if needed)
 
+#### Unicode Icons
+Yes, specials work too!
+```
+Games & Entertainment
+
+🎮 🎯 🎲 🎰 🎪 🎨 🎭 🎬 🎵 🎸 🎹 🎺 🎪 ♠ ♣ ♥ ♦ ♟ ♜ ⚀ ⚁ ⚂ ⚃ ⚄ ⚅
+
+Tools & System
+
+⚙ 🔧 🔨 ⚒ 🛠 🔩 ⚡ 💾 💿 📀 🖥 💻 ⌨ 🖱 🖨 📱 ☎ 📞 🔌 🔋 🔒 🔓 🔐 🔑 🗝
+
+Files & Folders
+
+📁 📂 📄 📃 📋 📌 📎 📏 📐 ✂ 📝 ✏ ✒ 🖊 🖋 📜 📊 📈 📉 🗂 🗃 🗄
+
+Navigation & Actions
+
+▶ ◀ ▲ ▼ ⏵ ⏴ ⏶ ⏷ ⏯ ⏸ ⏹ ⏺ ⏭ ⏮ ⏩ ⏪ ↩ ↪ ⤴ ⤵ ⬆ ⬇ ⬅ ➡ ↗ ↘ ↙ ↖ ↕ ↔ 🔃 🔄
+
+Internet & Communication
+
+🌐 🌍 🌎 🌏 📧 📨 📩 ✉ 📮 📪 📫 📬 📭 💬 💭 🗨 🗯 📢 📣 📡 📶 📳 📴
+
+Math & Symbols
+
+➕ ➖ ✖ ➗ ± × ÷ = ≈ ≠ < > ≤ ≥ ∞ ∑ √ ∛ ∜ π Σ Ω ∆ ∇ ∫ ∂
+
+Status & Indicators
+
+✓ ✔ ✗ ✘ ⚠ ⚡ ⛔ 🚫 ❌ ⭕ ❗ ❓ ❕ ❔ 💡 🔍 🔎 👁 🎯 📍 🏁 🏴 🏳 🚩
+
+Misc Useful
+
+⭐ ★ ☆ ❤ ♥ 👍 👎 👌 ✋ ✊ 🏠 🏢 🏭 🏗 🚀 ✈ 🚁 ⚓ 🎪 🎨 🍕 ☕ 🍺
+
+Box Drawing (DOS-style)
+
+═ ║ ╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ▀ ▄ █ ▌ ▐ ░ ▒ ▓
+
+Most of these should display fine in the launcher. Some tips:
+
+Test the character first - font support varies
+Emojis work but may look different across systems
+Box drawing characters give that authentic DOS feel
+Arrows are great for navigation/back buttons
+
+Copy and paste right into the icon field!
+```
+
 ## Examples
 
 ### Game Launcher
@@ -96,6 +145,29 @@ All configuration is stored in `~/.config/launcher/`:
   "type": "shortcut",
   "icon": "G",
   "path": "https://github.com"
+}
+```
+
+### Plaintext File (Log, Config)
+- These will launch in the default editor for their filetype
+```json
+{
+  "name": "Shortcut Config",
+  "type": "shortcut",
+  "icon": "⚙",
+  "path": "C:\Users\Jimmy\.config\launcher\launcher.log"
+}
+```
+
+### Directories with your local file explorer
+- Handles quoted args too
+```json
+{
+  "name": "My Documents",
+  "type": "shortcut",
+  "icon": "📁",
+  "path": "explorer",
+  "args": "\"C:\Users\Jimmy\Documents\""
 }
 ```
 
