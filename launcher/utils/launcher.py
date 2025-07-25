@@ -39,6 +39,10 @@ class Launcher:
             if Path(path).suffix in ['.txt', '.md', '.log', '.conf', '.cfg']:
                 return Launcher._open_text_file(path)
             
+            # PDF treated as a browser link for compatibility
+            if Path(path).suffix == '.pdf':
+                return Launcher._open_url(path)
+            
             # Determine working directory
             cwd = None
             expanded_path = os.path.expanduser(os.path.expandvars(path))
