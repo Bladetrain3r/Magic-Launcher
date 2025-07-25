@@ -47,11 +47,11 @@ I do plan on implementing several security features, in particular a "read only"
 ## How is it useful?
 I built this to solve one of my own problems, and that's the fact that graphical desktops are generally overcomplicated, bloated, and OS dependent.
 These are some of the use cases I overlap:
-**For developers:** Same GUI whether you're on bare metal, SSH, or Docker  
-**For gamers:** Unified launcher for Steam, GOG, whatever - just point and click  
-**For web users:** Browser-independent bookmark storage  
-**For administrators:** One-click automation and remote server administration without enterprise bloat. Just scripts and a button click to drive them.
-**For everyone:** Less relearning when switching between OS environments
+- **For developers:** Same GUI whether you're on bare metal, SSH, or Docker  
+- **For gamers:** Unified launcher for Steam, GOG, whatever - just point and click  
+- **For web users:** Browser-independent bookmark storage  
+- **For administrators:** One-click automation and remote server administration without enterprise bloat. Just scripts and a button click to drive them.
+- **For everyone:** Less relearning when switching between OS environments
 
 ## Where did the idea come from?
 I haven't actually been asked this but I'll answer anyway because I want to.
