@@ -50,15 +50,28 @@ These are some of the use cases I overlap:
 **For developers:** Same GUI whether you're on bare metal, SSH, or Docker  
 **For gamers:** Unified launcher for Steam, GOG, whatever - just point and click  
 **For web users:** Browser-independent bookmark storage  
-**For administrators:** One-click automation without the enterprise bloat  
+**For administrators:** One-click automation and remote server administration without enterprise bloat. Just scripts and a button click to drive them.
 **For everyone:** Less relearning when switching between OS environments
 
 ## Where did the idea come from?
 I haven't actually been asked this but I'll answer anyway because I want to.
 The direct source of inspiration was Magic Desk, a DOS application people used for all sorts of things. It was a pretty big part of my childhood as it was the frontend app for the "Arcade Mania 2" shareware CD. It's also been my DOSBox frontend for half a decade at this point.
-Original:
+Original Magic Desk:
 ![Magic Desk](image2.png)
 
-Clone:
-![Magic Launcher](image1.png)
+## Any Real Life uses so far?
+Sure! I'm using it myself for a few things already and plan to keep going:
+- Running smoothly on AWS EC2 instances for cloud-based admin tasks, specifically...
+- I'm running it on an EC2 hosted Foundry VTT server for our GM to manage more easily:
+![Foundry Control Panel](image3.png)
 
+- I'm using it as a launcher for my gaming collection across marketplaces, retro games, and custom maps/mods for DOOM.
+![DOOM](image4.png)
+
+- And separately in WSL for more dev/admin related things like Docker stuff.
+- And in a Docker Container - combine with preset configs for an easy GUI to run test scripts or checks.
+- I'm running it on a Raspberry Pi to launch scripts and check logs. A graphical control center for a fileserver without the NAS software bloat.
+- Even using it in my DevOps day job to build out control panels and a few dashboard launcher shortcuts within the dev environment.
+
+And for fun, I've daisy chained it - launched from Powershell, then used it to launch itself in WSL, then in Docker, then a shortcut to run it remotely with X forwarding on a VM.
+The software equivalent of Displayport->HDMI->DVI->VGA->USB->RJ32. But it worked!
