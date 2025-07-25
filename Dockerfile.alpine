@@ -1,23 +1,23 @@
 # Magic Launcher Docker Image
-FROM python:3.9-slim
+FROM alpine:latest
 
 # Install tkinter and X11 dependencies
-RUN apt-get update && apt-get install -y \
-    python3-tk \
-    x11-apps \
+RUN apk add --no-cache \
+    python3 \
+    py3-pip \
+    py3-pillow \
+    python3-tkinter \
+    xorg-server \
     xdg-utils \
-    firefox-esr \
     # Basic utilities that shortcuts might use
     curl \
     wget \
     vim \
     nano \
-    htop \
-    # Cleanup
-    && rm -rf /var/lib/apt/lists/*
+    htop
 
 # Install Pillow for BMP support
-RUN pip install --no-cache-dir Pillow
+RUN pip install --break-system-packages --no-cache-dir tk
 
 # Create app directory
 WORKDIR /app
@@ -40,8 +40,8 @@ RUN echo '#!/bin/sh\ncd /app/launcher && python3 app.py' > /start.sh && \
     chmod +x /start.sh
 
 # Default command
-CMD ["/start.sh"]
+CMD ["python3", "/app/launcher/app.py"]
 
 # Build with: docker build -t magic-launche:latest .
 # Run with: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.config/launcher:/root/.config/launcher magic-launcher
-# Isolate Config Directory: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/snd magic-launcher
+# Isolate Config Directory: docker run -it --rm --device /dev/snd -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix magic-launcher:alpine

@@ -224,9 +224,10 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - A Powershell environment on multiple Windows devices
 - WSL/Ubuntu through BASH
 - A Raspberry Pi B running Debian Buster (works on ARM7)
-- Alpine inside Docker
+- Alpine inside Docker (Problems)
+- Ubuntu inside a container (less problems)
 - Running remotely on a Debian VM over WAN (Cloud Desktop)
-- On an old laptop running Pop!OS
+- On an old laptop running Pop!OSe
 - My gran's PC
 
 ## Optional Dependencies
