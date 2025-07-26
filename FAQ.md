@@ -6,6 +6,7 @@ There aren't a ton of these yet but some that people have asked me:
 It's a shortcut palette - similar in functionality and purpose to the graphical application menus people used before Windows became popular.
 I've added some modern features - text search, dynamic icons using unicode, and native X11 support so it can run on anything that can software render.
 You could also consider it a sort of standalone application dock.
+Or as it has been put, a GUI for your BASH/Powershell history. Or the bits you want to repeat.
 
 ## Who is it for?
 
@@ -72,6 +73,7 @@ Sure! I'm using it myself for a few things already and plan to keep going:
 - And in a Docker Container - combine with preset configs for an easy GUI to run test scripts or checks.
 - I'm running it on a Raspberry Pi to launch scripts and check logs. A graphical control center for a fileserver without the NAS software bloat.
 - Even using it in my DevOps day job to build out control panels and a few dashboard launcher shortcuts within the dev environment.
+- A fully containerised, freshly installed browser with no persistent data between launches - but with bookmarks via Magic Launcher
 
 And for fun, I've daisy chained it - launched from Powershell, then used it to launch itself in WSL, then in Docker, then a shortcut to run it remotely with X forwarding on a VM.
 The software equivalent of Displayport->HDMI->DVI->VGA->USB->RJ32. But it worked!
