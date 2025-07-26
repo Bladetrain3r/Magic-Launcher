@@ -50,6 +50,6 @@ WORKDIR /app/launcher
 # Default command
 CMD ["python3", "app.py"]
 
-# Build with: docker build -t magic-launche:latest .
+# Build with: docker build -t magic-launcher:latest .
 # Run with: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.config/launcher:/root/.config/launcher magic-launcher
 # Isolate Config Directory: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/snd magic-launcher
