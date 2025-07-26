@@ -243,7 +243,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Alpine inside Docker (Problems)
 - Ubuntu inside a container (less problems)
 - Running remotely on a Debian VM over WAN (Cloud Desktop)
-- On an old laptop running Pop!OSe
+- On an old laptop running Pop!OS
 - My gran's PC
 
 ## Optional Dependencies
