@@ -4,6 +4,21 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.2] - 2025-07-26
+### Added
+
+- Universal path substitute function. Useful for changing all your GZDoom shortcuts to a new version or when migrating configuration to a new environment.
+
+### Documentation
+
+- Updated roadmap, readme, FAQ
+
+### Docker
+- More Docker Shenanigans
+
+### Config
+- Added default URL pointing to a video that will never let you down.
+
 ## [0.3.1] - 2025-07-24
 ### Added
 
@@ -82,21 +97,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Roadmap / Future Ideas
 
 ### Short Term
-- Arrow key navigation
-- Space as right click
-- Enter as double click
 - Ctrl + N for new shortcut
+- Ctrl + H to return to Home
 - "Duplicate to..." function to copy shortcuts to other folders
 - Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
+- Universal path substitute - replace exact path strings across all shortcuts. Does not affect args.
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 
-### Medium Term  
-- Import .desktop and .shortcut files from system
-- Shortcut re-order in GUI
+### Medium Term
+- Full screen (simple output scaling)
+- Import .lnk, .desktop and .shortcut files from system
+- Config Validator and import/export util
 - Multiple launcher profiles
 - Custom color schemes
 - Default app association customisation by file extension
-- Better handling of unbuffered output like tail -f
+- Better handling of streaming output like tail -f
+- Move away from constants, port into config
 
 ### Long Term
 - Two modes: Admin/Unlocked and Locked/User. Admin by default unless proper private key is provided.
@@ -116,12 +132,18 @@ If match, enable edit mode
 
 e.g. python app.py --unlock ~/.ssh/admin_key
 ```
+- Arrow key navigation
+- Arrangement Editor
 - Gamepad/controller support
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
-- Full screen support and clean display focus switching
 - Grid size scaling
-- Neaten up scrollbar
+- Neaten up widgets
 
 ### Super Maybe
 - Recent items tracking
 - Icon and font scaling
+
+### Priority Reminder
+- Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
+- Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
+- Any feature which violates these two principles *will* be dropped.

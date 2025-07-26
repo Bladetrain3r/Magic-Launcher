@@ -101,6 +101,26 @@ class ConfigManager:
         self.save_shortcuts(shortcuts)
         return shortcuts
 
+    def substitute_paths(self, old_path, new_path):
+        """Replace exact path strings across all shortcuts"""
+        shortcuts = self.load_shortcuts()
+        if not shortcuts:
+            logger.warning("No shortcuts loaded, cannot substitute paths")
+            return {}
+        
+        # Helper function for recursion
+        def _substitute_in_items(items):
+            for name, item in items.items():
+                # Check if it's a Shortcut with matching path
+                if hasattr(item, 'path') and item.path == old_path:
+                    item.path = new_path
+                # If it's a Folder, recurse into its items
+                elif isinstance(item, Folder) and hasattr(item, 'items'):
+                    _substitute_in_items(item.items)
+        
+        _substitute_in_items(shortcuts)
+        self.save_shortcuts(shortcuts)
+        return shortcuts
 
 # Global config instance
 config_manager = ConfigManager()

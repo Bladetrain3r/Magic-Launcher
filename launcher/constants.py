@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 APP_NAME = "Magic Launcher"
 
 # Paths
@@ -77,13 +77,18 @@ DEFAULT_SHORTCUTS = {
         'icon': 'PS',
         'path': 'powershell',
         'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"',
+    },
+    'NGGUU': {
+        'type': 'shortcut',
+        'icon': 'RR',
+        'path': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     }
 }
 
 # File dialog filters
 FILE_FILTERS = [
     ("All files", "*.*"),
-    ("Executables", "*.exe *.sh *.py *.bat"),
+    ("Executables", "*.exe *.sh *.py *.bat *.ps1"),
     ("Scripts", "*.sh *.py *.pl *.rb"),
 ]
 

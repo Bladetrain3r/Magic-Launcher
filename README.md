@@ -17,8 +17,11 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 
 1. Clone or download the repository
 2. Ensure Python 3.6+ is installed
-3. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
-4. (Optional) Install xdg-utils and/or x11-apps to get GUI passthrough
+3. Confirm tkinter is installed (standard, sometimes)
+4. Install x11-apps to get display passthrough on Linux
+5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
+6. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
+7. (Optional) Install xdg-utils
 
 ## Usage
 
@@ -58,6 +61,10 @@ All configuration is stored in `~/.config/launcher/`:
    - **Path**: Executable path, URL, or command
    - **Arguments**: Command-line arguments
    - **Icon**: Single character or .bmp filename
+
+### Substituting Paths
+This is a function intended for mass migration of shortcuts when a frequently used application is moved or you port a config between environments.
+Exact string matches only.
 
 ### Shortcuts.json
 
@@ -252,9 +259,11 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 
 ### Known Issues
 - Launching multiple terminal apps at once is permitted and will cause a mess in your TTY
-- Unicode doesn't work via WSL
+- Unicode font support may be limited on other OS'
 - Right-click dialogue starts popping up every time you mouse over certain coordinates, sometimes. Right click event not handling properly?
-- Occasionally multiple right click dialogues start appearing for bo reason
+- Delayed response over a network and multiple inputs can make things weird.
+- String handling needs... work.
+- When run on Linux the resizing is enabled (future feature, current bug)
 
 ## License
 

@@ -6,6 +6,7 @@ There aren't a ton of these yet but some that people have asked me:
 It's a shortcut palette - similar in functionality and purpose to the graphical application menus people used before Windows became popular.
 I've added some modern features - text search, dynamic icons using unicode, and native X11 support so it can run on anything that can software render.
 You could also consider it a sort of standalone application dock.
+Or as it has been put, a GUI for your BASH/Powershell history. Or the bits you want to repeat.
 
 ## Who is it for?
 
@@ -61,17 +62,30 @@ Original Magic Desk:
 
 ## Any Real Life uses so far?
 Sure! I'm using it myself for a few things already and plan to keep going:
-- Running smoothly on AWS EC2 instances for cloud-based admin tasks, specifically...
-- I'm running it on an EC2 hosted Foundry VTT server for our GM to manage more easily:
+
+### Cloud & Server Management
+- Running smoothly on AWS EC2 instances for cloud-based admin tasks
+- Deployed on an EC2 hosted Foundry VTT server for our GM to manage more easily:
 ![Foundry Control Panel](image3.png)
+- Control panel for Raspberry Pi fileserver - graphical interface without NAS bloat
+- DevOps dashboards and control panels within development environments
 
-- I'm using it as a launcher for my gaming collection across marketplaces, retro games, and custom maps/mods for DOOM.
+### Gaming & Entertainment
+- Universal game launcher across Steam, GOG, Epic, and retro emulators
+- Custom DOOM WAD/mod launcher with organized folders:
 ![DOOM](image4.png)
+- Remote PyChess sessions against Raspberry Pi with Stockfish engine (I lost)
 
-- And separately in WSL for more dev/admin related things like Docker stuff.
-- And in a Docker Container - combine with preset configs for an easy GUI to run test scripts or checks.
-- I'm running it on a Raspberry Pi to launch scripts and check logs. A graphical control center for a fileserver without the NAS software bloat.
-- Even using it in my DevOps day job to build out control panels and a few dashboard launcher shortcuts within the dev environment.
+### Development & Containers
+- WSL launcher for Docker management and dev tools
+- Dockerized GUI for running test scripts and health checks
+- Preset configs for different development environments
+- Fully containerized browser with ephemeral sessions but persistent bookmarks
 
-And for fun, I've daisy chained it - launched from Powershell, then used it to launch itself in WSL, then in Docker, then a shortcut to run it remotely with X forwarding on a VM.
-The software equivalent of Displayport->HDMI->DVI->VGA->USB->RJ32. But it worked!
+### Creative Solutions
+- Path substitution for migrating configs between local/remote/container environments
+- Nested launcher inception: PowerShell → WSL → Docker → SSH with X11 forwarding
+- The software equivalent of Displayport→HDMI→DVI→VGA→USB→RJ45. But it worked!
+
+### The Magic Part
+The same launcher binary and config structure works across all these environments. Write once, launch anywhere. No environment-specific builds, no complex deployment scripts - just copy the files and run.

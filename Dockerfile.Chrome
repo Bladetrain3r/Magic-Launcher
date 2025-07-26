@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     python3-tk \
     x11-apps \
     xdg-utils \
-    firefox-esr \
+    chromium \
     # Basic utilities that shortcuts might use
     curl \
     wget \
@@ -31,8 +31,12 @@ RUN mkdir -p /root/.config/launcher/icons
 # Optional: Copy example configs
 # COPY examples/docker/shortcuts.json /root/.config/launcher/
 
-# Ensure Firefox browser is set as the default browser
-RUN update-alternatives --set x-www-browser /usr/bin/firefox-esr
+# Set up environment
+ENV DISPLAY=:0
+ENV PYTHONUNBUFFERED=1
+
+# Ensure the Chromium browser is set as the default browser
+RUN update-alternatives --set x-www-browser /usr/bin/chromium
 
 # Ensure the X11 display is accessible
 RUN echo "export DISPLAY=:0" >> /etc/profile
@@ -42,10 +46,6 @@ RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 RUN useradd -m magicuser
 USER magicuser
 WORKDIR /app/launcher
-
-# Set up environment
-ENV DISPLAY=:0
-ENV PYTHONUNBUFFERED=1
 
 # Default command
 CMD ["python3", "app.py"]
