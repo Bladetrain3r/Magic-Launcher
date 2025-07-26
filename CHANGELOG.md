@@ -82,17 +82,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## Roadmap / Future Ideas
 
 ### Short Term
-- Arrow key navigation
-- Space as right click
-- Enter as double click
 - Ctrl + N for new shortcut
 - "Duplicate to..." function to copy shortcuts to other folders
 - Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 
 ### Medium Term  
-- Import .desktop and .shortcut files from system
-- Shortcut re-order in GUI
+- Import .lnk, .desktop and .shortcut files from system
+- Config Validator and import/export util
 - Multiple launcher profiles
 - Custom color schemes
 - Default app association customisation by file extension
@@ -116,11 +113,13 @@ If match, enable edit mode
 
 e.g. python app.py --unlock ~/.ssh/admin_key
 ```
+- Arrow key navigation
+- Arrangement Editor
 - Gamepad/controller support
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
-- Full screen support and clean display focus switching
+- Full screen support with res switching
 - Grid size scaling
-- Neaten up scrollbar
+- Neaten up widgets
 
 ### Super Maybe
 - Recent items tracking
