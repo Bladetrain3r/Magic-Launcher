@@ -207,3 +207,4 @@ marimo/_lsp/
 __marimo__/
 Ironic Launch Shortcut.lnk
 *.lnk
+launcher/devdiff.ps1
