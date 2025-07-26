@@ -222,7 +222,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Low memory usage
 - SSH-friendly
 
-### Design Guidestones
+### Design Guideposts
 
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
