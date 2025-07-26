@@ -82,6 +82,12 @@ class MainWindow:
                         bg=COLORS['green'], fg=COLORS['white'],
                         font=('Courier', 16, 'bold'))
         title.pack(side='left', expand=True, fill='both', padx=2)
+
+        self._make_button(title_frame, "S", COLORS['light_gray'],
+                         self.substitute_paths_dialog).pack(side='right', padx=2)
+
+        separator = tk.Frame(title_frame, width=2, bg=COLORS['dark_gray'], height=30)
+        separator.pack(side='right', padx=5)
         
         # Right buttons
         self._make_button(title_frame, "FIND", COLORS['light_gray'],
@@ -343,6 +349,49 @@ class MainWindow:
         if self.current_path:
             self.current_path.pop()
             self.render_items()
+
+    def substitute_paths_dialog(self):
+        """Open dialog for path substitution"""
+        if self.dialog_open:
+            return
+            
+        self.dialog_open = True
+        
+        # Simple dialog with two entries
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Substitute Paths")
+
+        def do_substitute():
+            old = old_entry.get()
+            new = new_entry.get()
+            if old and new:
+                config_manager.substitute_paths(old, new)  # Use the global instance
+                self.load_shortcuts()
+                self.render_items()
+                dialog.destroy()
+
+        tk.Button(dialog, text="Replace", command=do_substitute).grid(row=2, column=0, pady=10)
+        tk.Button(dialog, text="Cancel", command=dialog.destroy).grid(row=2, column=1, pady=10)
+
+        self.dialog_open = False
+        dialog.geometry("400x150")
+        
+        tk.Label(dialog, text="Old Path:").grid(row=0, column=0, padx=5, pady=5)
+        old_entry = tk.Entry(dialog, width=40)
+        old_entry.grid(row=0, column=1, padx=5, pady=5)
+        
+        tk.Label(dialog, text="New Path:").grid(row=1, column=0, padx=5, pady=5)
+        new_entry = tk.Entry(dialog, width=40)
+        new_entry.grid(row=1, column=1, padx=5, pady=5)
+        
+    def do_substitute():
+        old = old_entry.get()
+        new = new_entry.get()
+        if old and new:
+            config_manager.substitute_paths(old, new)  # Use the global instance
+            self.load_shortcuts()
+            self.render_items()
+            dialog.destroy()
     
     def add_item(self):
         """Add a new item."""

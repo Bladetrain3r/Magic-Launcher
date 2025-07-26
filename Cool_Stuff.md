@@ -1,5 +1,6 @@
-# Discovered Features
-Through simple design choices, Magic Launcher gained several unintended but useful capabilities:
+# Features
+Through simplicity and composability, Magic Launcher has demonstrated exceptionally flexible abilities:
+
 ## Cross-Environment Isolation
 
 Separate configs per environment (Windows/WSL/Remote)
@@ -19,7 +20,7 @@ No need for terminal window management
 SSH shortcuts work seamlessly: ssh -t server htop
 Chain commands: ssh server 'cd /logs && tail -f app.log'
 Remote interactive sessions just work
-No special handling needed
+Minimal special handling needed
 
 ## Working Directory Intelligence
 
@@ -33,7 +34,7 @@ Automatic cwd detection from executable path
 Windows: Opens in default Windows browser
 WSL with X11: Opens in Linux browser through X forwarding
 No environment detection needed
-Same shortcut works everywhere
+Same (web) shortcut works everywhere
 
 ## File/Folder Opening
 
@@ -53,36 +54,55 @@ No functionality blocked
 
 Wrapper scripts can perform complex operations
 Download → Edit → Cleanup workflows
-Terminal minimizes during execution
 Returns when complete
 
-# Emergency Reordering
+## Emergency Reordering
 
-# Duplicate + Delete = Move to end
+Duplicate + Delete = Move to end
 Manual JSON editing for precise control
 Scriptable via JSON manipulation
 No complex drag-drop needed
 
-# Icon Flexibility
+## Icon Flexibility
 
 Unicode/emoji characters work as icons
 BMP images auto-import to central storage
 Mix text and image icons freely
 Icons portable with config
 
-# Natural Organization
+## Natural Organization
 
 Folders for categories
 Search supersedes manual organization
 Recursive search finds items anywhere
-Path shown in search results
 
-# Configuration as Interface
+## Configuration as Interface
 
 JSON files editable as "settings panel"
 Launcher shortcuts to config folder
 Version control friendly
 Easy backup/sharing
+
+## Mass Path Migration
+
+Universal path substitution across all shortcuts
+Migrate between systems with one operation
+Port configs from /usr/local to /opt instantly
+No regex or patterns - just exact string replacement
+
+## Portable Deployment
+
+Single JSON config file
+No database or complex state
+Export/import is just file copy
+Docker-friendly minimal footprint
+
+## Keyboard Power Users
+
+Ctrl+D duplicate without mouse
+Search with instant results
+Navigate folders with keyboard
+Launch by pressing Enter
 
 ### These features emerged naturally from:
 
@@ -91,3 +111,5 @@ Using standard config locations
 Keeping shortcuts as simple JSON
 Launching via basic subprocess calls
 Not trying to be clever about environment detection
+Treating configs as data, not code
+Simple exact-match operations over complex patterns

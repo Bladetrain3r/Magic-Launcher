@@ -4,6 +4,21 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.2] - 2025-07-26
+### Added
+
+- Universal path substitute function. Useful for changing all your GZDoom shortcuts to a new version or when migrating configuration to a new environment.
+
+### Documentation
+
+- Updated roadmap, readme, FAW
+
+### Docker
+- More Docker Shenanigans
+
+### Config
+- Added default URL pointing to a video that will never let you down.
+
 ## [0.3.1] - 2025-07-24
 ### Added
 
@@ -86,6 +101,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Ctrl + H to return to Home
 - "Duplicate to..." function to copy shortcuts to other folders
 - Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
+- Universal path substitute - replace exact path strings across all shortcuts. Does not affect args.
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 
 ### Medium Term

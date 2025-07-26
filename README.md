@@ -62,6 +62,10 @@ All configuration is stored in `~/.config/launcher/`:
    - **Arguments**: Command-line arguments
    - **Icon**: Single character or .bmp filename
 
+### Substituting Paths
+This is a function intended for mass migration of shortcuts when a frequently used application is moved or you port a config between environments.
+Exact string matches only.
+
 ### Shortcuts.json
 
 - This is the source of truth for all shortcut data
