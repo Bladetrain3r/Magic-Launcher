@@ -384,14 +384,7 @@ class MainWindow:
         new_entry = tk.Entry(dialog, width=40)
         new_entry.grid(row=1, column=1, padx=5, pady=5)
         
-    def do_substitute():
-        old = old_entry.get()
-        new = new_entry.get()
-        if old and new:
-            config_manager.substitute_paths(old, new)  # Use the global instance
-            self.load_shortcuts()
-            self.render_items()
-            dialog.destroy()
+# Removed redundant standalone `do_substitute` function.
     
     def add_item(self):
         """Add a new item."""
