@@ -19,8 +19,9 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 2. Ensure Python 3.6+ is installed
 3. Confirm tkinter is installed (standard, sometimes)
 4. Install x11-apps to get display passthrough on Linux
-5. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
-6. (Optional) Install xdg-utils
+5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
+6. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
+7. (Optional) Install xdg-utils
 
 ## Usage
 
