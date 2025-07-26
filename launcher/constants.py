@@ -88,7 +88,7 @@ DEFAULT_SHORTCUTS = {
 # File dialog filters
 FILE_FILTERS = [
     ("All files", "*.*"),
-    ("Executables", "*.exe *.sh *.py *.bat"),
+    ("Executables", "*.exe *.sh *.py *.bat *.ps1"),
     ("Scripts", "*.sh *.py *.pl *.rb"),
 ]
 
