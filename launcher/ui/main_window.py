@@ -368,6 +368,7 @@ class MainWindow:
                 config_manager.substitute_paths(old, new)  # Use the global instance
                 self.load_shortcuts()
                 self.render_items()
+                self.dialog_open = False
                 dialog.destroy()
 
         tk.Button(dialog, text="Replace", command=do_substitute).grid(row=2, column=0, pady=10)
