@@ -13,10 +13,12 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 - **No Dependencies**: Uses only Python standard library (Tkinter)
 - **Portable**: All config stored in `~/.config/launcher/`
 
-## Installation
+## Host Setup
+
+- To run it reliably on a machine, the following steps and prerequisites will be needed.
 
 1. Clone or download the repository
-2. Ensure Python 3.6+ is installed
+2. Ensure Python 3 is installed. I recommend 3.10 or above but 3.6+ should work.
 3. Confirm tkinter is installed (standard, sometimes)
 4. Install x11-apps to get display passthrough on Linux
 5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
@@ -24,10 +26,16 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 7. (Optional) Install xdg-utils
 
 ## Usage
+### Linux:
+```
+python3 path_to/Magic-Launcher/launcher/app.py
+```
 
+### X11 Forwarding
+You can run Magic Launcher on a remote host if it's running an X server.
+Best on a LAN but it will function over WAN too.
 ```bash
-cd launcher
-python app.py
+ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
 ```
 
 ### Keyboard Shortcuts
@@ -202,12 +210,7 @@ Copy and paste right into the icon field!
   }
 ```
 
-### X11 Remote Forwarding
-You can run Magic Launcher on a remote server using X forwarding.
-Best on a LAN but it will function over WAN too.
-```bash
-ssh -X -t user@server "python3 /~/Magic-Launcher/launcher/app.py"
-```
+
 
 ## Design Philosophy
 
