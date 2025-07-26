@@ -77,6 +77,11 @@ DEFAULT_SHORTCUTS = {
         'icon': 'PS',
         'path': 'powershell',
         'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"',
+    },
+    'NGGUU': {
+        'type': 'shortcut',
+        'icon': 'RR',
+        'path': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
     }
 }
 
