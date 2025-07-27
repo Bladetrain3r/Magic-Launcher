@@ -1,51 +1,51 @@
 {
-    'Games': {
-        'type': 'folder',
-        'icon': 'G',
-        'items': {
-            'Action': {
-                'type': 'folder',
-                'icon': 'A',
-                'items': {}
+    "Games": {
+        "type": "folder",
+        "icon": "G",
+        "items": {
+            "Action": {
+                "type": "folder",
+                "icon": "A",
+                "items": {}
             },
-            'Puzzle': {
-                'type': 'folder',
-                'icon': 'P',
-                'items': {}
+            "Puzzle": {
+                "type": "folder",
+                "icon": "P",
+                "items": {}
             }
         }
     },
-    'Tools': {
-        'type': 'folder',
-        'icon': 'T',
-        'items': {
-            'Update ML (BASH)': {
-                'type': 'shortcut',
-                'icon': '⤵',
-                'path': '~/.local/share/Magic-Launcher/launcher/scripts/sh/ml-update.sh'
+    "Tools": {
+        "type": "folder",
+        "icon": "T",
+        "items": {
+            "Update ML (BASH)": {
+                "type": "shortcut",
+                "icon": "⤵",
+                "path": "~/.local/share/Magic-Launcher/launcher/scripts/sh/ml-update.sh"
             }
         }
     },
-    'Scripts': {
-        'type': 'folder',
-        'icon': 'S',
-        'items': {}
+    "Scripts": {
+        "type": "folder",
+        "icon": "S",
+        "items": {}
     },
-    'Hello World': {
-        'type': 'shortcut',
-        'icon': 'sh',
-        'path': 'echo',
-        'args': 'Hello, World from Docker!'
+    "Hello World": {
+        "type": "shortcut",
+        "icon": "sh",
+        "path": "echo",
+        "args": "Hello, World from Docker!"
     },
-    'Browser': {
-        'type': 'shortcut',
-        'icon': 'FF',
-        'path': 'firefox',
-        'args': 'https://www.zerofuchs.co.za'
+    "Browser": {
+        "type": "shortcut",
+        "icon": "FF",
+        "path": "firefox",
+        "args": "https://www.zerofuchs.co.za"
     },
-    'NGGUU': {
-        'type': 'shortcut',
-        'icon': 'RR',
-        'path': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+    "NGGUU": {
+        "type": "shortcut",
+        "icon": "RR",
+        "path": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
 }
