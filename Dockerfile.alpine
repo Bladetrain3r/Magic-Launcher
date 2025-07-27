@@ -23,7 +23,7 @@ RUN pip install --break-system-packages --no-cache-dir tk
 WORKDIR /app
 
 # Copy launcher files
-COPY launcher/ /app/launcher/
+COPY launcher/ ~/.local/share/launcher/
 
 # Create config directory structure
 RUN mkdir -p /root/.config/launcher/icons
@@ -36,11 +36,11 @@ ENV DISPLAY=:0
 ENV PYTHONUNBUFFERED=1
 
 # Create a startup script
-RUN echo '#!/bin/sh\ncd /app/launcher && python3 app.py' > /start.sh && \
+RUN echo '#!/bin/sh\ncd ~/.local/share/launcher && python3 app.py' > /start.sh && \
     chmod +x /start.sh
 
 # Default command
-CMD ["python3", "/app/launcher/app.py"]
+CMD ["python3", "~/.local/share/launcher/app.py"]
 
 # Build with: docker build -t magic-launche:latest .
 # Run with: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.config/launcher:/root/.config/launcher magic-launcher
