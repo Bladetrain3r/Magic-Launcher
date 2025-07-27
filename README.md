@@ -58,6 +58,9 @@ Write-Host "This is a placeholder."
 ```batch
 ```
 
+#### Default Install Path
+While it can be run from anywhere, the default path will be ~/.local/share/Magic-Launcher
+This is to make auto-update scripts a bit easier and so the working directory can be more consistent.
 
 ### Keyboard Shortcuts
 
