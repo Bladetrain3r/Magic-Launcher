@@ -59,17 +59,10 @@ DEFAULT_SHORTCUTS = {
         'type': 'folder',
         'icon': 'T',
         'items': {
-            'Update ML': {
+            'Update ML (BASH)': {
                 'type': 'shortcut',
-                'icon': 'GP',
-                'path': 'git',
-                'args': 'pull'
-            },
-            'Reset ML': {
-                'type': 'shortcut',
-                'icon': 'GP',
-                'path': 'git',
-                'args': 'reset --hard HEAD'
+                'icon': '⤵',
+                'path': '~/.local/share/Magic-Launcher/launcher/scripts/sh/ml-update.sh',
             }
         }
     },

@@ -18,37 +18,34 @@ RUN apt-get update && apt-get install -y \
 
 # Install Pillow for BMP support
 RUN pip install --no-cache-dir Pillow
-
-# Create app directory
-WORKDIR /app
-
-# Copy launcher files
-COPY launcher/ /app/launcher/
-
-# Create config directory structure
-RUN mkdir -p /root/.config/launcher/icons
-
-# Optional: Copy example configs
-# COPY examples/docker/shortcuts.json /root/.config/launcher/
-
-# Ensure Firefox browser is set as the default browser
 RUN update-alternatives --set x-www-browser /usr/bin/firefox-esr
+
+RUN echo "export DISPLAY=:0" >> /etc/profile
+RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 
 # Ensure the X11 display is accessible
 RUN echo "export DISPLAY=:0" >> /etc/profile
 RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
-
 # Set up unprivileged user for security
 RUN useradd -m magicuser
 USER magicuser
-WORKDIR /app/launcher
+
+WORKDIR /home/magicuser/.local/share/Magic-Launcher/
+RUN mkdir -p /home/magicuser/.config/launcher
+
+
+COPY --chown=magicuser:magicuser . /home/magicuser/.local/share/Magic-Launcher/
+
+WORKDIR /home/magicuser/.local/share/Magic-Launcher/
+
+RUN 
 
 # Set up environment
 ENV DISPLAY=:0
 ENV PYTHONUNBUFFERED=1
 
 # Default command
-CMD ["python3", "app.py"]
+CMD ["python3", "/home/magicuser/.local/share/Magic-Launcher/launcher/app.py"]
 
 # Build with: docker build -t magic-launcher:latest .
 # Run with: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.config/launcher:/root/.config/launcher magic-launcher
