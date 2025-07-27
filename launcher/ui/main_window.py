@@ -357,37 +357,53 @@ class MainWindow:
             
         self.dialog_open = True
         
-        # Simple dialog with two entries
+        # Create dialog window
         dialog = tk.Toplevel(self.root)
-        dialog.title("Substitute Paths")
+        dialog.title("Substitute Values")
+        dialog.geometry("400x150")
 
-        def do_substitute():
+        # Block closing the dialog with the close button
+        # Fix for bug in 0.3.2.1
+        dialog.protocol("WM_DELETE_WINDOW", lambda: (dialog.destroy(), setattr(self, 'dialog_open', False)))
+        
+        # Create entries FIRST
+        tk.Label(dialog, text="Old Value:").grid(row=0, column=0, padx=5, pady=5, sticky='w')
+        old_entry = tk.Entry(dialog, width=40)
+        old_entry.grid(row=0, column=1, columnspan=3, padx=5, pady=5, sticky='ew')
+        
+        tk.Label(dialog, text="New Value:").grid(row=1, column=0, padx=5, pady=5, sticky='w')
+        new_entry = tk.Entry(dialog, width=40)
+        new_entry.grid(row=1, column=1, columnspan=3, padx=5, pady=5, sticky='ew')
+        
+        # Now define the function that uses the entries
+        def do_substitute(fieldtype="path"):
             old = old_entry.get()
             new = new_entry.get()
             if old and new:
-                config_manager.substitute_paths(old, new)  # Use the global instance
+                config_manager.substitute_field(old, new, fieldtype=fieldtype)
                 self.load_shortcuts()
                 self.render_items()
-                self.dialog_open = False
+                messagebox.showinfo("Success", f"Replaced {fieldtype}: '{old}' → '{new}'")
                 dialog.destroy()
-
-        tk.Button(dialog, text="Replace", command=do_substitute).grid(row=2, column=0, pady=10)
-        tk.Button(dialog, text="Cancel", command=dialog.destroy).grid(row=2, column=1, pady=10)
-
-        self.dialog_open = False
-        dialog.geometry("400x150")
+                self.dialog_open = False
         
-        tk.Label(dialog, text="Old Path:").grid(row=0, column=0, padx=5, pady=5)
-        old_entry = tk.Entry(dialog, width=40)
-        old_entry.grid(row=0, column=1, padx=5, pady=5)
+        # Use lambda to pass the fieldtype without calling the function
+        tk.Button(dialog, text="Replace Paths", 
+                  command=lambda: do_substitute(fieldtype="path")).grid(row=2, column=0, padx=5, pady=10)
+        tk.Button(dialog, text="Replace Args", 
+                  command=lambda: do_substitute(fieldtype="args")).grid(row=2, column=1, padx=5, pady=10)
+        tk.Button(dialog, text="Replace Icons", 
+                  command=lambda: do_substitute(fieldtype="icon")).grid(row=2, column=2, padx=5, pady=10)
+        tk.Button(dialog, text="Cancel", 
+                  command=lambda: (dialog.destroy(), setattr(self, 'dialog_open', False))).grid(row=2, column=3, padx=5, pady=10)
         
-        tk.Label(dialog, text="New Path:").grid(row=1, column=0, padx=5, pady=5)
-        new_entry = tk.Entry(dialog, width=40)
-        new_entry.grid(row=1, column=1, padx=5, pady=5)
+        # Configure grid weights for better layout
+        dialog.columnconfigure(1, weight=1)
         
-# Removed redundant standalone `do_substitute` function.
+    # Focus on first entry
+    # old_entry.focus()
     
-    def add_item(self):
+def add_item(self):
         """Add a new item."""
         if self.dialog_open:
             return

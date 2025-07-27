@@ -4,10 +4,30 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.2.1] - 2025-07-27
+### Added
+
+- Path substitution now also applies to args and icons fields.
+
+### Bugfix
+- Ensured dialogue state set properly to false on closing substitute window.
+
+### Bugs
+- Discovered spaces in Windows path names are problematic
+- Workaround: Use powershell to launch with Start-Process e.g.
+```
+"path": powershell
+"args": -Noninteractive Start-Process 'C:\Program Files (x86)\VideoLAN\VLC\vlc.exe'
+```
+
 ## [0.3.2] - 2025-07-26
 ### Added
 
 - Universal path substitute function. Useful for changing all your GZDoom shortcuts to a new version or when migrating configuration to a new environment.
+
+### Known Bugs
+
+- Improperly closing or switching focus from the substitution dialogue may cause the dialogue open status to get stuck in false and prevent new dialogues opening
 
 ### Documentation
 

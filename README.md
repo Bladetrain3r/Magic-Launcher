@@ -266,6 +266,13 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Ensure X11 forwarding is enabled: `ssh -X user@host`
 - The fixed 720p resolution should work on most displays
 
+### Spaces and special characters can cause problems in Windows
+- Workaround: Use powershell to launch with Start-Process e.g.
+```
+"path": powershell
+"args": -Noninteractive Start-Process 'C:\Program Files (x86)\VideoLAN\VLC\vlc.exe'
+```
+
 ### Known Issues
 - Launching multiple terminal apps at once is permitted and will cause a mess in your TTY
 - Unicode font support may be limited on other OS'
@@ -273,6 +280,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Delayed response over a network and multiple inputs can make things weird.
 - String handling needs... work.
 - When run on Linux the resizing is enabled (future feature, current bug)
+- Changing a an empty shortcut to a folder still results in a missing shortcut error. Delete seems to work.
 
 ## License
 
@@ -289,6 +297,7 @@ Contributions are welcome! The codebase is modular and well-documented. Key area
 - Bugs
 - Useful extensions to the core emphasising immediate utility
 - The goal remains to keep bloat relatively minimal and focus on task high.
+- Dialogue state handling for substitution may cause new dialogues to stop appearing. Restart the app to work around.
 
 ## Acknowledgments
 
