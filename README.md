@@ -40,6 +40,7 @@ ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
 
 #### Setting up for easy launch
 Paste to set up with git:
+- BASH (Linux/WSL)
 ```bash
 git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magic-Launcher
 echo 'alias magiclauncher="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
