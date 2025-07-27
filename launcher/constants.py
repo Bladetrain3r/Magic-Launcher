@@ -62,7 +62,7 @@ DEFAULT_SHORTCUTS = {
             'Update ML (BASH)': {
                 'type': 'shortcut',
                 'icon': '⤵',
-                'path': '~/.local/share/Magic-Launcher/scripts/sh/ml-update.sh',
+                'path': '~/.local/share/Magic-Launcher/launcher/scripts/sh/ml-update.sh',
             }
         }
     },
