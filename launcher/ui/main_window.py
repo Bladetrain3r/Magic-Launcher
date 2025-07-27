@@ -400,10 +400,12 @@ class MainWindow:
         # Configure grid weights for better layout
         dialog.columnconfigure(1, weight=1)
         
-    # Focus on first entry
-    # old_entry.focus()
+        # Focus on first entry
+        # old_entry.focus()
+        
+# Removed redundant standalone `do_substitute` function.
     
-def add_item(self):
+    def add_item(self):
         """Add a new item."""
         if self.dialog_open:
             return

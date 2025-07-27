@@ -118,6 +118,9 @@ class ConfigManager:
                 # If it's a Folder, recurse into its items
                 elif isinstance(item, Folder) and hasattr(item, 'items'):
                     _substitute_in_items(item.items)
+                # Folders don't get the args field
+                elif isinstance(item, Folder) and fieldtype == "args":
+                    continue
         
         _substitute_in_items(shortcuts)
         self.save_shortcuts(shortcuts)
