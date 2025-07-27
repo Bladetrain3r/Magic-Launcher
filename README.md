@@ -13,10 +13,12 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 - **No Dependencies**: Uses only Python standard library (Tkinter)
 - **Portable**: All config stored in `~/.config/launcher/`
 
-## Installation
+## Host Setup
+
+- To run it reliably on a machine, the following steps and prerequisites will be needed.
 
 1. Clone or download the repository
-2. Ensure Python 3.6+ is installed
+2. Ensure Python 3 is installed. I recommend 3.10 or above but 3.6+ should work.
 3. Confirm tkinter is installed (standard, sometimes)
 4. Install x11-apps to get display passthrough on Linux
 5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
@@ -24,11 +26,27 @@ A lightweight, retro-styled application launcher designed for low-spec systems. 
 7. (Optional) Install xdg-utils
 
 ## Usage
-
-```bash
-cd launcher
-python app.py
+### Linux:
 ```
+python3 path_to/Magic-Launcher/launcher/app.py
+```
+
+### X11 Forwarding
+You can run Magic Launcher on a remote host if it's running an X server.
+Best on a LAN but it will function over WAN too.
+```bash
+ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
+```
+
+#### Setting up for easy launch
+Paste to set up with git:
+```bash
+git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magic-Launcher
+echo 'alias magiclauncher="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
+# To launch on login
+echo 'if [ -n "$DISPLAY" ]; then magiclauncher & fi' >> ~/.bashrc
+```
+
 
 ### Keyboard Shortcuts
 
@@ -202,12 +220,7 @@ Copy and paste right into the icon field!
   }
 ```
 
-### X11 Remote Forwarding
-You can run Magic Launcher on a remote server using X forwarding.
-Best on a LAN but it will function over WAN too.
-```bash
-ssh -X -t user@server "python3 /~/Magic-Launcher/launcher/app.py"
-```
+
 
 ## Design Philosophy
 
@@ -218,6 +231,12 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Fast startup
 - Low memory usage
 - SSH-friendly
+
+### Design Guideposts
+
+- Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
+- Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
+- Any feature which violates these two principles *will* be dropped.
 
 ## System Requirements
 
@@ -234,7 +253,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Alpine inside Docker (Problems)
 - Ubuntu inside a container (less problems)
 - Running remotely on a Debian VM over WAN (Cloud Desktop)
-- On an old laptop running Pop!OSe
+- On an old laptop running Pop!OS
 - My gran's PC
 
 ## Optional Dependencies
@@ -257,6 +276,13 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Ensure X11 forwarding is enabled: `ssh -X user@host`
 - The fixed 720p resolution should work on most displays
 
+### Spaces and special characters can cause problems in Windows
+- Workaround: Use powershell to launch with Start-Process e.g.
+```
+"path": powershell
+"args": -Noninteractive Start-Process 'C:\Program Files (x86)\VideoLAN\VLC\vlc.exe'
+```
+
 ### Known Issues
 - Launching multiple terminal apps at once is permitted and will cause a mess in your TTY
 - Unicode font support may be limited on other OS'
@@ -264,6 +290,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Delayed response over a network and multiple inputs can make things weird.
 - String handling needs... work.
 - When run on Linux the resizing is enabled (future feature, current bug)
+- Changing a an empty shortcut to a folder still results in a missing shortcut error. Delete seems to work.
 
 ## License
 
@@ -280,6 +307,7 @@ Contributions are welcome! The codebase is modular and well-documented. Key area
 - Bugs
 - Useful extensions to the core emphasising immediate utility
 - The goal remains to keep bloat relatively minimal and focus on task high.
+- Dialogue state handling for substitution may cause new dialogues to stop appearing. Restart the app to work around.
 
 ## Acknowledgments
 

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.2"
+VERSION = "0.3.2.1"
 APP_NAME = "Magic Launcher"
 
 # Paths
@@ -59,6 +59,18 @@ DEFAULT_SHORTCUTS = {
         'type': 'folder',
         'icon': 'T',
         'items': {
+            'Update ML': {
+                'type': 'shortcut',
+                'icon': 'GP',
+                'path': 'git',
+                'args': 'pull'
+            },
+            'Reset ML': {
+                'type': 'shortcut',
+                'icon': 'GP',
+                'path': 'git',
+                'args': 'reset --hard HEAD'
+            }
         }
     },
     'Scripts': {
@@ -70,14 +82,15 @@ DEFAULT_SHORTCUTS = {
         'type': 'shortcut',
         'icon': 'sh',
         'path': 'echo',
-        'args': 'Hello, World from Bash!',
+        'args': 'Hello, World from Bash!'
     },
     'Hello World PWSH': {
         'type': 'shortcut',
         'icon': 'PS',
         'path': 'powershell',
-        'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"',
+        'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"'
     },
+
     'NGGUU': {
         'type': 'shortcut',
         'icon': 'RR',
