@@ -119,23 +119,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Short Term
 - Ctrl + N for new shortcut
 - Ctrl + H to return to Home
-- "Duplicate to..." function to copy shortcuts to other folders
 - Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
-- Universal path substitute - replace exact path strings across all shortcuts. Does not affect args.
+- Universal path substitute - replace exact path strings across all shortcuts. And args/icons too. (DONE - 0.3.2)
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
+- Add scid (shortcut id) to BaseItem in models.py
+- Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 
 ### Medium Term
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
 - Config Validator and import/export util
-- Multiple launcher profiles
+- Multiple launcher profiles (subfolders in .config?)
 - Custom color schemes
 - Default app association customisation by file extension
 - Better handling of streaming output like tail -f
 - Move away from constants, port into config
+- "Duplicate to..." function to copy shortcuts to other folders
+- Figure out how to move interface construction out of main_window so it can focus on the rendering
 
 ### Long Term
+- Dialogue to assign shortcuts to keys 1-9 (this is why shortcut IDs)
 - Two modes: Admin/Unlocked and Locked/User. Admin by default unless proper private key is provided.
+- Arrow key navigation
+- Arrangement Editor
+- Gamepad/controller support
+- Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
+- Grid size scaling
+- Neaten up widgets
+
+### Super Maybe
+- Recent items tracking
+- Icon and font scaling
+- Select a field for find
+
+### Priority Reminder
+- Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
+- Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
+- Any feature which violates these two principles *will* be dropped.
+
+## Particular Feature Notes
+
+#### Admin Mode
 ```
 Visual indicators:
 
@@ -152,18 +176,10 @@ If match, enable edit mode
 
 e.g. python app.py --unlock ~/.ssh/admin_key
 ```
-- Arrow key navigation
-- Arrangement Editor
-- Gamepad/controller support
-- Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
-- Grid size scaling
-- Neaten up widgets
 
-### Super Maybe
-- Recent items tracking
-- Icon and font scaling
-
-### Priority Reminder
-- Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
-- Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
-- Any feature which violates these two principles *will* be dropped.
+## What is 1.0?
+When three criteria are met:
+- Stable, low bugs, passes a code review without too many raised problems.
+- No features or design changes left that aren't explicitly post-1.0 (bit flexible but roadmap as of 0.3 is the core planned featureset)
+- Packages available on Pypi, apt/snap, yum and apk
+- Public Docker image available
