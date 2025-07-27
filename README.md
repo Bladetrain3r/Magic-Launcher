@@ -38,7 +38,8 @@ Best on a LAN but it will function over WAN too.
 ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
 ```
 
-#### Setting up for easy launch
+#### Setup for easy launch
+
 Paste to set up with git:
 - BASH (Linux/WSL)
 ```bash
@@ -46,6 +47,15 @@ git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magi
 echo 'alias magiclauncher="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
 # To launch on login
 echo 'if [ -n "$DISPLAY" ]; then magiclauncher & fi' >> ~/.bashrc
+```
+
+- Powershell
+```powershell
+Write-Host "This is a placeholder."
+```
+
+- CMD (iffy)
+```batch
 ```
 
 
