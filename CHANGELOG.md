@@ -128,7 +128,7 @@ Additional core hotkeys to be added later.
 ### DONE
 - Universal path substitute - replace exact path strings across all shortcuts. And args/icons too. (DONE - 0.3.2)
 - Arrow key navigation (DONE - 0.3.2.2)
-- Move away from constants, port into config (DONE - 0.3.3)
+- Move away from constants, port into config (PENDING RELEASE - 0.3.3)
 
 ### Short Term
 - Ctrl + N for new shortcut
