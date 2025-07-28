@@ -132,18 +132,17 @@ Additional core hotkeys to be added later.
 ### Short Term
 - Ctrl + N for new shortcut
 - Ctrl + H to return to Home
-- Move away from constants, port into config (DONE - 0.3.2+)
+- Move away from constants, port into config (DONE - 0.3.2.2+)
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
-- Hidden flag for shortcuts. Prevents showing up in search.
+- Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
-- Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
-- Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 
 ### Medium Term
-- Full screen (simple output scaling)
 - Break shortcut handling out of main_window.py into it's own ui module
+- Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
+- Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
 - Config Validator and import/export util
 - Multiple launcher profiles (subfolders in .config?)
@@ -155,10 +154,10 @@ Additional core hotkeys to be added later.
 - Same for the update scripts. Or at least don't assume.
 
 ### Long Term
-- Dialogue to assign shortcuts to keys 1-9 (this is why shortcut IDs)
-- Default app association customisation by file extension
 - Two modes: Admin/Unlocked and Locked/User. Admin by default unless proper private key is provided.
 - Password protected shortcuts/folders - can't launch or open without inputting a password.
+- Dialogue to assign shortcuts to keys 1-9 (this is why shortcut IDs)
+- Default app association customisation by file extension
 - Arrangement Editor
 - Gamepad/controller support
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
@@ -169,6 +168,7 @@ Additional core hotkeys to be added later.
 - Recent items tracking
 - Icon and font scaling
 - Select a field for find
+- Alternative icon formats (ICO, PNG, JPG) (Unofficially supported already)
 
 ### Priority Reminder
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
