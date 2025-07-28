@@ -258,6 +258,7 @@ class MainWindow:
     def on_item_click(self, item: BaseItem, path: List[str]):
         """Handle item click."""
         self.selected_item = (item, path)
+        self._highlight_selected()
     
     def on_item_double_click(self, item: BaseItem, path: List[str]):
         """Handle item double-click."""

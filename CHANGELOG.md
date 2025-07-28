@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 - Left and Right arrow keys now allow you to navigate within a folder.
-- Arrow navigation highlights the selected icon, enter launches.
+- Selected shortcuts now highlight properly.
 - About menu updated with nav keys and Github link
 
 Additional core hotkeys to be added later.
