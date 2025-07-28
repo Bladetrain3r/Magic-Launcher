@@ -4,7 +4,7 @@ import json
 from typing import Dict, Any
 from pathlib import Path
 
-from constants import CONFIG_FILE, CONFIG_DIR, DEFAULT_SHORTCUTS_PATH, SETTINGS_FILE
+from constants import CONFIG_FILE, CONFIG_DIR, DEFAULT_SHORTCUTS_PATH, SETTINGS_FILE, APP_NAME_PATH
 from models import item_from_dict, BaseItem, Folder
 from utils.logger import logger
 
@@ -16,6 +16,19 @@ class ConfigManager:
         self.shortcuts = {}
         self.settings = {}
         self.ensure_directories()
+
+    def get_app_name(self) -> str:
+        """Get the application name from the config file."""
+        if APP_NAME_PATH.exists():
+            try:
+                with open(APP_NAME_PATH, 'r') as f:
+                    return f.read().strip()
+            except FileNotFoundError:
+                logger.warning(f"App name file not found: {APP_NAME_PATH}")
+                return "Magic Launcher"
+            except Exception as e:
+                logger.error(f"Error reading app name: {e}")
+        return "Magic Launcher"
     
     def ensure_directories(self):
         """Create necessary directories."""

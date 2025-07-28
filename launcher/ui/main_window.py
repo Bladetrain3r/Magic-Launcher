@@ -20,7 +20,7 @@ class MainWindow:
     
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title(f"{APP_NAME} v{VERSION}")
+        self.root.title(f"{config_manager.get_app_name()} v{VERSION}")
         self.root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
         self.root.resizable(False, False)
         self.root.configure(bg=COLORS['dark_gray'])
@@ -78,7 +78,7 @@ class MainWindow:
                          self.show_info).pack(side='left', padx=2)
         
         # Title
-        title = tk.Label(title_frame, text=f"{APP_NAME} v{VERSION}",
+        title = tk.Label(title_frame, text=f"{config_manager.get_app_name()} v{VERSION}",
                         bg=COLORS['green'], fg=COLORS['white'],
                         font=('Courier', 16, 'bold'))
         title.pack(side='left', expand=True, fill='both', padx=2)
@@ -557,7 +557,7 @@ class MainWindow:
     
     def show_info(self):
         """Show about dialog."""
-        info = f"""{APP_NAME} v{VERSION}
+        info = f"""{config_manager.get_app_name()} v{VERSION}
 
 A lightweight launcher for X11 systems
 Designed for low-spec machines and SSH sessions

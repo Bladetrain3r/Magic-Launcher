@@ -4,6 +4,9 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.4] - PENDING
+- Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string. 
+
 ## [0.3.3] - 2025-07-28
 ### Added
 - Shortcut keys of numerous types to make it fully keyboard usable. Easy to add, but important.
@@ -139,17 +142,18 @@ Additional core hotkeys to be added later.
 - Ctrl + N for new shortcut (DONE - 0.3.3)
 - Ctrl + H to return to Home (DONE - 0.3.3)
 - Other Shortcuts Too (DONE - 0.3.3)
+- Edit Title Bar (PENDING RELEASE - 0.3.3.1)
 
 ### Short Term (Quick Implement)
-- Edit Title Bar (simple "title" file in .config/launcher, editing it simply updates the file with a new string...)
-- Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
-  - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Secure String shortcut type
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
+- Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 
 ### Medium Term
+- Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
+  - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
@@ -243,5 +247,5 @@ Not really secure (they can add a shortcut to edit shortcuts.json and get all th
 When three criteria are met:
 - Stable, low bugs, passes a code review without too many raised problems.
 - No features or design changes left that aren't explicitly post-1.0 (bit flexible but roadmap as of 0.3 is the core planned featureset)
-- Packages available on Pypi, apt/snap, yum and apk
+- Packages available on Pypi, apt/snap, yum, apk and chocolatey
 - Public Docker image available
