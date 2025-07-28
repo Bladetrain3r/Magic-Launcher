@@ -11,7 +11,7 @@ CONFIG_FILE = CONFIG_DIR / 'shortcuts.json'
 ICONS_DIR = CONFIG_DIR / 'icons'
 LOG_FILE = CONFIG_DIR / 'launcher.log'
 SETTINGS_FILE = CONFIG_DIR / 'settings.json'
-APP_NAME_PATH = CONFIG_DIR / 'app_name.txt'
+APP_NAME_PATH = CONFIG_DIR / 'title.txt'
 
 # UI Constants
 WINDOW_WIDTH = 1280

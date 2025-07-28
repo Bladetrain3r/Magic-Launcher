@@ -13,7 +13,9 @@ class LauncherApp:
     def __init__(self):
         self.root = tk.Tk()
         self.main_window = None
-        
+
+        logger.setLevel("INFO")
+
     def run(self):
         """Run the application."""
         try:

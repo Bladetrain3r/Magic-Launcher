@@ -84,7 +84,7 @@ All configuration is stored in `~/.config/launcher/`:
 - `shortcuts.json`: Your shortcuts and folders
 - `icons/`: BMP icon files
 - `launcher.log`: Application logs
-
+- `app_name.txt`: Title Bar file
 ### Adding Shortcuts
 
 1. Click the **+** button or right-click and select "New"
