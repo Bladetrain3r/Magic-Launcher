@@ -141,8 +141,16 @@ class MainWindow:
     
     def _bind_shortcuts(self):
         """Bind keyboard shortcuts."""
+        self.root.bind('<Control-q>', lambda e: self.quit_app())
+        self.root.bind('<Control-i>', lambda e: self.show_info())
+        self.root.bind('<Control-s>', lambda e: self.substitute_paths_dialog())
+        self.root.bind('<Control-n>', lambda e: self.add_item())
+        self.root.bind('<Control-h>', lambda e: self.go_home())
         self.root.bind('<Control-f>', lambda e: self.toggle_search())
         self.root.bind('<Control-d>', lambda e: self.duplicate_selected())
+        self.root.bind('<Control-e>', lambda e: self.edit_item(self.selected_item[0]) if self.selected_item else None)
+        self.root.bind('<Control-r>', lambda e: self.render_items())
+        self.root.bind('<Control-p>', lambda e: self.show_properties(self.selected_item[0]) if self.selected_item else None)
         self.root.bind('<Escape>', self._handle_escape)
         self.root.bind('<Return>', self._handle_enter)
         self.root.bind('<BackSpace>', lambda e: self.go_up() if self.current_path else None)
@@ -345,6 +353,11 @@ class MainWindow:
     def on_search(self, query: str):
         """Handle search query change."""
         self.search_query = query
+        self.render_items()
+
+    def go_home(self):
+        """Navigate to home directory."""
+        self.current_path = []
         self.render_items()
     
     def go_up(self):
@@ -551,8 +564,16 @@ Designed for low-spec machines and SSH sessions
 
 Shortcuts:
 - Left/Right: Navigate items
+- Ctrl+Q: Quit
+- Ctrl+I: Show info
+- Ctrl+S: Substitute paths
+- Ctrl+N: Add new item
+- Ctrl+H: Go home
 - Ctrl+F: Search
 - Ctrl+D: Duplicate selected
+- Ctrl+E: Edit selected
+- Ctrl+R: Refresh
+- Ctrl+P: Show properties
 - Enter: Launch selected
 - Escape: Go up/close search
 - Backspace: Go up one level
