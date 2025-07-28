@@ -10,7 +10,7 @@ def validate_config():
     try:
         data = json.loads(config_file.read_text())
     except json.JSONDecodeError as e:
-        print(f"❌ Invalid JSON: {e}")
+        print(f"X Invalid JSON: {e}")
         return False
     
     errors = []
@@ -72,7 +72,7 @@ def validate_config():
     check_items(data)
     
     if errors:
-        print("❌ Validation errors:")
+        print("X Validation errors:")
         for error in errors:
             print(f"  - {error}")
 
