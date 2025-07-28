@@ -63,6 +63,18 @@ Manual JSON editing for precise control
 Scriptable via JSON manipulation
 No complex drag-drop needed
 
+## Easy Automation
+Easy to modify config files make automation easy, and maintenance scripts can be run from within the launcher.
+
+```
+scripts/maintenance/
+├── validate_shortcuts.py      # Check for broken paths, missing icons
+├── backup_config.py          # Timestamped backups
+├── migrate_config.py         # Handle version upgrades
+├── clean_unused_icons.py     # Remove orphaned BMPs
+└── generate_stats.py         # "You have 47 shortcuts across 12 folders"
+```
+
 ## Icon Flexibility
 
 Unicode/emoji characters work as icons
