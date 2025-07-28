@@ -63,6 +63,20 @@ class IconWidget(tk.Frame):
                                   fg=COLORS['white'], font=('Courier', 10), 
                                   width=12, anchor='center')
         self.name_label.pack()
+
+    def set_highlighted(self, highlighted: bool):
+        """Set highlight state"""
+        if highlighted:
+            self.icon_label.configure(
+                relief='solid',
+                borderwidth=2,
+                highlightbackground=COLORS['yellow']
+            )
+        else:
+            self.icon_label.configure(
+                relief='flat',
+                borderwidth=0
+            )
     
     def _is_valid_shortcut(self) -> bool:
         """Check if a shortcut path is valid."""
