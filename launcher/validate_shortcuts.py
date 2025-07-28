@@ -2,16 +2,23 @@
 import json
 from pathlib import Path
 from models import item_from_dict, Shortcut, Folder, BaseItem
+from argparse import ArgumentParser
 
-
-def validate_config():
-    config_file = Path.home() / '.config/launcher/shortcuts.json'
+def validate_config(path=None):
+    if path:
+        config_file = Path(path)
+    else:
+        config_file = Path.home() / '.config/launcher/shortcuts.json'
     
     try:
         data = json.loads(config_file.read_text())
     except json.JSONDecodeError as e:
         print(f"X Invalid JSON: {e}")
         return False
+    
+    if not config_file.exists():
+        print(f"X Config file does not exist: {config_file}")
+        exit(1)
     
     errors = []
     
@@ -46,8 +53,9 @@ def validate_config():
                 if isinstance(item, Shortcut) and not item.name:
                     errors.append(f"Shortcut name is blank at {current_path}")
 
-                # Check keys are present in raw dict
-                required_keys = ['icon', 'type']
+                # Check keys are present in raw dict. Type is always required to have a value. Everything else can be empty as long as the key exists for consistency.
+                required_keys = ['type']
+
                 for key in required_keys:
                     if key not in item_data or not item_data[key]:
                         errors.append(f"Missing '{key}' at {current_path}")
@@ -84,4 +92,7 @@ def validate_config():
         exit(1)
 
 if __name__ == "__main__":
-    validate_config()
+    parser = ArgumentParser()
+    parser.add_argument("--path", help="Path to shortcuts.json")
+    args = parser.parse_args()
+    validate_config(args.path)
