@@ -37,7 +37,7 @@
         "path": "echo",
         "args": "Hello, World from Docker!"
     },
-    "Browser": {
+    "Hello": {
         "type": "shortcut",
         "icon": "FF",
         "path": "lynx",

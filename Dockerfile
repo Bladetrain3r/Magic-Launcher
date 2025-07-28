@@ -5,8 +5,8 @@ FROM python:3.9-slim
 RUN apt-get update && apt-get install -y \
     python3-tk \
     x11-apps \
-    xdg-utils \
-    firefox-esr \
+    # xdg-utils \
+    lynx \
     # Basic utilities that shortcuts might use
     curl \
     wget \
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install Pillow for BMP support
 RUN pip install --no-cache-dir Pillow
-RUN update-alternatives --set x-www-browser /usr/bin/firefox-esr
+# RUN update-alternatives --set x-www-browser /usr/bin/lynx
 
 RUN echo "export DISPLAY=:0" >> /etc/profile
 RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile

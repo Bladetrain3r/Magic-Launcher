@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.2.2"
+VERSION = "0.3.3"
 APP_NAME = "Magic Launcher"
 
 # Paths
@@ -38,57 +38,7 @@ COLORS = {
 }
 
 # Default shortcuts structure
-DEFAULT_SHORTCUTS = {
-    'Games': {
-        'type': 'folder',
-        'icon': 'G',
-        'items': {
-            'Action': {
-                'type': 'folder',
-                'icon': 'A',
-                'items': {}
-            },
-            'Puzzle': {
-                'type': 'folder',
-                'icon': 'P',
-                'items': {}
-            }
-        }
-    },
-    'Tools': {
-        'type': 'folder',
-        'icon': 'T',
-        'items': {
-            'Update ML (BASH)': {
-                'type': 'shortcut',
-                'icon': '⤵',
-                'path': '~/.local/share/Magic-Launcher/launcher/scripts/sh/ml-update.sh',
-            }
-        }
-    },
-    'Scripts': {
-        'type': 'folder',
-        'icon': 'S',
-        'items': {}
-    },
-    'Hello World shell': {
-        'type': 'shortcut',
-        'icon': 'sh',
-        'path': 'echo',
-        'args': 'Hello, World from Bash!'
-    },
-    'Hello World PWSH': {
-        'type': 'shortcut',
-        'icon': 'PS',
-        'path': 'powershell',
-        'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"'
-    },
-    'NGGUU': {
-        'type': 'shortcut',
-        'icon': 'RR',
-        'path': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-    }
-}
+DEFAULT_SHORTCUTS_PATH = Path(__file__).parent / 'config' / 'default.json'
 
 # File dialog filters
 FILE_FILTERS = [
