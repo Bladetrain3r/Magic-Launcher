@@ -130,27 +130,25 @@ Additional core hotkeys to be added later.
 - Arrow key navigation (DONE - 0.3.2.2)
 
 ### Short Term
+- Ctrl + N for new shortcut
+- Ctrl + H to return to Home
+- Move away from constants, port into config (DONE - 0.3.2+)
+- Add scid (shortcut id) to BaseItem in models.py
+- Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search.
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
-- Add scid (shortcut id) to BaseItem in models.py
-- Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
-- Remove default config from CONSTANTS to template - see Dockerfile for prospective default config deploy tactic (copy and paste lol)
 
 ### Medium Term
-- Ctrl + N for new shortcut
-- Ctrl + H to return to Home
 - Full screen (simple output scaling)
 - Break shortcut handling out of main_window.py into it's own ui module
 - Import .lnk, .desktop and .shortcut files from system
 - Config Validator and import/export util
 - Multiple launcher profiles (subfolders in .config?)
 - Custom color schemes
-- Default app association customisation by file extension
 - Better handling of streaming output like tail -f
-- Move away from constants, port into config
 - "Duplicate to..." function to copy shortcuts to other folders
 - Figure out how to move interface construction out of main_window so it can focus on the rendering
 - Setup scripts for Linux and Windows not relying on Git clone.
@@ -158,6 +156,7 @@ Additional core hotkeys to be added later.
 
 ### Long Term
 - Dialogue to assign shortcuts to keys 1-9 (this is why shortcut IDs)
+- Default app association customisation by file extension
 - Two modes: Admin/Unlocked and Locked/User. Admin by default unless proper private key is provided.
 - Password protected shortcuts/folders - can't launch or open without inputting a password.
 - Arrangement Editor
