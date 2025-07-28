@@ -128,11 +128,11 @@ Additional core hotkeys to be added later.
 ### DONE
 - Universal path substitute - replace exact path strings across all shortcuts. And args/icons too. (DONE - 0.3.2)
 - Arrow key navigation (DONE - 0.3.2.2)
+- Move away from constants, port into config (DONE - 0.3.3)
 
 ### Short Term
 - Ctrl + N for new shortcut
 - Ctrl + H to return to Home
-- Move away from constants, port into config (DONE - 0.3.2.2+)
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
