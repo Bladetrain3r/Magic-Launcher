@@ -77,8 +77,13 @@ def validate_config():
             print(f"  - {error}")
     else:
         print("✅ Config valid!")
-    
-    return len(errors) == 0
+
+    if len(errors) == 0:
+        print("All shortcuts are valid.")
+        exit(0)
+    else:
+        print("Some shortcuts are invalid. Please fix the errors above.")
+        exit(1)
 
 if __name__ == "__main__":
     validate_config()
