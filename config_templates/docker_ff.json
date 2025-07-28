@@ -40,7 +40,7 @@
     "Browser": {
         "type": "shortcut",
         "icon": "FF",
-        "path": "firefox",
+        "path": "lynx",
         "args": "https://www.zerofuchs.co.za"
     },
     "NGGUU": {

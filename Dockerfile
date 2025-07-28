@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y \
     python3-tk \
     x11-apps \
     xdg-utils \
-    firefox-esr \
+    lynx \
     # Basic utilities that shortcuts might use
     curl \
     wget \
