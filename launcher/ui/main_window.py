@@ -146,6 +146,8 @@ class MainWindow:
         self.root.bind('<Escape>', self._handle_escape)
         self.root.bind('<Return>', self._handle_enter)
         self.root.bind('<BackSpace>', lambda e: self.go_up() if self.current_path else None)
+        self.root.bind('<Left>', self.navigate_left)
+        self.root.bind('<Right>', self.navigate_right)
     
     def render_items(self):
         """Render the current items."""
@@ -256,6 +258,7 @@ class MainWindow:
     def on_item_click(self, item: BaseItem, path: List[str]):
         """Handle item click."""
         self.selected_item = (item, path)
+        self._highlight_selected()
     
     def on_item_double_click(self, item: BaseItem, path: List[str]):
         """Handle item double-click."""
@@ -399,11 +402,6 @@ class MainWindow:
         
         # Configure grid weights for better layout
         dialog.columnconfigure(1, weight=1)
-        
-        # Focus on first entry
-        # old_entry.focus()
-        
-# Removed redundant standalone `do_substitute` function.
     
     def add_item(self):
         """Add a new item."""
@@ -552,6 +550,7 @@ A lightweight launcher for X11 systems
 Designed for low-spec machines and SSH sessions
 
 Shortcuts:
+- Left/Right: Navigate items
 - Ctrl+F: Search
 - Ctrl+D: Duplicate selected
 - Enter: Launch selected
@@ -559,7 +558,9 @@ Shortcuts:
 - Backspace: Go up one level
 
 Right-click items for more options
-Icons: Single char or .bmp in ~/.config/launcher/icons/"""
+Icons: Single char or .bmp in ~/.config/launcher/icons/
+For more information visit: 
+https://github.com/Bladetrain3r/Magic-Launcher"""
         
         messagebox.showinfo("About", info)
     
@@ -581,7 +582,60 @@ Icons: Single char or .bmp in ~/.config/launcher/icons/"""
         if self.selected_item:
             item, path = self.selected_item
             self.on_item_double_click(item, path)
-    
+
+    def navigate_left(self, event=None):
+        """Move selection to previous item in current level"""
+        self._navigate(-1)
+
+    def navigate_right(self, event=None):
+        """Move selection to next item in current level"""
+        self._navigate(1)
+
+    def _navigate(self, direction):
+        """Navigate items by direction (-1 for left, 1 for right)"""
+        items = self._get_items_to_show()
+        if not items:
+            return
+        
+        # If nothing selected, pick first or last based on direction
+        if not self.selected_item:
+            index = -1 if direction < 0 else 0
+            name, item, path = items[index]
+            self.selected_item = (item, path)
+            self._highlight_selected()
+            return
+        
+        # Find current index more efficiently
+        current_item, _ = self.selected_item  # THIS LINE NEEDS TO BE INDENTED HERE
+        try:
+            current_index = next(i for i, (_, item, _) in enumerate(items) 
+                               if item == current_item)
+            # Move to next item with wraparound
+            new_index = (current_index + direction) % len(items)
+            name, item, path = items[new_index]
+            self.selected_item = (item, path)
+            self._highlight_selected()
+        except StopIteration:
+            # Current item not found, select first
+            name, item, path = items[0]
+            self.selected_item = (item, path)
+            self._highlight_selected()
+
+    def _highlight_selected(self):
+        """Update visual highlight for selected item"""
+        # Clear all highlights first
+        for widget in self.item_frame.winfo_children():
+            if isinstance(widget, IconWidget):
+                widget.set_highlighted(False)
+        
+        # Highlight the selected one
+        if self.selected_item:
+            current_item, _ = self.selected_item
+            for widget in self.item_frame.winfo_children():
+                if isinstance(widget, IconWidget) and widget.item == current_item:
+                    widget.set_highlighted(True)
+                    break
+
     def _on_frame_configure(self, event):
         """Configure canvas scroll region."""
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))

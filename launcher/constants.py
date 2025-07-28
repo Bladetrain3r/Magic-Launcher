@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.2.1"
+VERSION = "0.3.2.2"
 APP_NAME = "Magic Launcher"
 
 # Paths
@@ -83,7 +83,6 @@ DEFAULT_SHORTCUTS = {
         'path': 'powershell',
         'args': '-noninteractive \"Write-Host \\\"Hello World from Powershell!\\\"\"'
     },
-
     'NGGUU': {
         'type': 'shortcut',
         'icon': 'RR',

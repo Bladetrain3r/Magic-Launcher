@@ -4,6 +4,15 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.2.2] - 2025-07-28
+### Added
+
+- Left and Right arrow keys now allow you to navigate within a folder.
+- Selected shortcuts now highlight properly.
+- About menu updated with nav keys and Github link
+
+Additional core hotkeys to be added later.
+
 ## [0.3.2.1] - 2025-07-27
 ### Added
 
@@ -13,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Ensured dialogue state set properly to false on closing substitute window.
 
 ### Bugs
-- Discovered spaces in Windows path names are problematic
+- Discovered brackets* in Windows path names are problematic
 - Workaround: Use powershell to launch with Start-Process e.g.
 ```
 "path": powershell
@@ -116,17 +125,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Roadmap / Future Ideas
 
-### Short Term
-- Ctrl + N for new shortcut
-- Ctrl + H to return to Home
-- Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
+### DONE
 - Universal path substitute - replace exact path strings across all shortcuts. And args/icons too. (DONE - 0.3.2)
+- Arrow key navigation (DONE - 0.3.2.2)
+
+### Short Term
+- Hidden flag for shortcuts. Prevents showing up in search.
+- Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
+  - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
+- Alternative icon formats (ICO, PNG, JPG) (Use PIL to covert to bmp for simplicity)
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
+- Remove default config from CONSTANTS to template - see Dockerfile for prospective default config deploy tactic (copy and paste lol)
 
 ### Medium Term
+- Ctrl + N for new shortcut
+- Ctrl + H to return to Home
 - Full screen (simple output scaling)
+- Break shortcut handling out of main_window.py into it's own ui module
 - Import .lnk, .desktop and .shortcut files from system
 - Config Validator and import/export util
 - Multiple launcher profiles (subfolders in .config?)
@@ -136,11 +153,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Move away from constants, port into config
 - "Duplicate to..." function to copy shortcuts to other folders
 - Figure out how to move interface construction out of main_window so it can focus on the rendering
+- Setup scripts for Linux and Windows not relying on Git clone.
+- Same for the update scripts. Or at least don't assume.
 
 ### Long Term
 - Dialogue to assign shortcuts to keys 1-9 (this is why shortcut IDs)
 - Two modes: Admin/Unlocked and Locked/User. Admin by default unless proper private key is provided.
-- Arrow key navigation
+- Password protected shortcuts/folders - can't launch or open without inputting a password.
 - Arrangement Editor
 - Gamepad/controller support
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
@@ -175,6 +194,22 @@ Compare to stored hash in ./config/launcher/key
 If match, enable edit mode
 
 e.g. python app.py --unlock ~/.ssh/admin_key
+```
+
+Hidden flag for shortcuts
+```
+Easy enough to add - a single optional field in the BaseItem properties.
+If field is present and/or True, don't render in search results.
+Consider performance impact, but should be trivial next to search itself.
+Visual indicator for flagged icons (different icon background?)
+```
+
+Password Protected Folders
+```
+Similar to the Hidden flag, easy optional field, backwards compatible by default as absence means False/blank.
+An extra field in shortcut properties.
+Simple hashing, maybe SHA1? Store as a regular property in shortcuts.json.
+Not really secure (they can add a shortcut to edit shortcuts.json and get all the hashes) but combined with lock mode or a read-only environment, good for an extra hindrance.
 ```
 
 ## What is 1.0?

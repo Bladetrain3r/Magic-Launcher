@@ -1,12 +1,13 @@
 # Magic Launcher - Your Shortcut Palette
 
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
+It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
 
 ## Features
 
 - **Lightweight**: Runs smoothly on systems with as little as 256MB RAM
 - **SSH/X11 Friendly**: 720p resolution, minimal graphics
-- **Retro Aesthetic**: 16-color CGA/EGA palette, DOS-style UI
+- **Retro Aesthetic**: 16-color CGA/EGA palette, DOS-style UI - but full colour display for when you want something more.
 - **Nested Folders**: Organize shortcuts in hierarchical folders
 - **Search**: Recursive search across all folders (Ctrl+F)
 - **BMP Icons**: Support for bitmap icons or text characters
@@ -63,7 +64,7 @@ While it can be run from anywhere, the default path will be ~/.local/share/Magic
 This is to make auto-update scripts a bit easier and so the working directory can be more consistent.
 
 ### Keyboard Shortcuts
-
+- **Left/Right**: Select previous/next shortcut
 - **Ctrl+F**: Toggle search mode
 - **Ctrl+D**: Duplicate selected item  
 - **Enter**: Launch selected item
@@ -234,8 +235,6 @@ Copy and paste right into the icon field!
   }
 ```
 
-
-
 ## Design Philosophy
 
 Magic Launcher follows the Unix philosophy: do one thing and do it well. It's not a desktop environment or file manager - it's purely a shortcut organizer and launcher. This focused approach means:
@@ -254,7 +253,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 
 ## System Requirements
 
-- Python 3.6 or higher
+- Python 3.9 or higher
 - Tkinter (usually included with Python)
 - ~10MB disk space
 - ~20MB RAM
@@ -297,32 +296,41 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 "args": -Noninteractive Start-Process 'C:\Program Files (x86)\VideoLAN\VLC\vlc.exe'
 ```
 
+### Unofficial Icon Format Extended Support
+- Technically you can still use any image format supported by Pillow just by changing the file extension to bitmap.
+- This is because the file check is very simple and Pillow just interprets the file content.
+- It is not supported and an invalid binary may break something, you have been warned.
+
 ### Known Issues
-- Launching multiple terminal apps at once is permitted and will cause a mess in your TTY
-- Unicode font support may be limited on other OS'
+- Launching multiple terminal apps at once is permitted and may cause a mess in your TTY. Restart Magic Launcher and/or the terminal session to resolve.
+- Unicode font support may be limited based on OS.
 - Right-click dialogue starts popping up every time you mouse over certain coordinates, sometimes. Right click event not handling properly?
 - Delayed response over a network and multiple inputs can make things weird.
-- String handling needs... work.
+- String handling needs to be sanity checked.
 - When run on Linux the resizing is enabled (future feature, current bug)
-- Changing a an empty shortcut to a folder still results in a missing shortcut error. Delete seems to work.
+- Changing an empty shortcut to a folder still results in a missing shortcut error. Delete isn't affected so recreate to resolve.
+- Brackets* in Windows path names are problematic
+- Shortcut keys may still trigger actions when the window is out of focus
 
 ## License
 
-This project is released into the public domain. See LICENSE file for details.
+This project is released as free and open source software under the MIT license. See LICENSE file for details.
 
 ## Contributing
 
-Contributions are welcome! The codebase is modular and well-documented. Key areas for contribution:
+Contributions are welcome! Key areas for contribution:
 
-- Import/export functionality  
-- Platform-specific improvements
 - Documentation and examples
 - Security issues
 - Bugs
 - Useful extensions to the core emphasising immediate utility
-- The goal remains to keep bloat relatively minimal and focus on task high.
-- Dialogue state handling for substitution may cause new dialogues to stop appearing. Restart the app to work around.
+
+## Donations
+
+If you wish to donate to the project, please instead give $5 to your favourite charity.
+If you feel like it, donate on behalf of Zerofuchs Software.
+Magic Launcher will always be free to download, use and modify.
 
 ## Acknowledgments
 
-Inspired by classic DOS menu systems and the need for a lightweight launcher that works well on low-spec hardware.
+Inspired by classic DOS menu systems and the need for a lightweight launcher that works well on anything, from anywhere.
