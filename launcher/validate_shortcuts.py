@@ -75,8 +75,6 @@ def validate_config():
         print("❌ Validation errors:")
         for error in errors:
             print(f"  - {error}")
-    else:
-        print("✅ Config valid!")
 
     if len(errors) == 0:
         print("All shortcuts are valid.")
