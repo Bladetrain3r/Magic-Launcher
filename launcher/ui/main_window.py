@@ -557,8 +557,9 @@ Shortcuts:
 - Backspace: Go up one level
 
 Right-click items for more options
-For more information visit: https://github.com/Bladetrain3r/Magic-Launcher
-Icons: Single char or .bmp in ~/.config/launcher/icons/"""
+Icons: Single char or .bmp in ~/.config/launcher/icons/
+For more information visit: 
+https://github.com/Bladetrain3r/Magic-Launcher"""
         
         messagebox.showinfo("About", info)
     
