@@ -243,6 +243,17 @@ Treat similarly to secure strings, store as salted hash in the shortcut properti
 Not really secure (they can add a shortcut to edit shortcuts.json and get all the hashes) but combined with lock mode or a read-only environment, good for an extra hindrance.
 ```
 
+### 1-9 Shortcut Keys
+```
+Requires Shortcut IDs (scid) to be implemented.
+Purely keyboard driven.
+Ctrl+1 - Ctrl+9 assigns selected shortcut by ID
+To launch, F1-F9 keys
+To delete, Ctrl + Alt + Number
+Shortcut gets a special green font, or green border if it has an image icon.
+F10 filters for only the assigned shortcuts, escape to return to previous screen or Ctrl+H to go home.
+```
+
 ## What is 1.0?
 When three criteria are met:
 - Stable, low bugs, passes a code review without too many raised problems.
