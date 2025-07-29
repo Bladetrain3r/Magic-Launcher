@@ -4,7 +4,7 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.4] - PENDING
+## [0.3.4] - 2025-07-29
 ### Added
 - Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string
 - Validation script (validate_shortcuts.py) for checking config integrity
@@ -150,10 +150,11 @@ Additional core hotkeys to be added later.
 - Arrow key navigation (DONE - 0.3.2.2)
 - Move away from default shortcuts in constants, port into config (DONE - 0.3.3)
 - Keyboard shortcuts for all major functions (DONE - 0.3.3)
-- Edit Title Bar (PENDING RELEASE - 0.3.4)
-- --reload parameter for instant config refresh without restart (PENDING RELEASE - Bound to Ctrl+R instead - 0.3.4)
+- Edit Title Bar (DONE - 0.3.4)
+- --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
 
 ### Short Term (Quick Implement)
+- Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
 - Multiple launcher profiles since it's related to reload.
 - Secure String shortcut type
 - Add scid (shortcut id) to BaseItem in models.py

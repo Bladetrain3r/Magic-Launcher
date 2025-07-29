@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.4 Dev"
+VERSION = "0.3.4"
 
 APP_NAME = "Shouldn't see this, use ConfigManager.get_app_name() instead"
 
