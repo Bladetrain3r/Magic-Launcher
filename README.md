@@ -14,7 +14,7 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 - **No Dependencies**: Uses only Python standard library (Tkinter)
 - **Portable**: All config stored in `~/.config/launcher/`
 
-## Host Setup
+## Getting Started
 
 - To run it reliably on a machine, the following steps and prerequisites will be needed.
 
