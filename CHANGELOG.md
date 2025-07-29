@@ -152,13 +152,14 @@ Additional core hotkeys to be added later.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 
 ### Medium Term
+- Maintenance Menu via F11
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
-- Config Validator and import/export util
+- Config Validator and import/export util (Validator exists - To be integrated as a util class)
 - Multiple launcher profiles (subfolders in .config?)
 - Custom color schemes
 - Better handling of streaming output like tail -f
@@ -178,6 +179,7 @@ Additional core hotkeys to be added later.
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
 - Grid size scaling
 - Neaten up widgets
+- Create and include default maintenance and some fun stat scripts to set up as shortcuts.
 
 ### Super Maybe
 - Recent items tracking
@@ -209,6 +211,30 @@ Salt: Randomly generate a secure salt with a (bounded) random length using a bas
 Use: Double click attempts to copy to the clipboard. Right click and edit to update.
 Duplication seems pointless but "duplicate to" once implemented may be useful, so we won't prevent it.
 ```
+
+### Maintenance Menu
+For managing shortcuts.json
+```
+Bind to F11 by default
+Next to the Info button keeps the UI clean.
+|[STOP] [i] [⚙]           Magic Launcher v0.3.4|
+Settings menu could include:
+
+Backup Config → Save shortcuts.json with timestamp
+Restore Config → Load from backup
+Export Config → Save to custom location
+Import Config → Load from file (auto-validates)
+Open Config Folder → Quick access to ~/.config/launcher/
+
+Example Structure:
+~/.config/launcher/
+├── shortcuts.json
+├── backups/
+│   ├── shortcuts_20250728_143022.json
+│   └── shortcuts_20250727_091510.json
+└── icons/
+```
+
 #### Admin Mode
 ```
 Visual indicators:
