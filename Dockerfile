@@ -26,12 +26,13 @@ RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 # Ensure the X11 display is accessible
 RUN echo "export DISPLAY=:0" >> /etc/profile
 RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
+
 # Set up unprivileged user for security
 RUN useradd -m magicuser
-USER magicuser
 
 # Privilege the unprivileged user for demo purposes, DELETE THIS if copying this Dockerfile for production use
 RUN echo "magicuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+USER magicuser
 
 WORKDIR /home/magicuser/.local/share/Magic-Launcher/
 RUN mkdir -p /home/magicuser/.config/launcher
