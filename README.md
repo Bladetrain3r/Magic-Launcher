@@ -25,6 +25,7 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
 6. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
 7. (Optional) Install xdg-utils
+8. (Suggested) Check out the config templates (and sample scripts) to get started easily with some imports.
 
 ## Usage
 ### Linux:
