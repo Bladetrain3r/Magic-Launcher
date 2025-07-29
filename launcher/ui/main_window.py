@@ -52,6 +52,11 @@ class MainWindow:
     def save_shortcuts(self):
         """Save shortcuts to config."""
         config_manager.save_shortcuts(self.shortcuts)
+
+    def refresh_shortcuts(self):
+        """Reload shortcuts from config."""
+        self.load_shortcuts()
+        self.render_items()
     
     def _create_ui(self):
         """Create the main UI."""
@@ -149,7 +154,7 @@ class MainWindow:
         self.root.bind('<Control-f>', lambda e: self.toggle_search())
         self.root.bind('<Control-d>', lambda e: self.duplicate_selected())
         self.root.bind('<Control-e>', lambda e: self.edit_item(self.selected_item[0]) if self.selected_item else None)
-        self.root.bind('<Control-r>', lambda e: self.render_items())
+        self.root.bind('<Control-r>', lambda e: self.refresh_shortcuts())
         self.root.bind('<Control-p>', lambda e: self.show_properties(self.selected_item[0]) if self.selected_item else None)
         self.root.bind('<Escape>', self._handle_escape)
         self.root.bind('<Return>', self._handle_enter)

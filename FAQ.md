@@ -70,6 +70,10 @@ Sure! I'm using it myself for a few things already and plan to keep going:
 - Control panel for Raspberry Pi fileserver - graphical interface without NAS bloat
 - DevOps dashboards and control panels within development environments
 
+### Container Orchestration
+- docker compose up, down, sideways to spin up a small application stack (application server, backend API server, web server, file DB)
+- Individual GUI for each container allowing preconfigured log views
+
 ### Gaming & Entertainment
 - Universal game launcher across Steam, GOG, Epic, and retro emulators
 - Custom DOOM WAD/mod launcher with organized folders:

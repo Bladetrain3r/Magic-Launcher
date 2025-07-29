@@ -5,7 +5,17 @@ All notable changes to Magic Launcher will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [0.3.4] - PENDING
-- Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string. 
+### Added
+- Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string
+- Validation script (validate_shortcuts.py) for checking config integrity
+- Bulk scanning script (\config_templates\sample_scripts\scan_for_exe.py) for importing executables from folders
+- Config reload and redraw (refresh_config()) bound to Ctrl+R
+- Debug log level added via MLENV environment variable.
+- Tkinter check on startup for less cryptic import headaches.
+
+### Documentation
+- Updated FAQ with explicit dogfooding mention and use case expansions
+- Added "Traps that will not be fallen into" section to roadmap
 
 ## [0.3.3] - 2025-07-28
 ### Added
@@ -138,13 +148,13 @@ Additional core hotkeys to be added later.
 ### DONE
 - Universal path substitute - replace exact path strings across all shortcuts. And args/icons too. (DONE - 0.3.2)
 - Arrow key navigation (DONE - 0.3.2.2)
-- Move away from constants, port into config (DONE - 0.3.3)
-- Ctrl + N for new shortcut (DONE - 0.3.3)
-- Ctrl + H to return to Home (DONE - 0.3.3)
-- Other Shortcuts Too (DONE - 0.3.3)
-- Edit Title Bar (PENDING RELEASE - 0.3.3.1)
+- Move away from default shortcuts in constants, port into config (DONE - 0.3.3)
+- Keyboard shortcuts for all major functions (DONE - 0.3.3)
+- Edit Title Bar (PENDING RELEASE - 0.3.4)
+- --reload parameter for instant config refresh without restart (PENDING RELEASE - Bound to Ctrl+R instead - 0.3.4)
 
 ### Short Term (Quick Implement)
+- Multiple launcher profiles since it's related to reload.
 - Secure String shortcut type
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
@@ -160,7 +170,6 @@ Additional core hotkeys to be added later.
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
 - Config Validator and import/export util (Validator exists - To be integrated as a util class)
-- Multiple launcher profiles (subfolders in .config?)
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
@@ -203,7 +212,10 @@ Additional core hotkeys to be added later.
 
 #### Secure String
 ```
+Path field: Non-sensitive context (username, service name, etc.) - visible
+Args field: The actual secret - hidden/obscured
 Visual Indicators: Unicode lock icon, but maybe just a pair of bars to start to ensure it displays. Blue for secure.
+Visual Indicators: Maybe a special blue border when selected too, trivial to add a type check and coloured borders are a flexible visual aid.
 UI: Obscure inputs and don't show the value in properties.
 Implementation: A new type of shortcut. Only Args field is active.
 Hashing: SHA256, even a Pi can do it.
@@ -267,6 +279,26 @@ Similar to the Hidden flag, easy optional field, backwards compatible by default
 An extra field in shortcut properties.
 Treat similarly to secure strings, store as salted hash in the shortcut properties, and obfuscate in the UI.
 Not really secure (they can add a shortcut to edit shortcuts.json and get all the hashes) but combined with lock mode or a read-only environment, good for an extra hindrance.
+```
+
+#### Profiles
+```
+Storage: .config/launcher/profiles/profilename.json
+Default: ./config/launcher/profiles/default.json
+Profile manager in F11 menu
+Reloads config from optional path parameter and refreshes the display.
+Dialogue Example:
+┌─ Profile Manager ─────────┐
+│ Current: default          │
+│                           │
+│ [Work     ▼]              │
+│                           │
+│ [Switch] [New] [Delete]   │
+└───────────────────────────┘
+
+Can then create a shortcut sorta like "path: magicl args: --profile games" to swop out to any profile
+Maybe create a "revert to default" hotkey, otherwise relaunching without a profile param will do the trick.
+Note: Generate default.json from config/default.json if not present on launch.
 ```
 
 ### 1-9 Shortcut Keys
