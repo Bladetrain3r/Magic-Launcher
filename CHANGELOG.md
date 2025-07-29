@@ -4,6 +4,19 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.4] - 2025-07-29
+### Added
+- Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string
+- Validation script (validate_shortcuts.py) for checking config integrity
+- Bulk scanning script (\config_templates\sample_scripts\scan_for_exe.py) for importing executables from folders
+- Config reload and redraw (refresh_config()) bound to Ctrl+R
+- Debug log level added via MLENV environment variable.
+- Tkinter check on startup for less cryptic import headaches.
+
+### Documentation
+- Updated FAQ with explicit dogfooding mention and use case expansions
+- Added "Traps that will not be fallen into" section to roadmap
+
 ## [0.3.3] - 2025-07-28
 ### Added
 - Shortcut keys of numerous types to make it fully keyboard usable. Easy to add, but important.
@@ -135,27 +148,29 @@ Additional core hotkeys to be added later.
 ### DONE
 - Universal path substitute - replace exact path strings across all shortcuts. And args/icons too. (DONE - 0.3.2)
 - Arrow key navigation (DONE - 0.3.2.2)
-- Move away from constants, port into config (DONE - 0.3.3)
-- Ctrl + N for new shortcut (DONE - 0.3.3)
-- Ctrl + H to return to Home (DONE - 0.3.3)
-- Other Shortcuts Too (DONE - 0.3.3)
+- Move away from default shortcuts in constants, port into config (DONE - 0.3.3)
+- Keyboard shortcuts for all major functions (DONE - 0.3.3)
+- Edit Title Bar (DONE - 0.3.4)
+- --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
 
 ### Short Term (Quick Implement)
-- Edit Title Bar (simple "title" file in .config/launcher, editing it simply updates the file with a new string...)
-- Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
-  - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
+- Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
+- Multiple launcher profiles since it's related to reload.
 - Secure String shortcut type
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
+- Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 
 ### Medium Term
+- Maintenance Menu via F11
+- Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
+  - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
-- Config Validator and import/export util
-- Multiple launcher profiles (subfolders in .config?)
+- Config Validator and import/export util (Validator exists - To be integrated as a util class)
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
@@ -174,6 +189,7 @@ Additional core hotkeys to be added later.
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
 - Grid size scaling
 - Neaten up widgets
+- Create and include default maintenance and some fun stat scripts to set up as shortcuts.
 
 ### Super Maybe
 - Recent items tracking
@@ -197,7 +213,10 @@ Additional core hotkeys to be added later.
 
 #### Secure String
 ```
+Path field: Non-sensitive context (username, service name, etc.) - visible
+Args field: The actual secret - hidden/obscured
 Visual Indicators: Unicode lock icon, but maybe just a pair of bars to start to ensure it displays. Blue for secure.
+Visual Indicators: Maybe a special blue border when selected too, trivial to add a type check and coloured borders are a flexible visual aid.
 UI: Obscure inputs and don't show the value in properties.
 Implementation: A new type of shortcut. Only Args field is active.
 Hashing: SHA256, even a Pi can do it.
@@ -205,6 +224,30 @@ Salt: Randomly generate a secure salt with a (bounded) random length using a bas
 Use: Double click attempts to copy to the clipboard. Right click and edit to update.
 Duplication seems pointless but "duplicate to" once implemented may be useful, so we won't prevent it.
 ```
+
+### Maintenance Menu
+For managing shortcuts.json
+```
+Bind to F11 by default
+Next to the Info button keeps the UI clean.
+|[STOP] [i] [⚙]           Magic Launcher v0.3.4|
+Settings menu could include:
+
+Backup Config → Save shortcuts.json with timestamp
+Restore Config → Load from backup
+Export Config → Save to custom location
+Import Config → Load from file (auto-validates)
+Open Config Folder → Quick access to ~/.config/launcher/
+
+Example Structure:
+~/.config/launcher/
+├── shortcuts.json
+├── backups/
+│   ├── shortcuts_20250728_143022.json
+│   └── shortcuts_20250727_091510.json
+└── icons/
+```
+
 #### Admin Mode
 ```
 Visual indicators:
@@ -239,9 +282,40 @@ Treat similarly to secure strings, store as salted hash in the shortcut properti
 Not really secure (they can add a shortcut to edit shortcuts.json and get all the hashes) but combined with lock mode or a read-only environment, good for an extra hindrance.
 ```
 
+#### Profiles
+```
+Storage: .config/launcher/profiles/profilename.json
+Default: ./config/launcher/profiles/default.json
+Profile manager in F11 menu
+Reloads config from optional path parameter and refreshes the display.
+Dialogue Example:
+┌─ Profile Manager ─────────┐
+│ Current: default          │
+│                           │
+│ [Work     ▼]              │
+│                           │
+│ [Switch] [New] [Delete]   │
+└───────────────────────────┘
+
+Can then create a shortcut sorta like "path: magicl args: --profile games" to swop out to any profile
+Maybe create a "revert to default" hotkey, otherwise relaunching without a profile param will do the trick.
+Note: Generate default.json from config/default.json if not present on launch.
+```
+
+### 1-9 Shortcut Keys
+```
+Requires Shortcut IDs (scid) to be implemented.
+Purely keyboard driven.
+Ctrl+1 - Ctrl+9 assigns selected shortcut by ID
+To launch, F1-F9 keys
+To delete, Ctrl + Alt + Number
+Shortcut gets a special green font, or green border if it has an image icon.
+F10 filters for only the assigned shortcuts, escape to return to previous screen or Ctrl+H to go home.
+```
+
 ## What is 1.0?
 When three criteria are met:
 - Stable, low bugs, passes a code review without too many raised problems.
 - No features or design changes left that aren't explicitly post-1.0 (bit flexible but roadmap as of 0.3 is the core planned featureset)
-- Packages available on Pypi, apt/snap, yum and apk
+- Packages available on Pypi, apt/snap, yum, apk and chocolatey
 - Public Docker image available

@@ -14,7 +14,7 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 - **No Dependencies**: Uses only Python standard library (Tkinter)
 - **Portable**: All config stored in `~/.config/launcher/`
 
-## Host Setup
+## Getting Started
 
 - To run it reliably on a machine, the following steps and prerequisites will be needed.
 
@@ -25,6 +25,7 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
 6. (Optional) Install Pillow for BMP icon support: `pip install Pillow`
 7. (Optional) Install xdg-utils
+8. (Suggested) Check out the config templates (and sample scripts) to get started easily with some imports.
 
 ## Usage
 ### Linux:
@@ -59,6 +60,13 @@ Write-Host "This is a placeholder."
 ```batch
 ```
 
+#### Sample Scripts
+### Bulk Import Example Scripts
+- scan_for_exes.py: Scan folders for executables and create shortcuts
+- Can be adapted for other file types (.log, .txt, .pdf, etc.)
+- scan_for_doom.py: More advanced import script, better duplication handling, list of strings to search.
+- Bulk import
+
 #### Default Install Path
 While it can be run from anywhere, the default path will be ~/.local/share/Magic-Launcher
 This is to make auto-update scripts a bit easier and so the working directory can be more consistent.
@@ -84,7 +92,7 @@ All configuration is stored in `~/.config/launcher/`:
 - `shortcuts.json`: Your shortcuts and folders
 - `icons/`: BMP icon files
 - `launcher.log`: Application logs
-
+- `app_name.txt`: Title Bar file
 ### Adding Shortcuts
 
 1. Click the **+** button or right-click and select "New"
@@ -311,6 +319,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Changing an empty shortcut to a folder still results in a missing shortcut error. Delete isn't affected so recreate to resolve.
 - Brackets* in Windows path names are problematic
 - Shortcut keys may still trigger actions when the window is out of focus
+- Sample script imports may see executables but not add them if the path is weird (dashes, etc.).
 
 ## License
 

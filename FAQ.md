@@ -27,6 +27,10 @@ pip install Pillow
 sudo apt install python3-pil
 ```
 
+## Where are the logs?
+You can find the logs in <your home folder>/.config/launcher/launcher.log.
+Debug logging can be enabled by setting the MLENV environment variable to "dev".
+
 ## Why can't I resize the window?
 To keep things simple I kept things fixed, it's also targeted at running on lower spec machines or smaller screens.
 In future I plan to add proper window scaling with dynamic grid size, and options for rearranging shortcuts that don't involve editing text files or onerous duplicate/delete sequences.
@@ -69,6 +73,10 @@ Sure! I'm using it myself for a few things already and plan to keep going:
 ![Foundry Control Panel](image3.png)
 - Control panel for Raspberry Pi fileserver - graphical interface without NAS bloat
 - DevOps dashboards and control panels within development environments
+
+### Container Orchestration
+- docker compose up, down, sideways to spin up a small application stack (application server, backend API server, web server, file DB)
+- Individual GUI for each container allowing preconfigured log views
 
 ### Gaming & Entertainment
 - Universal game launcher across Steam, GOG, Epic, and retro emulators

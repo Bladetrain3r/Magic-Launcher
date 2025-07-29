@@ -1,8 +1,9 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.3"
-APP_NAME = "Magic Launcher"
+VERSION = "0.3.4"
+
+APP_NAME = "Shouldn't see this, use ConfigManager.get_app_name() instead"
 
 # Paths
 CONFIG_DIR = Path.home() / '.config' / 'launcher'
@@ -10,6 +11,7 @@ CONFIG_FILE = CONFIG_DIR / 'shortcuts.json'
 ICONS_DIR = CONFIG_DIR / 'icons'
 LOG_FILE = CONFIG_DIR / 'launcher.log'
 SETTINGS_FILE = CONFIG_DIR / 'settings.json'
+APP_NAME_PATH = CONFIG_DIR / 'title.txt'
 
 # UI Constants
 WINDOW_WIDTH = 1280
