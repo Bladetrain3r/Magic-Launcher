@@ -158,6 +158,7 @@ Additional core hotkeys to be added later.
 - Keyboard shortcuts for all major functions (DONE - 0.3.3)
 - Edit Title Bar (DONE - 0.3.4)
 - --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
+- Config Validator and import/export util (Validator/Import scripts instead, keep it out of the app. Export is a shortcut to the local copy command.) (DONE - 0.3.4)
 
 ### Short Term (Quick Implement)
 - Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
@@ -167,6 +168,9 @@ Additional core hotkeys to be added later.
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
+- Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
+- Fix unicode icons not all showing in Linux - ensure it's using the correct text encoding?
+- Background Image Loading (got Pillow already innit? Just default to gray if none specified or PIL isn't around)
 
 ### Medium Term
 - Popup dialogue
@@ -177,7 +181,6 @@ Additional core hotkeys to be added later.
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
-- Config Validator and import/export util (Validator exists - To be integrated as a util class)
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders

@@ -105,6 +105,12 @@ All configuration is stored in `~/.config/launcher/`:
    - **Arguments**: Command-line arguments
    - **Icon**: Single character or .bmp filename
 
+#### Best Practice for Args
+Args can in theory hold arbitrary string lengths and I will not restrict you from insane shortcuts if you want, but if it needs a word wrap or newline escapes, it is definitely too long.
+If you need numerous redirects and pipes, instead of complicating your config file, it is better to write a script.
+Magic Launcher is built to run scripts at a button press and cut out the typical confusion people experience when using a command line and trying to find that command. I encourage leveraging that strength.
+You have been warned.
+
 ### Substituting Paths
 This is a function intended for mass migration of shortcuts when a frequently used application is moved or you port a config between environments.
 Exact string matches only.
@@ -205,6 +211,16 @@ Copy and paste right into the icon field!
   "path": "https://github.com"
 }
 ```
+
+### Simple API calls (wouldn't recommend full POST payloads without a script)
+```
+{
+  "name": "Myapp Health Check",
+  "type": "shortcut",
+  "icon": "Hc",
+  "path": "curl",
+  "args": "-XGET -I https://mysite/api/v1/healthcheck"
+}
 
 ### Plaintext File (Log, Config)
 - These will launch in the default editor for their filetype
