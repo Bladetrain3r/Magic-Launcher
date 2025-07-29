@@ -26,25 +26,27 @@ RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 # Ensure the X11 display is accessible
 RUN echo "export DISPLAY=:0" >> /etc/profile
 RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
+
 # Set up unprivileged user for security
-RUN useradd -m magicuser
-USER magicuser
+# RUN useradd -m magicuser
+# USER magicuser
+# Privileged user for demo purposes, DELETE THIS if copying this Dockerfile for production use
 
-WORKDIR /home/magicuser/.local/share/Magic-Launcher/
-RUN mkdir -p /home/magicuser/.config/launcher
+WORKDIR /root/.local/share/Magic-Launcher/
+RUN mkdir -p /root/.config/launcher
 
-COPY --chown=magicuser:magicuser . /home/magicuser/.local/share/Magic-Launcher/
-RUN chmod +x /home/magicuser/.local/share/Magic-Launcher/launcher/app.py
-COPY --chown=magicuser:magicuser config_templates/docker_ff.json /home/magicuser/.config/launcher/shortcuts.json
+COPY --chown=magicuser:magicuser . /root/.local/share/Magic-Launcher/
+RUN chmod +x /root/.local/share/Magic-Launcher/launcher/app.py
+COPY --chown=magicuser:magicuser ./launcher/config/demo.json /root/.config/launcher/shortcuts.json
 
-WORKDIR /home/magicuser/.local/share/Magic-Launcher/
+WORKDIR /root/.local/share/Magic-Launcher/
 
 # Set up environment
 ENV DISPLAY=:0
 ENV PYTHONUNBUFFERED=1
 
 # Default command
-CMD ["python3", "/home/magicuser/.local/share/Magic-Launcher/launcher/app.py"]
+CMD ["python3", "/root/.local/share/Magic-Launcher/launcher/app.py"]
 
 # Build with: docker build -t magic-launcher:latest .
 # Run with: docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME/.config/launcher:/root/.config/launcher magic-launcher

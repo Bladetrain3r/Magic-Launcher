@@ -48,8 +48,12 @@ class IconWidget(tk.Frame):
         else:
             # Text icon
             icon_text = self.item.icon[:2] if len(self.item.icon) <= 2 else self.item.name[0].upper()
-            self.icon_label = tk.Label(self.icon_box, text=icon_text, bg=icon_color,
-                                      font=('Courier', 36, 'bold'))
+            self.icon_label = tk.Label(
+            self.icon_box, 
+            text=icon_text, 
+            bg=icon_color,
+            font=('DejaVu Sans Mono', 36, 'bold')  # Default font if available
+            )
         
         self.icon_label.place(relx=0.5, rely=0.5, anchor='center')
         

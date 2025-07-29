@@ -3,6 +3,10 @@
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
 
+![Main Interface](image.png)
+
+[Demo 1](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
+
 ## Features
 
 - **Lightweight**: Runs smoothly on systems with as little as 256MB RAM
@@ -102,6 +106,12 @@ All configuration is stored in `~/.config/launcher/`:
    - **Path**: Executable path, URL, or command
    - **Arguments**: Command-line arguments
    - **Icon**: Single character or .bmp filename
+
+#### Best Practice for Args
+Args can in theory hold arbitrary string lengths and I will not restrict you from insane shortcuts if you want, but if it needs a word wrap or newline escapes, it is definitely too long.
+If you need numerous redirects and pipes, instead of complicating your config file, it is better to write a script.
+Magic Launcher is built to run scripts at a button press and cut out the typical confusion people experience when using a command line and trying to find that command. I encourage leveraging that strength.
+You have been warned.
 
 ### Substituting Paths
 This is a function intended for mass migration of shortcuts when a frequently used application is moved or you port a config between environments.
@@ -204,6 +214,16 @@ Copy and paste right into the icon field!
 }
 ```
 
+### Simple API calls (wouldn't recommend full POST payloads without a script)
+```
+{
+  "name": "Myapp Health Check",
+  "type": "shortcut",
+  "icon": "Hc",
+  "path": "curl",
+  "args": "-XGET -I https://mysite/api/v1/healthcheck"
+}
+
 ### Plaintext File (Log, Config)
 - These will launch in the default editor for their filetype
 ```json
@@ -249,7 +269,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 
 - Tiny codebase (~2000 lines)
 - Minimal dependencies
-- Fast startup
+- Fast everything
 - Low memory usage
 - SSH-friendly
 
@@ -258,6 +278,11 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
 - Any feature which violates these two principles *will* be dropped.
+
+An additional golden rule which dictates whether something gets added is lag time. So:
+- **Anything which might produce an unexpectedly slow response time is not part of the code**
+
+This is why import and scan functions for things which are not *in* the config files or preloaded into memory will remain external.
 
 ## System Requirements
 

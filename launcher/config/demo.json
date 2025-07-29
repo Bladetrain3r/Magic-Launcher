@@ -1,0 +1,69 @@
+{
+    "Games": {
+        "type": "folder",
+        "icon": "G",
+        "items": {
+            "Action": {
+                "type": "folder",
+                "icon": "A",
+                "items": {}
+            },
+            "Puzzle": {
+                "type": "folder",
+                "icon": "P",
+                "items": {}
+            }
+        }
+    },
+    "Tools": {
+        "type": "folder",
+        "icon": "T",
+        "items": {
+            "Update ML (BASH)": {
+                "type": "shortcut",
+                "icon": "⤵",
+                "path": "~/.local/share/Magic-Launcher/launcher/scripts/sh/ml-update.sh"
+            }
+        }
+    },
+    "Scripts": {
+        "type": "folder",
+        "icon": "S",
+        "items": {}
+    },
+    "Hello World": {
+        "type": "shortcut",
+        "icon": "sh",
+        "path": "echo",
+        "args": "Hello, World from Docker!"
+    },
+    "Install FreeDoom": {
+        "type": "shortcut",
+        "icon": "iD",
+        "path": "apt",
+        "args": "update && apt install -y freedoom"
+    },
+    "Launch FreeDoom 2": {
+        "type": "shortcut",
+        "icon": "F",
+        "path": "/usr/games/boom"
+    },
+    "Install Midori": {
+        "type": "shortcut",
+        "icon": "FF",
+        "path": "apt",
+        "args": "update && apt install -y midori"
+    },
+    "About the Developer": {
+        "type": "shortcut",
+        "icon": "Lx",
+        "path": "lynx",
+        "args": "https://www.zerofuchs.co.za"
+    },
+    "NGGUU": {
+        "type": "shortcut",
+        "icon": "RR",
+        "path": "midori",
+        "args": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    }
+}

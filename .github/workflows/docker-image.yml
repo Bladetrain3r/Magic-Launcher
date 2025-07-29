@@ -19,5 +19,4 @@ jobs:
 
     - name: Do a quick run of the image and confirm files are present
       run: |
-        docker run --rm magic-launcher:latest ls -la /home/magicuser/.local/share/Magic-Launcher
-        docker run --rm magic-launcher:latest cat "/home/magicuser/.local/share/Magic-Launcher/launcher/__init__.py" && exit 0 || exit 1
+        docker run --rm magic-launcher:latest cat "/root/.local/share/Magic-Launcher/launcher/__init__.py" && exit 0 || exit 1

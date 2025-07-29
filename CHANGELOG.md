@@ -4,6 +4,15 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.4.1] - DONE - 2025-07-29
+
+### UI Alteration
+- The power of a 9th column compels you!
+- Increased default column count.
+
+### Technical
+- Enforce UTF-8 US locale in terminal or revert to local default only if unavailable
+
 ## [0.3.4] - 2025-07-29
 ### Added
 - Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string
@@ -152,6 +161,7 @@ Additional core hotkeys to be added later.
 - Keyboard shortcuts for all major functions (DONE - 0.3.3)
 - Edit Title Bar (DONE - 0.3.4)
 - --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
+- Config Validator and import/export util (Validator/Import scripts instead, keep it out of the app. Export is a shortcut to the local copy command.) (DONE - 0.3.4)
 
 ### Short Term (Quick Implement)
 - Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
@@ -161,8 +171,11 @@ Additional core hotkeys to be added later.
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
+- Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
+- Background Image Loading (got Pillow already innit? Just default to gray if none specified or PIL isn't around)
 
 ### Medium Term
+- Popup dialogue
 - Maintenance Menu via F11
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
@@ -170,7 +183,6 @@ Additional core hotkeys to be added later.
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
-- Config Validator and import/export util (Validator exists - To be integrated as a util class)
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
@@ -203,11 +215,13 @@ Additional core hotkeys to be added later.
 - Additional application integration. THE LAUNCHER STANDS ALONE.
 - Extensions, plugins. The whole point is visual macros just run a script.
 - Shiny Syndrome. Never mind that I like blocky EGA aesthetics, every customisation comes with cost.
+- Universal glyph support for every combination of display manager, font, and text encoding under the sun. Unicode icons are best effort depending on your terminal and display window manager.
 
 ### Priority Reminder
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
 - Any feature which violates these two principles *will* be dropped.
+- Also: Anything which might produce an unexpectedly slow response time is not part of the code
 
 ## Particular Feature Notes
 

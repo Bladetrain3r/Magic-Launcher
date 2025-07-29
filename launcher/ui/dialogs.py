@@ -62,7 +62,7 @@ class ItemDialog:
         type_menu.grid(row=1, column=1, sticky='w', padx=10, pady=5)
         
         # Path with browse
-        tk.Label(self.dialog, text="Path/URL:", bg=COLORS['light_gray']).grid(
+        tk.Label(self.dialog, text="Target File/Link:", bg=COLORS['light_gray']).grid(
             row=2, column=0, sticky='w', padx=10, pady=5)
         path_frame = tk.Frame(self.dialog, bg=COLORS['light_gray'])
         path_frame.grid(row=2, column=1, padx=10, pady=5, columnspan=2, sticky='ew')

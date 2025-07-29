@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.4"
+VERSION = "0.3.4.1"
 
 APP_NAME = "Shouldn't see this, use ConfigManager.get_app_name() instead"
 
@@ -17,7 +17,7 @@ APP_NAME_PATH = CONFIG_DIR / 'title.txt'
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 ICON_SIZE = 80
-ICON_GRID_COLUMNS = 8
+ICON_GRID_COLUMNS = 9
 
 # 16 color CGA/EGA palette
 COLORS = {

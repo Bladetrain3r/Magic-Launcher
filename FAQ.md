@@ -5,17 +5,33 @@ There aren't a ton of these yet but some that people have asked me:
 ## It looks cool but what is it? 
 It's a shortcut palette - similar in functionality and purpose to the graphical application menus people used before Windows became popular.
 I've added some modern features - text search, dynamic icons using unicode, and native X11 support so it can run on anything that can software render.
-You could also consider it a sort of standalone application dock.
-Or as it has been put, a GUI for your BASH/Powershell history. Or the bits you want to repeat.
+
+It's fundamental purpose is to launch what you want, when you want it launched, from a GUI that lets you run anything the local command interpreter will accept, on any device, local or remote.
 
 ## Who is it for?
 
 Mostly it's for me but I genuinely think it's useful for anyone who needs a good dock or shortcut palette.
-If you've ever thought "I just want to click a button and have my thing run," this is for you.
+Developers and sysadmins who move a lot between devices and folders and applications should find it quickly becomes natural to use.
+Retro gamers with multiple emulators, or various versions of source ports, or people who have games on several platforms.
+Pinning documents without making your desktop or other folders messy, easy and fast search of added documents should make it useful for planners and project managers.
+And even for kiosks, terminals and other low-power edge computers could run it so truck operators and local employees can check their mail, open the HR system, and download their payslip.
+If you've ever thought "I just want to click a button and have my thing," this is for you.
 
 ## Is it complicated to set up?
-Not at all! Extract the files, run `python app.py`, and start adding shortcuts. Your configuration is just a simple JSON file you can edit or share. No installers, no registry entries, no system modifications.
-The only thing you WILL need, is Python - this can be installed easily via the Windows App store, by downloading from the official site, or by using a package manager such as chocolatey (windows), apt (ubuntu/wsl), or yum (RHEL).
+Not at all! If you are familiar with using Python from the command line you should already know everything you need to know.
+```bash
+git clone https://github.com/bladetrain3r/Magic-Launcher
+python3 Magic-Launcher/launcher/app.py
+```
+For those unfamiliar with the command line on their particular OS, you can drag app.py onto a Python shortcut and that should launch it appropriately.
+
+### Dependencies
+While it is built to minimise complicated setup, you may need to install a few things:
+- In general, you will need the Python Tkinter library, as this is the core behind the UI.
+- It should run on your local computer without any additional dependencies.
+- To get a GUI remotely, you will need the server running Magic Launcher to have an X Display Server set up. 
+- Most Linux and Mac systems should come with some variant of this installed or immediately available.
+- Windows users will need to install a 3rd party tool unless you want to pass through an RDC connection (thoroughly untested). Xming is free and easy to use.
 
 ## I can't add icons! It complains about Pillow...
 You'll need to install the Python Image Library to do that.
@@ -26,10 +42,6 @@ pip install Pillow
 ```bash
 sudo apt install python3-pil
 ```
-
-## Where are the logs?
-You can find the logs in <your home folder>/.config/launcher/launcher.log.
-Debug logging can be enabled by setting the MLENV environment variable to "dev".
 
 ## Why can't I resize the window?
 To keep things simple I kept things fixed, it's also targeted at running on lower spec machines or smaller screens.
@@ -66,34 +78,17 @@ Original Magic Desk:
 
 ## Any Real Life uses so far?
 Sure! I'm using it myself for a few things already and plan to keep going:
-
-### Cloud & Server Management
-- Running smoothly on AWS EC2 instances for cloud-based admin tasks
-- Deployed on an EC2 hosted Foundry VTT server for our GM to manage more easily:
+- Running smoothly on AWS EC2 instances for cloud-based admin tasks, specifically...
+- I'm running it on an EC2 hosted Foundry VTT server for our GM to manage more easily:
 ![Foundry Control Panel](image3.png)
-- Control panel for Raspberry Pi fileserver - graphical interface without NAS bloat
-- DevOps dashboards and control panels within development environments
 
-### Container Orchestration
-- docker compose up, down, sideways to spin up a small application stack (application server, backend API server, web server, file DB)
-- Individual GUI for each container allowing preconfigured log views
-
-### Gaming & Entertainment
-- Universal game launcher across Steam, GOG, Epic, and retro emulators
-- Custom DOOM WAD/mod launcher with organized folders:
+- I'm using it as a launcher for my gaming collection across marketplaces, retro games, and custom maps/mods for DOOM.
 ![DOOM](image4.png)
-- Remote PyChess sessions against Raspberry Pi with Stockfish engine (I lost)
 
-### Development & Containers
-- WSL launcher for Docker management and dev tools
-- Dockerized GUI for running test scripts and health checks
-- Preset configs for different development environments
-- Fully containerized browser with ephemeral sessions but persistent bookmarks
+- And separately in WSL for more dev/admin related things like Docker stuff.
+- And in a Docker Container - combine with preset configs for an easy GUI to run test scripts or checks.
+- I'm running it on a Raspberry Pi to launch scripts and check logs. A graphical control center for a fileserver without the NAS software bloat.
+- Even using it in my DevOps day job to build out control panels and a few dashboard launcher shortcuts within the dev environment.
 
-### Creative Solutions
-- Path substitution for migrating configs between local/remote/container environments
-- Nested launcher inception: PowerShell → WSL → Docker → SSH with X11 forwarding
-- The software equivalent of Displayport→HDMI→DVI→VGA→USB→RJ45. But it worked!
-
-### The Magic Part
-The same launcher binary and config structure works across all these environments. Write once, launch anywhere. No environment-specific builds, no complex deployment scripts - just copy the files and run.
+And for fun, I've daisy chained it - launched from Powershell, then used it to launch itself in WSL, then in Docker, then a shortcut to run it remotely with X forwarding on a VM.
+The software equivalent of Displayport->HDMI->DVI->VGA->USB->RJ32. But it worked!

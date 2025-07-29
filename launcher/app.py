@@ -18,6 +18,7 @@ except ImportError:
     sys.exit(1)
 
 import os
+import locale
 from ui.main_window import MainWindow
 from utils.logger import logger
 from constants import VERSION
@@ -70,5 +71,9 @@ def main():
 
 
 if __name__ == "__main__":
-    # Check dependencies before starting
+    # Set UTF-8 locale
+    try:
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+    except locale.Error:
+        locale.setlocale(locale.LC_ALL, '')
     main()
