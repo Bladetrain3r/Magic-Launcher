@@ -4,6 +4,12 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.4.1] - PENDING
+
+### UI Alteration
+- The power of a 9th column compels you!
+- Increased default column count.
+
 ## [0.3.4] - 2025-07-29
 ### Added
 - Title bar can now be customised by creating ~/.config/launcher/app_name.txt and populating it with a string
@@ -163,6 +169,7 @@ Additional core hotkeys to be added later.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 
 ### Medium Term
+- Popup dialogue
 - Maintenance Menu via F11
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
