@@ -4,11 +4,14 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.4.1] - PENDING
+## [0.3.4.1] - DONE - 2025-07-29
 
 ### UI Alteration
 - The power of a 9th column compels you!
 - Increased default column count.
+
+### Technical
+- Enforce UTF-8 US locale in terminal or revert to local default only if unavailable
 
 ## [0.3.4] - 2025-07-29
 ### Added
@@ -169,7 +172,6 @@ Additional core hotkeys to be added later.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 - Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
-- Fix unicode icons not all showing in Linux - ensure it's using the correct text encoding?
 - Background Image Loading (got Pillow already innit? Just default to gray if none specified or PIL isn't around)
 
 ### Medium Term
@@ -213,11 +215,13 @@ Additional core hotkeys to be added later.
 - Additional application integration. THE LAUNCHER STANDS ALONE.
 - Extensions, plugins. The whole point is visual macros just run a script.
 - Shiny Syndrome. Never mind that I like blocky EGA aesthetics, every customisation comes with cost.
+- Universal glyph support for every combination of display manager, font, and text encoding under the sun. Unicode icons are best effort depending on your terminal and display window manager.
 
 ### Priority Reminder
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
 - Any feature which violates these two principles *will* be dropped.
+- Also: Anything which might produce an unexpectedly slow response time is not part of the code
 
 ## Particular Feature Notes
 

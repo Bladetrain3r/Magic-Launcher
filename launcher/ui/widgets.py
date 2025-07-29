@@ -52,7 +52,7 @@ class IconWidget(tk.Frame):
             self.icon_box, 
             text=icon_text, 
             bg=icon_color,
-            font=('DejaVu Sans Mono', 36, 'bold')  # Add DejaVu for Unicode
+            font=('DejaVu Sans Mono', 36, 'bold')  # Default font if available
             )
         
         self.icon_label.place(relx=0.5, rely=0.5, anchor='center')

@@ -267,7 +267,7 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 
 - Tiny codebase (~2000 lines)
 - Minimal dependencies
-- Fast startup
+- Fast everything
 - Low memory usage
 - SSH-friendly
 
@@ -276,6 +276,11 @@ Magic Launcher follows the Unix philosophy: do one thing and do it well. It's no
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
 - Any feature which violates these two principles *will* be dropped.
+
+An additional golden rule which dictates whether something gets added is lag time. So:
+- **Anything which might produce an unexpectedly slow response time is not part of the code**
+
+This is why import and scan functions for things which are not *in* the config files or preloaded into memory will remain external.
 
 ## System Requirements
 
