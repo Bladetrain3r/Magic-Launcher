@@ -50,6 +50,12 @@ In future I plan to add proper window scaling with dynamic grid size, and option
 ## Why do some shortcuts have a red X?
 That means the file or program can't be found. The shortcut still works for editing - just right-click to fix the path. It's a visual health check for your shortcuts.
 
+## I can't open (pdf/web links/etc)
+You might need to check the program associated for the type of file you are opening is set. 
+On linux you may need to install xdg-utils if working remotely to get browsers working.
+I cannot guarantee proper default file associations as this is outside of my control, the application hooks to what the OS provides.
+An easy workaround is to launch the application as the file target, and put the path to the link/document in the arguments field instead.
+
 ## Can I run multiple instances?
 Yes! Each environment gets its own config. Run it on Windows, WSL, Docker and SSH sessions simultaneously - they won't interfere with each other.
 
