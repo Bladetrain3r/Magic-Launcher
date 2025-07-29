@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     vim \
     nano \
     htop \
+    python3-pychess \
     # Cleanup
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,12 +31,15 @@ RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 RUN useradd -m magicuser
 USER magicuser
 
+# Privilege the unprivileged user for demo purposes, DELETE THIS if copying this Dockerfile for production use
+RUN echo "magicuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 WORKDIR /home/magicuser/.local/share/Magic-Launcher/
 RUN mkdir -p /home/magicuser/.config/launcher
 
 COPY --chown=magicuser:magicuser . /home/magicuser/.local/share/Magic-Launcher/
 RUN chmod +x /home/magicuser/.local/share/Magic-Launcher/launcher/app.py
-COPY --chown=magicuser:magicuser config_templates/docker_ff.json /home/magicuser/.config/launcher/shortcuts.json
+COPY --chown=magicuser:magicuser config/demo.json /home/magicuser/.config/launcher/shortcuts.json
 
 WORKDIR /home/magicuser/.local/share/Magic-Launcher/
 
