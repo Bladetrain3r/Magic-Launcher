@@ -56,9 +56,21 @@ def validate_config(path=None):
                 # Check keys are present in raw dict. Type is always required to have a value. Everything else can be empty as long as the key exists for consistency.
                 required_keys = ['type']
 
+                may_be_blank_keys = ['icon']
+                if isinstance(item, Folder):
+                    # if it's empty, must be a dict
+                    may_be_blank_keys.append('items')
+                
+                if isinstance(item, Shortcut):
+                    required_keys.append('path')
+
                 for key in required_keys:
                     if key not in item_data or not item_data[key]:
-                        errors.append(f"Missing '{key}' at {current_path}")
+                        errors.append(f"Missing required key '{key}' at {current_path}")
+
+                for key in may_be_blank_keys:
+                    if key not in item_data:
+                        errors.append(f"Missing optional key '{key}' at {current_path}")
 
                 # Check each field for required properties
                 if not item.name:
