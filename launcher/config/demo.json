@@ -37,10 +37,17 @@
         "path": "echo",
         "args": "Hello, World from Docker!"
     },
-    "Pychess": {
+    "Install FreeDoom": {
         "type": "shortcut",
-        "icon": "PC",
-        "path": "pychess"
+        "icon": "iD",
+        "path": "sudo",
+        "args": "apt install -y freedoom"
+    },
+    "Launch FreeDoom": {
+        "type": "shortcut",
+        "icon": "F",
+        "path": "doom",
+        "args": "-iwad /usr/share/games/freedoom/freedoom1.wad"
     },
     "Install Firefox": {
         "type": "shortcut",
