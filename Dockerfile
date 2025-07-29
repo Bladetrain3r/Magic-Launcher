@@ -39,7 +39,7 @@ RUN mkdir -p /home/magicuser/.config/launcher
 
 COPY --chown=magicuser:magicuser . /home/magicuser/.local/share/Magic-Launcher/
 RUN chmod +x /home/magicuser/.local/share/Magic-Launcher/launcher/app.py
-COPY --chown=magicuser:magicuser config/demo.json /home/magicuser/.config/launcher/shortcuts.json
+COPY --chown=magicuser:magicuser ./launcher/config/demo.json /home/magicuser/.config/launcher/shortcuts.json
 
 WORKDIR /home/magicuser/.local/share/Magic-Launcher/
 
