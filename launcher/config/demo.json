@@ -40,20 +40,19 @@
     "Install FreeDoom": {
         "type": "shortcut",
         "icon": "iD",
-        "path": "sudo",
-        "args": "apt install -y freedoom"
+        "path": "apt",
+        "args": "update && apt install -y freedoom"
     },
-    "Launch FreeDoom": {
+    "Launch FreeDoom 2": {
         "type": "shortcut",
         "icon": "F",
-        "path": "doom",
-        "args": "-iwad /usr/share/games/freedoom/freedoom1.wad"
+        "path": "/usr/games/boom"
     },
-    "Install Firefox": {
+    "Install Midori": {
         "type": "shortcut",
         "icon": "FF",
-        "path": "sudo",
-        "args": "apt install -y firefox"
+        "path": "apt",
+        "args": "update && apt install -y midori"
     },
     "About the Developer": {
         "type": "shortcut",
@@ -64,7 +63,7 @@
     "NGGUU": {
         "type": "shortcut",
         "icon": "RR",
-        "path": "firefox",
+        "path": "midori",
         "args": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
 }
