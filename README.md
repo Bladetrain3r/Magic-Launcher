@@ -5,7 +5,9 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 
 ![Main Interface](image.png)
 
-[Demo 1](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
+[Demo 1](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Startup.mp4)
+[Demo 2](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
+[Demo 3](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Docker.mp4)
 
 ## Features
 
