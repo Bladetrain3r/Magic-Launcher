@@ -70,5 +70,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # Check dependencies before starting
+    import locale
+    # Set locale to user's default setting (e.g., en_US.UTF-8)
+    locale.setlocale(locale.LC_ALL, '')    
     main()
