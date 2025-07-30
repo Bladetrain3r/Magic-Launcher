@@ -34,10 +34,18 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 8. (Suggested) Check out the config templates (and sample scripts) to get started easily with some imports.
 
 ## Usage
-### Linux:
+### Linux:/MacOS
 ```
 python3 path_to/Magic-Launcher/launcher/app.py
 ```
+
+### Windows
+```
+python path_to\Magic-Launcher\launcher\app.py
+```
+
+#### Drag and Drop
+You can also drag and drop app.py onto the Python launch shortcut/exe.
 
 ### X11 Forwarding
 You can run Magic Launcher on a remote host if it's running an X server.
@@ -46,25 +54,24 @@ Best on a LAN but it will function over WAN too.
 ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
 ```
 
-#### Setup for easy launch
+#### Setup for easy launch with WSL
 
 Paste to set up with git:
 - BASH (Linux/WSL)
 ```bash
+#!/bin/bash
 git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magic-Launcher
-echo 'alias magiclauncher="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
+echo 'alias magicl="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
 # To launch on login
-echo 'if [ -n "$DISPLAY" ]; then magiclauncher & fi' >> ~/.bashrc
+echo 'if [ -n "$DISPLAY" ]; then magicl & fi' >> ~/.bashrc
 ```
 
-- Powershell
-```powershell
-Write-Host "This is a placeholder."
-```
+#### Shortcut in Windows
+Create a shortcut to Python and append "app.py" to the end of the target.
+Under "Start in" paste the path to the folder containing app.py
+![Windows Shortcut](image-1.png)
 
-- CMD (iffy)
-```batch
-```
+A quick setup script is in the roadmap.
 
 #### Sample Scripts
 ### Bulk Import Example Scripts
