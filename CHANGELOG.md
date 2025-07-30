@@ -172,7 +172,7 @@ Additional core hotkeys to be added later.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 - Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
-- Background Image Loading (got Pillow already innit? Just default to gray if none specified or PIL isn't around)
+
 
 ### Medium Term
 - Popup dialogue
@@ -187,10 +187,11 @@ Additional core hotkeys to be added later.
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
 - Figure out how to move interface construction out of main_window so it can focus on the rendering
-- Setup scripts for Linux and Windows not relying on Git clone.
-- Same for the update scripts. Or at least don't assume.
+- Setup scripts for Linux and Windows not relying on Git clone except maybe the first time.
+- Neaten up dependencies and imports for proper packaging.
 
 ### Long Term
+- Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
 - Fix Unicode support on Linux workspaces. If the terminal can display it the icon should work.
 - Two modes: Admin/Unlocked and Locked/User.
 - Password protected shortcuts/folders - can't launch or open without inputting a password.
@@ -208,6 +209,7 @@ Additional core hotkeys to be added later.
 - Icon and font scaling
 - Select a field for find
 - Alternative icon formats (ICO, PNG, JPG) (Unofficially supported already)
+- Background Image Loading ((Got Pillow already but strictly a nice to have later)
 
 ### Traps that will not be fallen into
 - Cloud Integration
