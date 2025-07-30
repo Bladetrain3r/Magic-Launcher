@@ -4,7 +4,7 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.4.1] - DONE - 2025-07-29
+## [0.3.4.1] - 2025-07-29
 
 ### UI Alteration
 - The power of a 9th column compels you!
@@ -172,14 +172,12 @@ Additional core hotkeys to be added later.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 - Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
-- Background Image Loading (got Pillow already innit? Just default to gray if none specified or PIL isn't around)
 
 ### Medium Term
-- Popup dialogue
 - Maintenance Menu via F11
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
-- Break shortcut handling out of main_window.py into it's own ui module
+- Break keyboard shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
@@ -187,10 +185,11 @@ Additional core hotkeys to be added later.
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
 - Figure out how to move interface construction out of main_window so it can focus on the rendering
-- Setup scripts for Linux and Windows not relying on Git clone.
-- Same for the update scripts. Or at least don't assume.
+- Setup scripts for Linux and Windows not relying on Git clone except maybe the first time.
+- Neaten up dependencies and imports for proper packaging.
 
 ### Long Term
+- Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
 - Fix Unicode support on Linux workspaces. If the terminal can display it the icon should work.
 - Two modes: Admin/Unlocked and Locked/User.
 - Password protected shortcuts/folders - can't launch or open without inputting a password.
@@ -208,6 +207,7 @@ Additional core hotkeys to be added later.
 - Icon and font scaling
 - Select a field for find
 - Alternative icon formats (ICO, PNG, JPG) (Unofficially supported already)
+- Background Image Loading ((Got Pillow already but strictly a nice to have later)
 
 ### Traps that will not be fallen into
 - Cloud Integration
@@ -216,10 +216,12 @@ Additional core hotkeys to be added later.
 - Extensions, plugins. The whole point is visual macros just run a script.
 - Shiny Syndrome. Never mind that I like blocky EGA aesthetics, every customisation comes with cost.
 - Universal glyph support for every combination of display manager, font, and text encoding under the sun. Unicode icons are best effort depending on your terminal and display window manager.
+- Built in tools for SSH sync, cloud upload, or profile migration between hosts. That can ALL be done with a simple shell script with a shortcut, and has a high bloatage risk.
 
 ### Priority Reminder
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
+- Speed is life. Creep is death. 
 - Any feature which violates these two principles *will* be dropped.
 - Also: Anything which might produce an unexpectedly slow response time is not part of the code
 

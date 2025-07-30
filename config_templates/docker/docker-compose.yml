@@ -1,0 +1,21 @@
+services:
+  magiclauncher:
+    container_name: my-gui
+    build:
+      context: .
+      args:
+        DOCKER_USER: ${DOCKER_USER}
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XAUTHORITY=${XAUTHORITY}
+    hostname: 'mygui'
+    volumes:
+        - /tmp/.X11-unix:/tmp/.X11-unix:ro
+        - /dev/dri:/dev/dri
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      appnet:
+        ipv4_address: 192.168.89.12
+    stdin_open: true
+    tty: true

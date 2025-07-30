@@ -22,6 +22,13 @@ Chain commands: ssh server 'cd /logs && tail -f app.log'
 Remote interactive sessions just work
 Minimal special handling needed
 
+## Docker Compose Database and a Frontend
+
+Spin up a container with MariaDB and a container with Dbeaver
+Preconfigure shortcuts to connect with Dbeaver to Mariadb
+Connect within the container network or outside
+Optional bind mounts can ensure persistence of queries
+
 ## Working Directory Intelligence
 
 Executables launch from their directory

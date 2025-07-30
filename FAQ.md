@@ -59,6 +59,13 @@ An easy workaround is to launch the application as the file target, and put the 
 ## Can I run multiple instances?
 Yes! Each environment gets its own config. Run it on Windows, WSL, Docker and SSH sessions simultaneously - they won't interfere with each other.
 
+## It says it's an X11 application but I use (Wayland/Windows/etc.)...
+X11 is **only** required when connecting through SSH, if running locally tkinter should hook into the local display manager without any issue.
+
+For Docker containers on Windows, you may need an X server (like VcXsrv or Xming) in order to pass the $DISPLAY variable through to the container. Alternatively, running through WSL2 often works more smoothly and is considered "best practice" for now.
+
+On native Windows, macOS, or Wayland systems, Magic Launcher runs without any X11 requirements.
+
 ## Is it secure?
 It only launches what you tell it to. No telemetry, no cloud features, no auto-updates. Your shortcuts stay on your machine.
 The app itself is intended to be entirely local and is as secure as the environment you run it from. If someone can launch Magic Launcher, they've already got terminal access with the same privileges.

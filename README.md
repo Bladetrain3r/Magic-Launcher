@@ -9,6 +9,9 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 [Demo 2](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
 [Demo 3](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Docker.mp4)
 
+For every new feature or change, the golden rule is first tested:
+Speed is life. Creep is death. 
+
 ## Features
 
 - **Lightweight**: Runs smoothly on systems with as little as 256MB RAM
@@ -34,10 +37,18 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 8. (Suggested) Check out the config templates (and sample scripts) to get started easily with some imports.
 
 ## Usage
-### Linux:
+### Linux:/MacOS
 ```
 python3 path_to/Magic-Launcher/launcher/app.py
 ```
+
+### Windows
+```
+python path_to\Magic-Launcher\launcher\app.py
+```
+
+#### Drag and Drop
+You can also drag and drop app.py onto the Python launch shortcut/exe.
 
 ### X11 Forwarding
 You can run Magic Launcher on a remote host if it's running an X server.
@@ -46,25 +57,32 @@ Best on a LAN but it will function over WAN too.
 ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
 ```
 
-#### Setup for easy launch
+#### Streams and framebuffer output to terminal
+Applications like Top or Vim may have issues or display problems with different terminal configurations.
+In general, it's better practice to use a loop that cleanly exits each time, than running a passive stream.
+e.g. instead of tail -f:
+```
+while true; do tail; sleep 1; clear; done
+```
+
+#### Setup for easy launch with WSL
 
 Paste to set up with git:
 - BASH (Linux/WSL)
 ```bash
+#!/bin/bash
 git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magic-Launcher
-echo 'alias magiclauncher="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
+echo 'alias magicl="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
 # To launch on login
-echo 'if [ -n "$DISPLAY" ]; then magiclauncher & fi' >> ~/.bashrc
+echo 'if [ -n "$DISPLAY" ]; then magicl & fi' >> ~/.bashrc
 ```
 
-- Powershell
-```powershell
-Write-Host "This is a placeholder."
-```
+#### Shortcut in Windows
+Create a shortcut to Python and append "app.py" to the end of the target.
+Under "Start in" paste the path to the folder containing app.py
+![Windows Shortcut](image-1.png)
 
-- CMD (iffy)
-```batch
-```
+A quick setup script is in the roadmap.
 
 #### Sample Scripts
 ### Bulk Import Example Scripts
