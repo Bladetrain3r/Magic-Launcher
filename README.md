@@ -9,6 +9,9 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 [Demo 2](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
 [Demo 3](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Docker.mp4)
 
+For every new feature or change, the golden rule is first tested:
+Speed is life. Creep is death. 
+
 ## Features
 
 - **Lightweight**: Runs smoothly on systems with as little as 256MB RAM
@@ -52,6 +55,14 @@ You can run Magic Launcher on a remote host if it's running an X server.
 Best on a LAN but it will function over WAN too.
 ```bash
 ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
+```
+
+#### Streams and framebuffer output to terminal
+Applications like Top or Vim may have issues or display problems with different terminal configurations.
+In general, it's better practice to use a loop that cleanly exits each time, than running a passive stream.
+e.g. instead of tail -f:
+```
+while true; do tail; sleep 1; clear; done
 ```
 
 #### Setup for easy launch with WSL

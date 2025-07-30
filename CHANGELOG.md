@@ -216,10 +216,12 @@ Additional core hotkeys to be added later.
 - Extensions, plugins. The whole point is visual macros just run a script.
 - Shiny Syndrome. Never mind that I like blocky EGA aesthetics, every customisation comes with cost.
 - Universal glyph support for every combination of display manager, font, and text encoding under the sun. Unicode icons are best effort depending on your terminal and display window manager.
+- Built in tools for SSH sync, cloud upload, or profile migration between hosts. That can ALL be done with a simple shell script with a shortcut, and has a high bloatage risk.
 
 ### Priority Reminder
 - Any feature needing more than a hundred or two lines of code is probably too complicated for a single feature
 - Bloat is the speed killer, bloat is the technical debt that leads to stagnation.
+- Speed is life. Creep is death. 
 - Any feature which violates these two principles *will* be dropped.
 - Also: Anything which might produce an unexpectedly slow response time is not part of the code
 
