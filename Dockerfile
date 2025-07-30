@@ -24,20 +24,22 @@ RUN echo "export DISPLAY=:0" >> /etc/profile
 RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 
 # Ensure the X11 display is accessible
-RUN echo "export DISPLAY=:0" >> /etc/profile
-RUN echo "export PYTHONUNBUFFERED=1" >> /etc/profile
 
 # Set up unprivileged user for security
 # RUN useradd -m magicuser
 # USER magicuser
 # Privileged user for demo purposes, DELETE THIS if copying this Dockerfile for production use
 
-WORKDIR /root/.local/share/Magic-Launcher/
-RUN mkdir -p /root/.config/launcher
+# If installing from a lone dockerfile
+# RUN git clone https://github.com/Bladetrain3r/Magic-Launcher.git /root/.local/share/Magic-Launcher && \
+#     echo 'alias mlmain="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
 
-COPY --chown=magicuser:magicuser . /root/.local/share/Magic-Launcher/
+# If installing from a cloned copy of the repository
+
+RUN mkdir -p /root/.config/launcher
+COPY --chown=root:root . /root/.local/share/Magic-Launcher/
 RUN chmod +x /root/.local/share/Magic-Launcher/launcher/app.py
-COPY --chown=magicuser:magicuser ./launcher/config/demo.json /root/.config/launcher/shortcuts.json
+COPY --chown=root:root ./launcher/config/demo.json /root/.config/launcher/shortcuts.json
 
 WORKDIR /root/.local/share/Magic-Launcher/
 
