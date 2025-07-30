@@ -173,13 +173,11 @@ Additional core hotkeys to be added later.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
 - Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
 
-
 ### Medium Term
-- Popup dialogue
 - Maintenance Menu via F11
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
-- Break shortcut handling out of main_window.py into it's own ui module
+- Break keyboard shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
 - Full screen (simple output scaling)
 - Import .lnk, .desktop and .shortcut files from system
