@@ -6,8 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [0.3.5] (OnDev)
 ### Quality of Life
-- Subtly extend shortcut label for those long shortcut names
-- Semi-hidden feature: Set MLHQ environment variable to scale the window and grid by two. 
+- Set horizontal resolution on launch by creating ~/.config/launcher/mlwidth.txt with the horizontal resolution you want.
+- Please note that this is flat scaling and will assume 16:9 proportions
 
 ### Bugfix
 - Icon_label_place set to fixed so that the box borders remain consistently sized when selecting an icon.
@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### UI Alteration
 - Allowed vertical resizing of window in Windows. Tiles excellently.
+- Subtly extend shortcut label for those long shortcut names
 
 ### Documentation
 - General improvements and expansions on setup guidance.
