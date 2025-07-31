@@ -14,14 +14,13 @@ from utils.logger import logger
 from ui.widgets import IconWidget, SearchBar
 from ui.dialogs import ItemDialog
 
-if os.environ.get('MLHQ'):
-    width_cols = 18  # or 16 for 4K
-    width_hq = 2560
-    height_hq = 1440
-else:
-    width_cols = ICON_GRID_COLUMNS
-    width_hq = WINDOW_WIDTH
-    height_hq = WINDOW_HEIGHT
+# Cursed but simple
+
+try:
+    with open(CONFIG_DIR / 'mlwidth.txt', 'r', encoding='utf-8') as f:
+        custom_width = int(f.read().strip())
+except (FileNotFoundError, TypeError, ValueError):
+    custom_width = WINDOW_WIDTH
 
 class MainWindow:
     """Main application window."""
@@ -29,11 +28,50 @@ class MainWindow:
     def __init__(self, root: tk.Tk):
 
         self.root = root
-        self.root.title(f"{config_manager.get_app_name()} v{VERSION}")
-        self.root.geometry(f"{width_hq}x{height_hq}")
-        self.root.resizable(False, True)
-        self.root.configure(bg=COLORS['dark_gray'])
+
+        try:
+            with open(CONFIG_DIR / 'mlwidth.txt', 'r', encoding='utf-8') as f:
+                custom_width = f.read().strip()
+        except FileNotFoundError:
+            custom_width = None
+
+        try:
+            actual_screen_width = self.root.winfo_screenwidth()
+            # If you're just gonna make us declare the type anyway...
+            if int(custom_width) >= 640 and int(custom_width) < int(actual_screen_width):
+                multiplier = int(custom_width) / WINDOW_WIDTH
+                self.width_cols = int(multiplier * ICON_GRID_COLUMNS)
+                self.width_hq = int(custom_width)
+                self.height_hq = int(WINDOW_HEIGHT * multiplier)
+            # Safe Mode if screen width smaller than default
+            # This is a fallback for very small screens
+            elif actual_screen_width < WINDOW_WIDTH:
+                self.width_cols = 4
+                self.width_hq = 640
+                self.height_hq = 480
+            elif actual_screen_width < 640:
+                print("Warning: Screen width is less than 640px, unsupported resolution.")
+                logger.warning("Screen width is less than 640px, unexpected results may occur.")
+            else:
+                # Catch-all for any other issues
+                self.width_cols = ICON_GRID_COLUMNS
+                self.width_hq = WINDOW_WIDTH
+                self.height_hq = WINDOW_HEIGHT
+        except (ValueError, TypeError):
+            self.width_cols = ICON_GRID_COLUMNS
+            self.width_hq = WINDOW_WIDTH
+            self.height_hq = WINDOW_HEIGHT
+
         
+        logger.info(f"Using {self.width_cols} columns, {self.width_hq}x{self.height_hq} resolution")
+        logger.info(f"Screen width: {self.root.winfo_screenwidth()}")
+        logger.info(f"Screen height: {self.root.winfo_screenheight()}")
+
+        self.root.title(f"{config_manager.get_app_name()} v{VERSION}")
+        self.root.geometry(f"{self.width_hq}x{self.height_hq}")
+        self.root.resizable(True, True)
+        self.root.configure(bg=COLORS['dark_gray'])
+
         # State
         self.shortcuts: Dict[str, BaseItem] = {}
         self.current_path: List[str] = []
@@ -178,6 +216,16 @@ class MainWindow:
             widget.destroy()
         
         items_to_show = self._get_items_to_show()
+
+        # Get the width of the actual window
+        root_window_width = self.root.winfo_width()
+
+        # Fix preventing all icons from rendering in one column on initial load
+        if root_window_width < 640:
+            root_window_width = self.width_hq
+
+        multiplier = int(root_window_width) / WINDOW_WIDTH
+        self.width_cols = int(multiplier * ICON_GRID_COLUMNS)
         
         # Create grid
         row, col = 0, 0
@@ -189,7 +237,8 @@ class MainWindow:
             widget.grid(row=row, column=col, padx=10, pady=10, sticky='n')
             
             col += 1
-            if col >= width_cols:
+
+            if col >= self.width_cols:
                 col = 0
                 row += 1
         
