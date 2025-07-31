@@ -14,14 +14,23 @@ from utils.logger import logger
 from ui.widgets import IconWidget, SearchBar
 from ui.dialogs import ItemDialog
 
+if os.environ.get('MLHQ'):
+    width_cols = 18  # or 16 for 4K
+    width_hq = 2560
+    height_hq = 1440
+else:
+    width_cols = ICON_GRID_COLUMNS
+    width_hq = WINDOW_WIDTH
+    height_hq = WINDOW_HEIGHT
 
 class MainWindow:
     """Main application window."""
     
     def __init__(self, root: tk.Tk):
+
         self.root = root
         self.root.title(f"{config_manager.get_app_name()} v{VERSION}")
-        self.root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
+        self.root.geometry(f"{width_hq}x{height_hq}")
         self.root.resizable(False, True)
         self.root.configure(bg=COLORS['dark_gray'])
         
@@ -180,7 +189,7 @@ class MainWindow:
             widget.grid(row=row, column=col, padx=10, pady=10, sticky='n')
             
             col += 1
-            if col >= ICON_GRID_COLUMNS:
+            if col >= width_cols:
                 col = 0
                 row += 1
         

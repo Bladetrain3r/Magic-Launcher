@@ -5,7 +5,7 @@ from typing import Callable, Optional, List
 import os
 from shutil import which
 
-from constants import COLORS, ICON_SIZE
+from constants import COLORS, ICON_SIZE, LABEL_BASE_WIDTH
 from models import BaseItem, Folder, Shortcut
 from utils.icons import icon_manager
 from utils.logger import logger
@@ -64,14 +64,14 @@ class IconWidget(tk.Frame):
         # Get label width based on name length
         name_len = len(self.item.name)
         if name_len >= 12:
-            label_width = 24
+            label_width = LABEL_BASE_WIDTH * 2
         else:
-            label_width = 12
-        
+            label_width = LABEL_BASE_WIDTH
+
         # Name label
         self.name_label = tk.Label(self, text=self.item.name, bg=COLORS['blue'], 
                                   fg=COLORS['white'], font=('DejaVu Sans Mono', 10), 
-                                  width=label_width, anchor='center', padx=10)
+                                  width=label_width, anchor='center')
         self.name_label.pack()
 
     def set_highlighted(self, highlighted: bool):

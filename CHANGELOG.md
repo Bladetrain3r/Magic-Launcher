@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [0.3.5] (OnDev)
 ### Quality of Life
 - Subtly extend shortcut label for those long shortcut names
+- Semi-hidden feature: Set MLHQ environment variable to scale the window and grid by two. 
 
 ### Bugfix
 - Icon_label_place set to fixed so that the box borders remain consistently sized when selecting an icon.
