@@ -4,7 +4,7 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.5] (PENDING)
+## [0.3.5] (OnDev)
 ### Quality of Life
 - Subtly extend shortcut label for those long shortcut names
 
