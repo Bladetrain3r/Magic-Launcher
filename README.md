@@ -1,4 +1,5 @@
 # Magic Launcher - An OS-Free Desktop
+```
 
 ╔════════════════════════════════════════════════════════╗
 ║ ◼ STOP  ℹ️         Magic Launcher              + FIND ║
@@ -12,11 +13,12 @@
 ║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
 ║                                                        ║
 ║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
-║  │ ░ │  │ ▒ │  │ ▓ │  │ ∞ │  │ √ │  │ ⏯ │  │ X │       ║
+║  │ ░ │  │ ▒ │  │ ▓ │  │ ∞ │  │ √ │  │⏵ │  │ X │       ║
 ║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
 ║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
 ║                                                        ║
 ╚════════════════════════════════════════════════════════╝
+```
 
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
