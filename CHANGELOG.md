@@ -4,7 +4,9 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.4.2] - 2025-07-31 (PENDING)
+## [0.3.x] (PENDING)
+
+## [0.3.4.2] - 2025-07-31
 
 ### Tagline
 - Have decided my cheeky but not entirely untrue tagline will be: "An OS-free Desktop!"
@@ -181,7 +183,7 @@ Additional core hotkeys to be added later.
 - Only render unique shortcuts in search - if [name/target file/args] match only the first result is shown.
    - This way people can have copies of shortcuts in different folders if there is overlap, e.g. "Favorites" might share multiple shortcuts or you might have a game listed under "GOG" and "Action" folders.
 - Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
-- Secure String shortcut type
+- Secure String shortcut type (maybe - keepass or a simple script can handle secret retrieval)
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
