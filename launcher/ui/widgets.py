@@ -5,7 +5,7 @@ from typing import Callable, Optional, List
 import os
 from shutil import which
 
-from constants import COLORS, ICON_SIZE, TEXT_WIDTH_THRESHOLDS
+from constants import COLORS, ICON_SIZE
 from models import BaseItem, Folder, Shortcut
 from utils.icons import icon_manager
 from utils.logger import logger
@@ -55,23 +55,23 @@ class IconWidget(tk.Frame):
             font=('DejaVu Sans Mono', 36, 'bold')  # Default font if available
             )
         
-        self.icon_label.place(relx=0.5, rely=0.5, anchor='center')
-        
+        self.icon_label.place(relx=0.5, rely=0.5, anchor='center', width=ICON_SIZE-8, height=ICON_SIZE-8)
         # Check if shortcut is broken and add red X overlay
         if isinstance(self.item, Shortcut) and self.item.path:
             if not self._is_valid_shortcut():
                 self._add_broken_overlay()
 
-        label_width = 12  # default
-        for threshold, width in TEXT_WIDTH_THRESHOLDS:
-            if len(self.item.name) > threshold:
-                label_width = width
-                break
+        # Get label width based on name length
+        name_len = len(self.item.name)
+        if name_len >= 12:
+            label_width = 24
+        else:
+            label_width = 12
         
         # Name label
         self.name_label = tk.Label(self, text=self.item.name, bg=COLORS['blue'], 
-                                  fg=COLORS['white'], font=('Courier', 10), 
-                                  width=label_width, anchor='center')
+                                  fg=COLORS['white'], font=('DejaVu Sans Mono', 10), 
+                                  width=label_width, anchor='center', padx=10)
         self.name_label.pack()
 
     def set_highlighted(self, highlighted: bool):

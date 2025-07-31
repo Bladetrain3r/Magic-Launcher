@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Quality of Life
 - Subtly extend shortcut label for those long shortcut names
 
+### Bugfix
+- Icon_label_place set to fixed so that the box borders remain consistently sized when selecting an icon.
+
 ## [0.3.4.2] - 2025-07-31
 
 ### Tagline

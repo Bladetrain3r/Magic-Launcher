@@ -53,10 +53,3 @@ ICON_FILTERS = [
     ("BMP files", "*.bmp"),
     ("All files", "*.*")
 ]
-
-TEXT_WIDTH_THRESHOLDS = [
-    (30, 32),  # >30 chars: 32 char width
-    (24, 26),  # >24 chars: 26 char width  
-    (18, 20),  # >18 chars: 20 char width
-    (12, 16),  # >12 chars: 16 char width
-]
