@@ -1,9 +1,27 @@
 # Magic Launcher - An OS-Free Desktop
 
+╔════════════════════════════════════════════════════════╗
+║ ◼ STOP  ℹ️         Magic Launcher              + FIND ║
+╠════════════════════════════════════════════════════════╣
+║ HOME                                                   ║
+╠════════════════════════════════════════════════════════╣
+║                                                        ║
+║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
+║  │ D │  │ A │  │ G │  │G G│  │ T │  │ Ω │  │ W │       ║
+║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
+║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
+║                                                        ║
+║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
+║  │ ░ │  │ ▒ │  │ ▓ │  │ ∞ │  │ √ │  │ ⏯ │  │ X │       ║
+║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
+║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝
+
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
 
-![Main Interface](image.png)
+
 
 [Demo 1](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Startup.mp4)
 [Demo 2](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
@@ -106,6 +124,8 @@ A quick setup script is in the roadmap.
 #### Default Install Path
 While it can be run from anywhere, the default path will be ~/.local/share/Magic-Launcher
 This is to make auto-update scripts a bit easier and so the working directory can be more consistent.
+
+![Main Interface](image.png)
 
 ### Keyboard Shortcuts
 - **Left/Right**: Select previous/next shortcut
