@@ -4,6 +4,28 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [0.3.5] (OnDev)
+### Quality of Life
+- Subtly extend shortcut label for those long shortcut names
+- Semi-hidden feature: Set MLHQ environment variable to scale the window and grid by two. 
+
+### Bugfix
+- Icon_label_place set to fixed so that the box borders remain consistently sized when selecting an icon.
+
+## [0.3.4.2] - 2025-07-31
+
+### Tagline
+- Have decided my cheeky but not entirely untrue tagline will be: "An OS-free Desktop!"
+
+### UI Alteration
+- Allowed vertical resizing of window in Windows. Tiles excellently.
+
+### Documentation
+- General improvements and expansions on setup guidance.
+
+### Examples
+- Additional sample scripts and a functional docker compose template for sidecar loading
+
 ## [0.3.4.1] - 2025-07-29
 
 ### UI Alteration
@@ -162,11 +184,13 @@ Additional core hotkeys to be added later.
 - Edit Title Bar (DONE - 0.3.4)
 - --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
 - Config Validator and import/export util (Validator/Import scripts instead, keep it out of the app. Export is a shortcut to the local copy command.) (DONE - 0.3.4)
+- Extend text bar for long shortcut names (PENDING RELEASE - 0.3.5)
 
 ### Short Term (Quick Implement)
-- Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
-- Multiple launcher profiles since it's related to reload.
-- Secure String shortcut type
+- Only render unique shortcuts in search - if [name/target file/args] match only the first result is shown.
+   - This way people can have copies of shortcuts in different folders if there is overlap, e.g. "Favorites" might share multiple shortcuts or you might have a game listed under "GOG" and "Action" folders.
+- SIMPLE auto reorder of the current level only (load the level in as a dict, order it by type first, then alphabetical, the re-insert in it's former spot?). Bind to Ctrl+Alt+S.
+- Secure String shortcut type (maybe - keepass or a simple script can handle secret retrieval)
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
 - Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
@@ -175,6 +199,7 @@ Additional core hotkeys to be added later.
 
 ### Medium Term
 - Maintenance Menu via F11
+- Point to shortcuts file (--profile I guess)
 - Add startup check to confirm it's running from ~/.local/share/Magic-Launcher/
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break keyboard shortcut handling out of main_window.py into it's own ui module
@@ -190,6 +215,7 @@ Additional core hotkeys to be added later.
 
 ### Long Term
 - Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
+- Nail Down New User Experience and Default Shortcuts
 - Fix Unicode support on Linux workspaces. If the terminal can display it the icon should work.
 - Two modes: Admin/Unlocked and Locked/User.
 - Password protected shortcuts/folders - can't launch or open without inputting a password.
@@ -207,7 +233,16 @@ Additional core hotkeys to be added later.
 - Icon and font scaling
 - Select a field for find
 - Alternative icon formats (ICO, PNG, JPG) (Unofficially supported already)
-- Background Image Loading ((Got Pillow already but strictly a nice to have later)
+- Background Image Loading (Got Pillow already but strictly a nice to have later)
+
+### 1.0 and Beyond
+I intend to keep the application focused but continue adding features IF they contribute meaningfully to solving the core problem.
+
+#### The Magic Launcher Paradigm
+The Magic Launcher paradigm is one which emphasises stripping a project down to the core problem it solves.
+First solve that, then consider the impact on it's ability to solve that when making changes.
+This sounds obvious but anyone who has worked on enterprise scale software stacks understands that, when filtered through multiple teams and motivations, the core problem becomes murky.
+Magic Launcher, being the name behind my paradigm, shall aim to set a strong example of what minimalism and focus can do for software ease of use and capability.
 
 ### Traps that will not be fallen into
 - Cloud Integration
@@ -300,22 +335,8 @@ Not really secure (they can add a shortcut to edit shortcuts.json and get all th
 
 #### Profiles
 ```
-Storage: .config/launcher/profiles/profilename.json
-Default: ./config/launcher/profiles/default.json
-Profile manager in F11 menu
-Reloads config from optional path parameter and refreshes the display.
-Dialogue Example:
-┌─ Profile Manager ─────────┐
-│ Current: default          │
-│                           │
-│ [Work     ▼]              │
-│                           │
-│ [Switch] [New] [Delete]   │
-└───────────────────────────┘
-
-Can then create a shortcut sorta like "path: magicl args: --profile games" to swop out to any profile
-Maybe create a "revert to default" hotkey, otherwise relaunching without a profile param will do the trick.
-Note: Generate default.json from config/default.json if not present on launch.
+Just --profile pointing to a path instead of the default shortcuts.json
+Maybe 6 lines, few complications.
 ```
 
 ### 1-9 Shortcut Keys

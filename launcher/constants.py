@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # Version
-VERSION = "0.3.4.1"
+VERSION = "0.3.5 InDev"
 
 APP_NAME = "Shouldn't see this, use ConfigManager.get_app_name() instead"
 
@@ -18,6 +18,7 @@ WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 ICON_SIZE = 80
 ICON_GRID_COLUMNS = 9
+LABEL_BASE_WIDTH = 10  # Base width for labels, can be adjusted based on name length
 
 # 16 color CGA/EGA palette
 COLORS = {
