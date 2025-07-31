@@ -40,7 +40,7 @@ Speed is life. Creep is death.
 CPU: Can it run Python 3?
 Python: 3.6+ but 3.9+ preferred.
 RAM: About 20MB used at default scale. May increase with large or many image icons.
-GPU: Tkinter compatible software or hardware display output at @640x480 or higher.
+GPU: Tkinter compatible software or hardware display output @ 640x480 or higher.
 VRAM: It does need a little to render the UI but flat colors and blocks mean 32-64MB of VRAM is already more than enough.
 Disk: About 3MB discounting dependency installations
 OS: Tested on Windows 10, Windows 11, Ubuntu 20.04-24.04, Debian 12, Alpine, Fedora, Raspbian (Buster)
