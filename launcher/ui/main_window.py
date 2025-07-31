@@ -23,8 +23,11 @@ class MainWindow:
 
         self.root = root
 
-        with open(CONFIG_DIR / 'mlwidth.txt', 'r', encoding='utf-8') as f:
-            custom_width = f.read().strip()
+        try:
+            with open(CONFIG_DIR / 'mlwidth.txt', 'r', encoding='utf-8') as f:
+                custom_width = f.read().strip()
+        except FileNotFoundError:
+            custom_width = None
 
         try:
             actual_screen_width = self.root.winfo_screenwidth()
@@ -33,7 +36,17 @@ class MainWindow:
                 multiplier = int(custom_width) / WINDOW_WIDTH
                 self.width_cols = int(multiplier * ICON_GRID_COLUMNS)
                 self.width_hq = int(custom_width)
-                self.height_hq = int(WINDOW_HEIGHT * multiplier)       
+                self.height_hq = int(WINDOW_HEIGHT * multiplier)
+            # Safe Mode if screen width smaller than default
+            # This is a fallback for very small screens
+            elif actual_screen_width < WINDOW_WIDTH:
+                self.width_cols = 4
+                self.width_hq = 640
+                self.height_hq = 480
+            elif actual_screen_width < 640:
+                print("Warning: Screen width is less than 640px, unsupported resolution.")
+                logger.error("Screen width is less than 640px, terminating.")
+                self.root.quit()
             else:
                 self.width_cols = ICON_GRID_COLUMNS
                 self.width_hq = WINDOW_WIDTH

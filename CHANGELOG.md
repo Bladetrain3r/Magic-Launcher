@@ -4,15 +4,14 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.5] (OnDev)
+## [0.3.5] - 2025-07-31
 ### Quality of Life
 - Set horizontal resolution on launch by creating ~/.config/launcher/mlwidth.txt with the horizontal resolution you want.
-- Please note that this is flat scaling and will assume 16:9 proportions
+- Please note that this is flat scaling, but vertical resizing is allowed. WDDM does tile but the horizontal tenancy will be fixed.
+- Dynamic horizontal grid scaling not planned, dynamic horizontal window scaling not supported. This isn't a window manager or a full desktop environment, it's a desktop in a far more classical sense.
 
 ### Bugfix
 - Icon_label_place set to fixed so that the box borders remain consistently sized when selecting an icon.
-
-## [0.3.4.2] - 2025-07-31
 
 ### Tagline
 - Have decided my cheeky but not entirely untrue tagline will be: "An OS-free Desktop!"
@@ -352,7 +351,7 @@ F10 filters for only the assigned shortcuts, escape to return to previous screen
 ```
 
 ## What is 1.0?
-When three criteria are met:
+When several criteria are met:
 - Stable, low bugs, passes a code review without too many raised problems.
 - No features or design changes left that aren't explicitly post-1.0 (bit flexible but roadmap as of 0.3 is the core planned featureset)
 - Packages available on Pypi, apt/snap, yum, apk and chocolatey
