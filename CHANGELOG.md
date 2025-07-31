@@ -7,8 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [0.3.5] - 2025-07-31
 ### Quality of Life
 - Set horizontal resolution on launch by creating ~/.config/launcher/mlwidth.txt with the horizontal resolution you want.
-- Please note that this is flat scaling, but vertical resizing is allowed. WDDM does tile but the horizontal tenancy will be fixed.
-- Dynamic horizontal grid scaling not planned, dynamic horizontal window scaling not supported. This isn't a window manager or a full desktop environment, it's a desktop in a far more classical sense.
+- Dynamic window resizing now supported, please hit Ctrl+R to recalculate the grid arrangement
 
 ### Bugfix
 - Icon_label_place set to fixed so that the box borders remain consistently sized when selecting an icon.
@@ -184,7 +183,8 @@ Additional core hotkeys to be added later.
 - Edit Title Bar (DONE - 0.3.4)
 - --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
 - Config Validator and import/export util (Validator/Import scripts instead, keep it out of the app. Export is a shortcut to the local copy command.) (DONE - 0.3.4)
-- Extend text bar for long shortcut names (PENDING RELEASE - 0.3.5)
+- Extend text bar for long shortcut names (DONE - 0.3.5)
+- Window and Grid size scaling (DONE - 0.3.5)
 
 ### Short Term (Quick Implement)
 - Only render unique shortcuts in search - if [name/target file/args] match only the first result is shown.
@@ -224,7 +224,6 @@ Additional core hotkeys to be added later.
 - Arrangement Editor
 - Gamepad/controller support
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
-- Grid size scaling
 - Neaten up widgets
 - Create and include default maintenance and some fun stat scripts to set up as shortcuts.
 

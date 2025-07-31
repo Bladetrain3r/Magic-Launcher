@@ -16,6 +16,12 @@ from ui.dialogs import ItemDialog
 
 # Cursed but simple
 
+try:
+    with open(CONFIG_DIR / 'mlwidth.txt', 'r', encoding='utf-8') as f:
+        custom_width = int(f.read().strip())
+except (FileNotFoundError, TypeError, ValueError):
+    custom_width = WINDOW_WIDTH
+
 class MainWindow:
     """Main application window."""
     
@@ -48,6 +54,7 @@ class MainWindow:
                 logger.error("Screen width is less than 640px, terminating.")
                 self.root.quit()
             else:
+                # Catch-all for any other issues
                 self.width_cols = ICON_GRID_COLUMNS
                 self.width_hq = WINDOW_WIDTH
                 self.height_hq = WINDOW_HEIGHT
@@ -63,7 +70,7 @@ class MainWindow:
 
         self.root.title(f"{config_manager.get_app_name()} v{VERSION}")
         self.root.geometry(f"{self.width_hq}x{self.height_hq}")
-        self.root.resizable(False, True)
+        self.root.resizable(True, True)
         self.root.configure(bg=COLORS['dark_gray'])
 
         # State
@@ -210,6 +217,11 @@ class MainWindow:
             widget.destroy()
         
         items_to_show = self._get_items_to_show()
+        # Get the width of the actual window not the widget
+        root_window_width = self.root.winfo_width()
+
+        multiplier = int(root_window_width) / WINDOW_WIDTH
+        self.width_cols = int(multiplier * ICON_GRID_COLUMNS)
         
         # Create grid
         row, col = 0, 0
@@ -221,6 +233,7 @@ class MainWindow:
             widget.grid(row=row, column=col, padx=10, pady=10, sticky='n')
             
             col += 1
+
             if col >= self.width_cols:
                 col = 0
                 row += 1
