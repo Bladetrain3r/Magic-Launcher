@@ -22,7 +22,7 @@ class MainWindow:
         self.root = root
         self.root.title(f"{config_manager.get_app_name()} v{VERSION}")
         self.root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
-        self.root.resizable(False, False)
+        self.root.resizable(False, True)
         self.root.configure(bg=COLORS['dark_gray'])
         
         # State

@@ -1,4 +1,4 @@
-# Magic Launcher - Your Shortcut Palette
+# Magic Launcher - An OS-Free Desktop
 
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
@@ -72,9 +72,9 @@ Paste to set up with git:
 ```bash
 #!/bin/bash
 git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magic-Launcher
-echo 'alias magicl="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
+echo 'alias mlmain="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
 # To launch on login
-echo 'if [ -n "$DISPLAY" ]; then magicl & fi' >> ~/.bashrc
+echo 'if [ -n "$DISPLAY" ]; then mlmain & fi' >> ~/.bashrc
 ```
 
 #### Shortcut in Windows
