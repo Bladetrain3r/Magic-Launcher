@@ -15,7 +15,7 @@ Speed is life. Creep is death.
 ## Features
 
 - **Lightweight**: Runs smoothly on systems with as little as 256MB RAM
-- **SSH/X11 Friendly**: 720p resolution, minimal graphics
+- **SSH/X11 Friendly**: Scales down to 640x480 in a pinch and updates the display as necessary, not constantly.
 - **Retro Aesthetic**: 16-color CGA/EGA palette, DOS-style UI - but full colour display for when you want something more.
 - **Nested Folders**: Organize shortcuts in hierarchical folders
 - **Search**: Recursive search across all folders (Ctrl+F)
@@ -43,7 +43,7 @@ RAM: About 20MB used at default scale. May increase with large or many image ico
 GPU: Tkinter compatible software or hardware display output @ 640x480 or higher.
 VRAM: It does need a little to render the UI but flat colors and blocks mean 32-64MB of VRAM is already more than enough.
 Disk: About 3MB discounting dependency installations
-OS: Tested on Windows 10, Windows 11, Ubuntu 20.04-24.04, Debian 12, Alpine, Fedora, Raspbian (Buster)
+OS: Tested on Windows 10, Windows 11, Ubuntu 20.04-24.04, Debian 12, Alpine (Docker), Fedora, Raspbian (Buster), Amazon Linux 2
 
 While I don't officially support any OS as the entire point is OS agnosticism, please do submit an issue report or send me a mail (zerofuchssoftware@gmail.com) should you be trying to get it working with something unusual.
 While untested, I do not anticipate major problems with Windows 7/8/10, MacOS, or even hypothetically Android - although I am unsure if default virtual keyboards would hook in on a phone.
