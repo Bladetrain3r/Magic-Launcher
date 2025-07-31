@@ -51,8 +51,7 @@ class MainWindow:
                 self.height_hq = 480
             elif actual_screen_width < 640:
                 print("Warning: Screen width is less than 640px, unsupported resolution.")
-                logger.error("Screen width is less than 640px, terminating.")
-                self.root.quit()
+                logger.warning("Screen width is less than 640px, unexpected results may occur.")
             else:
                 # Catch-all for any other issues
                 self.width_cols = ICON_GRID_COLUMNS
@@ -217,8 +216,13 @@ class MainWindow:
             widget.destroy()
         
         items_to_show = self._get_items_to_show()
-        # Get the width of the actual window not the widget
+
+        # Get the width of the actual window
         root_window_width = self.root.winfo_width()
+
+        # Fix preventing all icons from rendering in one column on initial load
+        if root_window_width < 640:
+            root_window_width = self.width_hq
 
         multiplier = int(root_window_width) / WINDOW_WIDTH
         self.width_cols = int(multiplier * ICON_GRID_COLUMNS)
