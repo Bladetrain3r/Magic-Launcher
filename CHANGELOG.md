@@ -4,7 +4,9 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [0.3.x] (PENDING)
+## [0.3.5] (PENDING)
+### Quality of Life
+- Subtly extend shortcut label for those long shortcut names
 
 ## [0.3.4.2] - 2025-07-31
 
@@ -178,11 +180,12 @@ Additional core hotkeys to be added later.
 - Edit Title Bar (DONE - 0.3.4)
 - --reload parameter for instant config refresh without restart (DONE - Bound to Ctrl+R instead - 0.3.4)
 - Config Validator and import/export util (Validator/Import scripts instead, keep it out of the app. Export is a shortcut to the local copy command.) (DONE - 0.3.4)
+- Extend text bar for long shortcut names (PENDING RELEASE - 0.3.5)
 
 ### Short Term (Quick Implement)
 - Only render unique shortcuts in search - if [name/target file/args] match only the first result is shown.
    - This way people can have copies of shortcuts in different folders if there is overlap, e.g. "Favorites" might share multiple shortcuts or you might have a game listed under "GOG" and "Action" folders.
-- Extend text bar for long shortcut names (cap at say 32 chars, then it just overruns as now)
+- SIMPLE auto reorder of the current level only (load the level in as a dict, order it by type first, then alphabetical, the re-insert in it's former spot?). Bind to Ctrl+Alt+S.
 - Secure String shortcut type (maybe - keepass or a simple script can handle secret retrieval)
 - Add scid (shortcut id) to BaseItem in models.py
 - Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
@@ -208,6 +211,7 @@ Additional core hotkeys to be added later.
 
 ### Long Term
 - Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
+- Nail Down New User Experience and Default Shortcuts
 - Fix Unicode support on Linux workspaces. If the terminal can display it the icon should work.
 - Two modes: Admin/Unlocked and Locked/User.
 - Password protected shortcuts/folders - can't launch or open without inputting a password.
