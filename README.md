@@ -112,7 +112,8 @@ echo 'if [ -n "$DISPLAY" ]; then mlmain & fi' >> ~/.bashrc
 
 Quick Setup in Windows Powershell:
 ```From Powershell
-git clone "https://github.com/Bladetrain3r/Magic-Launcher.git" ~/.local/share/Magic-Launcher; python ~/.local/share/Magic-Launcher/launcher/app.py
+git clone "https://github.com/Bladetrain3r/Magic-Launcher.git" ~/.local/share/Magic-Launcher
+python ~/.local/share/Magic-Launcher/launcher/app.py
 ```
 
 #### Shortcut in Windows
