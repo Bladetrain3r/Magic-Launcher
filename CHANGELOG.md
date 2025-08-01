@@ -204,8 +204,7 @@ Additional core hotkeys to be added later.
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break keyboard shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
-- Full screen (simple output scaling)
-- Import .lnk, .desktop and .shortcut files from system
+
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
@@ -214,7 +213,6 @@ Additional core hotkeys to be added later.
 - Neaten up dependencies and imports for proper packaging.
 
 ### Long Term
-- Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
 - Nail Down New User Experience and Default Shortcuts
 - Fix Unicode support on Linux workspaces. If the terminal can display it the icon should work.
 - Two modes: Admin/Unlocked and Locked/User.
@@ -226,14 +224,20 @@ Additional core hotkeys to be added later.
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
 - Neaten up widgets
 - Create and include default maintenance and some fun stat scripts to set up as shortcuts.
+- Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
+    - I may glob the app into one file as a single script package so it can be deployed via a simple curl piped into python. Closest we want to a package.
+    - If it's coded right, it'll still be a megabyte or two at most, and will force better organisational patterns for classes and functions to maintain coherence.
 
 ### Super Maybe
+- Import .lnk, .desktop and .shortcut files from system (Shiny, requires per platform logic)
+- Full screen (simple output scaling). You can already maximize it and fullscreen focus is frankly, a fucky affair.
 - Recent items tracking
 - Icon and font scaling
 - Select a field for find
 - Alternative icon formats (ICO, PNG, JPG) (Unofficially supported already)
 - Background Image Loading (Got Pillow already but strictly a nice to have later)
-
+- Super safe mode/ML-Lite. Pure text with lowest denominator font support.
+ 
 ### 1.0 and Beyond
 I intend to keep the application focused but continue adding features IF they contribute meaningfully to solving the core problem.
 

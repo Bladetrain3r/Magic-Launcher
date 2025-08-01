@@ -1,6 +1,5 @@
 # Magic Launcher - An OS-Free Desktop
 
-
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
 
@@ -12,6 +11,33 @@ For every new feature or change, the golden rule is first tested:
 Speed is life. Creep is death. 
 
 ![Main Interface](image.png)
+
+## What Magic Launcher Actually Is
+Strip away everything and Magic Launcher is:
+
+1) A visual representation of a JSON file
+2) That runs subprocess.run() when clicked
+3) Everything else is gravy.
+
+That's ~2000 lines because:
+
+Drawing rectangles takes code
+Handling clicks takes code
+Reading JSON takes code
+Quality of life CAN improve how something performs it's core function.
+
+But the core is maybe 20 lines. Everything else is UI politeness.
+
+I love automating things, and there are many wonderful tools to enable this. But they're all a pain to use in one way or another. 
+Magic Launcher is automation, in the most accessible form I can muster.
+
+## The Goal
+Every extra step or stop to look around is extra cognitive overhead, every new messy way of organising an additional layer on top of complex enough systems on their own.
+The goal is to make any action you can perform on your computer, or almost, something that can be translated into a click and saved for re-use.
+You click, it goes. All else is to aid this objective, or it is cut.
+
+I am not averse to quality of life, and as the roadmap should indicate I have clear ideas of what constitutes a reasonably comprehensive featureset for such a project.
+But if it hits a point where I have to do more than click once on my task bar, type a few letters, and press enter, Magic Launcher has slipped from it's path.
 
 ## Features
 
