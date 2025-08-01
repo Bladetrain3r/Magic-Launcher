@@ -98,6 +98,8 @@ while true; do tail; sleep 1; clear; done
 
 #### Setup for easy launch with WSL
 
+#### For Git Users
+
 Paste to set up with git:
 - BASH (Linux/WSL)
 ```bash
@@ -108,12 +110,19 @@ echo 'alias mlmain="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~
 echo 'if [ -n "$DISPLAY" ]; then mlmain & fi' >> ~/.bashrc
 ```
 
+Quick Setup in Windows Powershell:
+```From Powershell
+git clone "https://github.com/Bladetrain3r/Magic-Launcher.git" ~/.local/share/Magic-Launcher; python ~/.local/share/Magic-Launcher/launcher/app.py
+```
+
 #### Shortcut in Windows
 Create a shortcut to Python and append "app.py" to the end of the target.
 Under "Start in" paste the path to the folder containing app.py
 ![Windows Shortcut](image-1.png)
 
 A quick setup script is in the roadmap.
+
+![Main Interface](image.png)
 
 #### Sample Scripts
 ### Bulk Import Example Scripts
@@ -125,8 +134,6 @@ A quick setup script is in the roadmap.
 #### Default Install Path
 While it can be run from anywhere, the default path will be ~/.local/share/Magic-Launcher
 This is to make auto-update scripts a bit easier and so the working directory can be more consistent.
-
-![Main Interface](image.png)
 
 ### Keyboard Shortcuts
 - **Left/Right**: Select previous/next shortcut
