@@ -30,19 +30,19 @@ The Magic Launcher Paradigm is a development philosophy that prioritizes simplic
    - If it doesn't start instantly, it's too heavy
    - If it needs more than 50MB RAM, reconsider the approach
    - Every feature must justify its performance cost
-   ~~What happened to the spirit of 640k is enough?~~
+   - ~~What happened to the spirit of 640k is enough?~~
 
 2. **OS-Free Thinking**
    - Works the same on a Raspberry Pi as on a gaming rig
    - No OS-specific dependencies or behaviors
    - File-based configuration over registry/system settings
-   ~~What happened to the environment serving the user?~~
+   - ~~What happened to the environment serving the user?~~
 
 3. **Focused Functionality**
    - Do one thing exceptionally well
    - Resist feature creep like your life depends on it
    - If you can't explain it in one sentence, it's too complex
-   ~~We Aren't Magpies~~
+   - ~~We Aren't Magpies~~
 
 ## Technical Standards
 
@@ -103,7 +103,7 @@ class ApplicationLauncherFactory:
    - What worked in 1985 still works today
    - Pixel-perfect beats anti-aliased
    - Function defines form
-   ~~Fidelity is great, aesthetics are invaluable~~
+   - ~~Fidelity is great, aesthetics are invaluable~~
 
 ## Implementation Guidelines
 
@@ -125,7 +125,7 @@ app_name/
 - Mouse support as backup, not primary
 - No context menus deeper than one level
 - No tooltips required to understand functionality
-~~Manuals are rarely a reliable means to productivity, self documenting code, processes that work on their face, and contextual obviousness help more~~
+- ~~Manuals are rarely a reliable means to productivity, self documenting code, processes that work on their face, and contextual obviousness help more~~
 
 ## Examples of the Paradigm
 
@@ -134,14 +134,14 @@ app_name/
 - **Features**: Open, display, zoom
 - **Size**: 200 lines of code
 - **Dependencies**: None beyond stdlib
-~~Dependency Hell. Nuff Said.~~
+- ~~Dependency Hell. Nuff Said.~~
 
 ### Bad ML-Paradigm App:
 - **Purpose**: Display text files
 - **Features**: Syntax highlighting, themes, plugins, cloud sync, AI suggestions
 - **Size**: 50,000 lines of code  
 - **Dependencies**: 47 npm packages
-~~The Code Wants You to Kill It~~
+- ~~The Code Wants You to Kill It~~
 
 ## The Litmus Tests
 
@@ -184,7 +184,7 @@ Somewhere between 2008 and now, we collectively agreed to the most abusive relat
 Your smartphone knows everywhere you've been. Your TV watches you back. Your car insurance company installs a little snitch that tattles if you brake too hard. Your fucking TOOTHBRUSH has an app that shames you for missing a spot.
 
 This isn't progress. This is digital feudalism with extra steps.
-~~The annoying kind of Cyberpunk~~
+- ~~The annoying kind of Cyberpunk~~
 
 ### Remember When Tools Were Tools?
 
@@ -340,9 +340,9 @@ The point isn't to live in 1985. The point is to have CHOICE and CLARITY about w
 **Use Claude when you want conversation.**
 **Use Magic Launcher when you want to launch things.**
 **Don't put Claude in your launcher unless you really, really mean to.**
-
+- 
 ~~ Real Shadow Runners don't get stuck in the Darkness ~~
-
+- 
 ### What Magic Launcher Does NOT Solve
 
 **Magic Launcher is not Agile for GUIs.**
@@ -609,10 +609,6 @@ Your Home Shadow doesn't need orchestration.
 It needs shortcuts.json and SSH.
 
 That's distributed computing for the rest of us.
-
-Yes! Part 4 needs to be the self-examination - Magic Launcher looking in the mirror. Let's do this:
-
----
 
 # The Magic Launcher Paradigm: Part 4
 ## The Mirror Test: Does Magic Launcher Follow Its Own Rules?
