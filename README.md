@@ -1,28 +1,8 @@
 # Magic Launcher - An OS-Free Desktop
-```
-            ╔════════════════════════════════════════════════════════╗
-            ║ ◼ STOP  ℹ️         Magic Launcher              + FIND ║
-            ╠════════════════════════════════════════════════════════╣
-            ║ HOME                                                   ║
-            ╠════════════════════════════════════════════════════════╣
-            ║                                                        ║
-            ║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
-            ║  │ D │  │ A │  │ G │  │G G│  │ T │  │ Ω │  │ W │       ║
-            ║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
-            ║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
-            ║                                                        ║
-            ║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
-            ║  │ ░ │  │ ▒ │  │ ▓ │  │ ∞ │  │ √ │  │⏵ │  │ X │       ║
-            ║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
-            ║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
-            ║                                                        ║
-            ╚════════════════════════════════════════════════════════╝
-```
+
 
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
-
-
 
 [Demo 1](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Startup.mp4)
 [Demo 2](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
@@ -30,6 +10,8 @@ It's intended to be a lightweight launcher that runs (almost) anything, on (almo
 
 For every new feature or change, the golden rule is first tested:
 Speed is life. Creep is death. 
+
+![Main Interface](image.png)
 
 ## Features
 
@@ -113,7 +95,10 @@ echo 'if [ -n "$DISPLAY" ]; then mlmain & fi' >> ~/.bashrc
 Quick Setup in Windows Powershell:
 ```From Powershell
 git clone "https://github.com/Bladetrain3r/Magic-Launcher.git" ~/.local/share/Magic-Launcher
-python ~/.local/share/Magic-Launcher/launcher/app.py
+Write-Output "function MagicLaunch {python ~/.local/share/Magic-Launcher/launcher/app.py}" | Out-File -FilePath $profile
+MagicLaunch
+# To run from the "Run" menu or cmd
+# powershell -Noninteractive MagicLaunch
 ```
 
 #### Shortcut in Windows
@@ -122,8 +107,6 @@ Under "Start in" paste the path to the folder containing app.py
 ![Windows Shortcut](image-1.png)
 
 A quick setup script is in the roadmap.
-
-![Main Interface](image.png)
 
 #### Sample Scripts
 ### Bulk Import Example Scripts
@@ -429,3 +412,23 @@ Magic Launcher will always be free to download, use and modify.
 ## Acknowledgments
 
 Inspired by classic DOS menu systems and the need for a lightweight launcher that works well on anything, from anywhere.
+
+```
+                                    ╔════════════════════════════════════════════════════════╗
+                                    ║ ◼ STOP  ℹ️         Magic Launcher              + FIND ║
+                                    ╠════════════════════════════════════════════════════════╣
+                                    ║ HOME                                                   ║
+                                    ╠════════════════════════════════════════════════════════╣
+                                    ║                                                        ║
+                                    ║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
+                                    ║  │ D │  │ A │  │ G │  │G G│  │ T │  │ Ω │  │ W │       ║
+                                    ║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
+                                    ║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
+                                    ║                                                        ║
+                                    ║  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐  ┌───┐       ║
+                                    ║  │ ░ │  │ ▒ │  │ ▓ │  │ ∞ │  │ √ │  │⏵ │  │ X │       ║
+                                    ║  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘  └───┘       ║
+                                    ║  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀  ▀▀▀▀▀       ║
+                                    ║                                                        ║
+                                    ╚════════════════════════════════════════════════════════╝
+```
