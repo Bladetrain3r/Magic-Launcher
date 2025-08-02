@@ -286,7 +286,7 @@ Because that's what tools do.
 
 **This manifesto is not dogma.** 
 
-I'm no Luddites. I'm not saying "all connected services bad." I'm saying: know the difference between a tool and a service, and choose accordingly.
+I'm no Luddite. I'm not saying "all connected services bad." I'm saying: know the difference between a tool and a service, and choose accordingly.
 
 #### When You Want a Smart Service:
 - **AI Assistants**: When you need to think through problems
@@ -415,7 +415,8 @@ Magic Launcher won't tell you:
 
 It just promises that when you figure those out, clicking the button will work.
 
-That's not a small thing. But it's not everything. And pretending otherwise would make us just another snake oil methodology.
+That's a small thing. But it's also, in a way, everything. No computer is functional if you cannot give it the instruction to compute.
+By making it everything, you cut out what doesn't fit in a world... where launching is everything.
 
 Tools enable solutions. They aren't solutions themselves. THERE lies services, and they are what tools composite into.
 
