@@ -3,9 +3,10 @@
 A lightweight, retro-styled application launcher designed for low-spec systems. Inspired by DOS-era menu systems, it provides a simple, keyboard-friendly interface for organizing and launching applications, scripts, and URLs.
 It's intended to be a lightweight launcher that runs (almost) anything, on (almost) anything, from (almost) any location.
 
-[Demo 1](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Startup.mp4)
-[Demo 2](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Magic-Demo.mp4)
-[Demo 3](https://zerofuchs-site.s3.af-south-1.amazonaws.com/Demo_Magiclaunch_Docker.mp4)
+[Demo 1](https://youtu.be/I2V6ML-sEb8)
+[Demo 2](https://youtu.be/6fbK6eMJP68)
+[Demo 3](https://youtu.be/g7zGytZjrZg)
+[Demo 4](https://youtu.be/1ZBDkTAzAn0)
 
 For every new feature or change, the golden rule is first tested:
 Speed is life. Creep is death. 
