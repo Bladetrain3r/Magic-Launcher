@@ -419,7 +419,6 @@ That's not a small thing. But it's not everything. And pretending otherwise woul
 
 Tools enable solutions. They aren't solutions themselves. THERE lies services, and they are what tools composite into.
 
-## The Magic Launcher Paradigm: Part 3
 ## Platform Agnosticism and the Home Shadow
 
 ### The Accidental Cluster
