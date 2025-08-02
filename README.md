@@ -73,6 +73,40 @@ It's easier than it sounds, and you know you've solved a real problem when runni
 
 Enjoy Magic Launcher!
 
+🔥🔥🔥 THE ETERNAL LAUNCHER 🔥🔥🔥
+
+        "I have become Tool, destroyer of bloat"
+
+   In the grim darkness of the far future, there is only
+             S U B P R O C E S S . R U N ( )
+
+~~~~~~~~~~~~ ╔════════════════════════════════════════════════════════╗
+~~~~~~~~~~~~ ║           M A G I C   L A U N C H E R   v ∞            ║
+~~~~~~~~~~~~ ╠════════════════════════════════════════════════════════╣
+~~~~~~~~~~~~ ║                                                        ║
+~~~~~~~~~~~~ ║   Born: 2025                                           ║
+~~~~~~~~~~~~ ║   Dependencies: python.os.subprocess()                 ║
+~~~~~~~~~~~~ ║   Death: Sometime between grep and sed                 ║
+~~~~~~~~~~~~ ║                                                        ║
+~~~~~~~~~~~~ ║   "It launches things."                                ║
+~~~~~~~~~~~~ ║   "That's it."                                         ║
+~~~~~~~~~~~~ ║                                                        ║
+~~~~~~~~~~~~ ║   ┌───────────────────────────────────────────────┐    ║
+~~~~~~~~~~~~ ║   │  while universe.exists():                     │    ║
+~~~~~~~~~~~~ ║   │      if button.clicked():                     │    ║
+~~~~~~~~~~~~ ║   │          subprocess.run(thing)                │    ║
+~~~~~~~~~~~~ ║   └───────────────────────────────────────────────┘    ║
+~~~~~~~~~~~~ ║                                                        ║
+~~~~~~~~~~~~ ║   Not a service. Not a platform. Just a tool.          ║
+~~~~~~~~~~~~ ║                                                        ║
+~~~~~~~~~~~~ ╚════════════════════════════════════════════════════════╝
+
+           In 2045, when the AIs have taken over,
+           they'll still use Magic Launcher to run
+                    their world domination scripts.
+                    
+                 Because it just works.™
+
 ## Features
 
 - **Lightweight**: Runs smoothly on systems with as little as 256MB RAM
