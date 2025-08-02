@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 MLHTMD - Convert between Markdown and HTML
-Because sometimes you need docs in both formats
+Now with Magic Launcher manifesto styling!
 """
 
 import sys
@@ -9,190 +9,246 @@ import re
 from pathlib import Path
 
 class MLHTMD:
-    def __init__(self):
-        # Basic MD to HTML patterns
-        self.md_patterns = [
-            # Headers
-            (r'^### (.*?)$', r'<h3>\1</h3>'),
-            (r'^## (.*?)$', r'<h2>\1</h2>'),
-            (r'^# (.*?)$', r'<h1>\1</h1>'),
-            # Bold and italic
-            (r'\*\*\*(.*?)\*\*\*', r'<strong><em>\1</em></strong>'),
-            (r'\*\*(.*?)\*\*', r'<strong>\1</strong>'),
-            (r'\*(.*?)\*', r'<em>\1</em>'),
-            # Code
-            (r'`(.*?)`', r'<code>\1</code>'),
-            # Links
-            (r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>'),
-            # Line breaks
-            (r'  $', r'<br>'),
-        ]
+    def __init__(self, style='basic'):
+        self.style = style  # 'basic', 'magic', or 'strip'
+    
+    def md_to_html(self, text, title="Document"):
+        """Convert Markdown to HTML with chosen style"""
+        if self.style == 'strip':
+            # Just return the text content
+            return self._strip_to_text(text)
         
-        # HTML to MD patterns (reverse)
-        self.html_patterns = [
-            # Headers
-            (r'<h1>(.*?)</h1>', r'# \1'),
-            (r'<h2>(.*?)</h2>', r'## \1'),
-            (r'<h3>(.*?)</h3>', r'### \1'),
-            # Bold and italic
-            (r'<strong><em>(.*?)</em></strong>', r'***\1***'),
-            (r'<strong>(.*?)</strong>', r'**\1**'),
-            (r'<em>(.*?)</em>', r'*\1*'),
-            (r'<b>(.*?)</b>', r'**\1**'),
-            (r'<i>(.*?)</i>', r'*\1*'),
-            # Code
-            (r'<code>(.*?)</code>', r'`\1`'),
-            # Links
-            (r'<a href="([^"]+)">([^<]+)</a>', r'[\2](\1)'),
-            # Breaks and paragraphs
-            (r'<br\s*/?>', r'  \n'),
-            (r'<p>(.*?)</p>', r'\1\n'),
-            # Strip remaining tags
-            (r'<[^>]+>', r''),
+        lines = []
+        
+        # HTML header
+        lines.append('<!DOCTYPE html>')
+        lines.append('<html lang="en">')
+        lines.append('<head>')
+        lines.append('    <meta charset="UTF-8">')
+        lines.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
+        lines.append(f'    <title>{title}</title>')
+        
+        if self.style == 'magic':
+            # Full Magic Launcher manifesto style
+            lines.extend(self._get_magic_style())
+        else:
+            # Basic terminal style
+            lines.extend(self._get_basic_style())
+        
+        lines.append('</head>')
+        lines.append('<body>')
+        
+        if self.style == 'magic':
+            # Add Unitext-style header
+            lines.append('    <div class="header">')
+            lines.append(f'        <span class="header-title">UniText - {title}</span>')
+            lines.append('        <div class="header-buttons">')
+            lines.append('            <button class="header-button">_</button>')
+            lines.append('            <button class="header-button">□</button>')
+            lines.append('            <button class="header-button">X</button>')
+            lines.append('        </div>')
+            lines.append('    </div>')
+            lines.append('    <div class="content">')
+        
+        # Process markdown content
+        lines.extend(self._process_markdown(text))
+        
+        if self.style == 'magic':
+            lines.append('    </div>')  # Close content div
+        
+        lines.append('</body>')
+        lines.append('</html>')
+        
+        return '\n'.join(lines)
+    
+    def _get_basic_style(self):
+        """Basic terminal style CSS"""
+        return [
+            '    <style>',
+            '        body { background: #000; color: #0F0; font-family: monospace; line-height: 1.4; max-width: 80ch; margin: 0 auto; padding: 20px; }',
+            '        h1, h2, h3 { color: #0FF; }',
+            '        h2 { color: #FF0; }',
+            '        pre { background: #111; border: 1px solid #0F0; padding: 10px; }',
+            '        code { color: #0FF; }',
+            '        a { color: #00F; }',
+            '    </style>'
         ]
     
-    def md_to_html(self, text):
-        """Convert Markdown to HTML"""
-        html_lines = []
-        in_code_block = False
+    def _get_magic_style(self):
+        """Full Magic Launcher manifesto style"""
+        return [
+            '    <style>',
+            '        body { margin: 0; padding: 0; background: #000; color: #0F0; font-family: "Courier New", monospace; font-size: 14px; line-height: 1.4; }',
+            '        .header { background: #0F0; color: #000; padding: 2px 5px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F0; }',
+            '        .header-title { font-weight: bold; }',
+            '        .header-buttons { display: flex; gap: 10px; }',
+            '        .header-button { background: #C0C0C0; color: #000; border: 2px outset #FFF; padding: 1px 6px; cursor: pointer; font-family: inherit; font-size: inherit; }',
+            '        .content { padding: 10px; max-width: 80ch; margin: 0 auto; }',
+            '        h1 { color: #0FF; text-align: center; border: 1px solid #0FF; padding: 10px; margin: 20px 0; }',
+            '        h2 { color: #FF0; text-decoration: underline; }',
+            '        h3 { color: #F0F; }',
+            '        p { margin: 10px 0; text-align: justify; }',
+            '        pre { background: #111; border: 1px solid #0F0; padding: 10px; overflow-x: auto; color: #FFF; }',
+            '        code { color: #0FF; background: #111; padding: 2px 4px; }',
+            '        ul, ol { margin: 10px 0; padding-left: 30px; }',
+            '        li { margin: 5px 0; }',
+            '        a { color: #00F; text-decoration: underline; }',
+            '        a:hover { background: #00F; color: #FFF; }',
+            '        .footer { text-align: center; color: #666; margin-top: 40px; padding: 20px; border-top: 1px solid #333; }',
+            '    </style>'
+        ]
+    
+    def _process_markdown(self, text):
+        """Process markdown content"""
+        lines = []
+        in_code = False
         in_list = False
         
         for line in text.split('\n'):
             # Code blocks
             if line.strip().startswith('```'):
-                if in_code_block:
-                    html_lines.append('</code></pre>')
-                    in_code_block = False
+                if in_code:
+                    lines.append('</pre>')
+                    in_code = False
                 else:
-                    html_lines.append('<pre><code>')
-                    in_code_block = True
+                    lines.append('<pre>')
+                    in_code = True
                 continue
             
-            if in_code_block:
-                html_lines.append(line)
+            if in_code:
+                lines.append(line)
                 continue
             
+            # Headers
+            if line.startswith('### '):
+                lines.append(f'<h3>{line[4:]}</h3>')
+            elif line.startswith('## '):
+                lines.append(f'<h2>{line[3:]}</h2>')
+            elif line.startswith('# '):
+                lines.append(f'<h1>{line[2:]}</h1>')
             # Lists
-            if line.strip().startswith('- ') or line.strip().startswith('* '):
+            elif line.strip().startswith(('- ', '* ')):
                 if not in_list:
-                    html_lines.append('<ul>')
+                    lines.append('<ul>')
                     in_list = True
-                item = line.strip()[2:]
-                html_lines.append(f'<li>{self._apply_inline_md(item)}</li>')
-                continue
-            elif in_list and line.strip() == '':
-                html_lines.append('</ul>')
-                in_list = False
-            
-            # Apply patterns
-            processed = line
-            for pattern, replacement in self.md_patterns:
-                processed = re.sub(pattern, replacement, processed, flags=re.MULTILINE)
-            
-            # Paragraphs
-            if processed.strip() and not processed.strip().startswith('<'):
-                processed = f'<p>{processed}</p>'
-            
-            html_lines.append(processed)
+                item = self._process_inline(line.strip()[2:])
+                lines.append(f'    <li>{item}</li>')
+            # Horizontal rule
+            elif line.strip() == '---':
+                lines.append('<hr>')
+            # Regular text
+            elif line.strip():
+                if in_list:
+                    lines.append('</ul>')
+                    in_list = False
+                processed = self._process_inline(line)
+                lines.append(f'<p>{processed}</p>')
         
-        # Close any open lists
+        # Close any open tags
         if in_list:
-            html_lines.append('</ul>')
+            lines.append('</ul>')
+        if in_code:
+            lines.append('</pre>')
         
-        return '\n'.join(html_lines)
+        return lines
     
-    def _apply_inline_md(self, text):
-        """Apply inline markdown patterns"""
-        for pattern, replacement in self.md_patterns[3:]:  # Skip headers
-            text = re.sub(pattern, replacement, text)
+    def _process_inline(self, text):
+        """Process inline markdown"""
+        # Bold
+        text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
+        # Italic  
+        text = re.sub(r'\*(.+?)\*', r'<em>\1</em>', text)
+        # Code
+        text = re.sub(r'`(.+?)`', r'<code>\1</code>', text)
+        # Links
+        text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
         return text
     
-    def html_to_md(self, text):
-        """Convert HTML to Markdown"""
-        # Pre-process
-        text = text.replace('\r\n', '\n')
-        text = re.sub(r'\n\s*\n', '\n\n', text)
-        
-        # Apply patterns
-        for pattern, replacement in self.html_patterns:
-            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE | re.DOTALL)
-        
+    def _strip_to_text(self, text):
+        """Strip markdown to plain text (MLStrip functionality)"""
+        # Remove code blocks
+        text = re.sub(r'```[^`]*```', '', text, flags=re.DOTALL)
+        # Remove headers
+        text = re.sub(r'^#{1,6}\s+', '', text, flags=re.MULTILINE)
+        # Remove bold/italic
+        text = re.sub(r'\*{1,3}([^*]+)\*{1,3}', r'\1', text)
+        # Remove links
+        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+        # Remove code
+        text = re.sub(r'`([^`]+)`', r'\1', text)
         # Clean up
         text = re.sub(r'\n{3,}', '\n\n', text)
-        text = text.strip()
-        
-        return text
+        return text.strip()
     
-    def convert_file(self, input_path, output_path=None, to_format=None):
-        """Convert a file"""
-        input_path = Path(input_path)
-        
-        # Auto-detect format
-        if to_format is None:
-            if input_path.suffix.lower() in ['.md', '.markdown']:
-                to_format = 'html'
-            else:
-                to_format = 'md'
-        
-        # Read input
-        try:
-            with open(input_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-        except Exception as e:
-            print(f"Error reading file: {e}")
-            return False
-        
-        # Convert
-        if to_format == 'html':
-            output = self.md_to_html(content)
-            default_ext = '.html'
-        else:
-            output = self.html_to_md(content)
-            default_ext = '.md'
-        
-        # Output
-        if output_path is None:
-            output_path = input_path.with_suffix(default_ext)
-        
-        try:
-            with open(output_path, 'w', encoding='utf-8') as f:
-                f.write(output)
-            print(f"Converted to: {output_path}")
-            return True
-        except Exception as e:
-            print(f"Error writing file: {e}")
-            return False
+    def html_to_text(self, html):
+        """Strip HTML to plain text"""
+        # Remove script and style
+        html = re.sub(r'<script[^>]*>.*?</script>', '', html, flags=re.DOTALL | re.IGNORECASE)
+        html = re.sub(r'<style[^>]*>.*?</style>', '', html, flags=re.DOTALL | re.IGNORECASE)
+        # Convert breaks
+        html = re.sub(r'<br\s*/?>', '\n', html, flags=re.IGNORECASE)
+        html = re.sub(r'<p[^>]*>', '\n', html, flags=re.IGNORECASE)
+        html = re.sub(r'</p>', '\n', html, flags=re.IGNORECASE)
+        # Strip all tags
+        html = re.sub(r'<[^>]+>', '', html)
+        # Decode entities
+        html = html.replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&')
+        # Clean up whitespace
+        html = re.sub(r'\n{3,}', '\n\n', html)
+        return html.strip()
 
 def main():
     """Entry point"""
     if len(sys.argv) < 2:
-        print("MLHTMD - Markdown/HTML converter")
-        print("Usage: mlhtmd <file> [--to-md|--to-html] [-o output]")
+        print("MLHTMD - Markdown/HTML converter with Magic Launcher styling")
+        print("Usage: mlhtmd <file> [--basic|--magic|--strip]")
+        print("\nStyles:")
+        print("  --basic  Simple terminal style (default)")
+        print("  --magic  Full Magic Launcher manifesto style")  
+        print("  --strip  Convert to plain text only")
         print("\nExamples:")
-        print("  mlhtmd README.md           # Creates README.html")
-        print("  mlhtmd page.html --to-md   # Creates page.md")
-        print("  mlhtmd doc.md -o web.html  # Specific output")
+        print("  mlhtmd README.md           # Basic terminal HTML")
+        print("  mlhtmd README.md --magic   # Magic Launcher style")
+        print("  mlhtmd page.html --strip   # Strip to text (MLStrip mode)")
         sys.exit(1)
     
-    # Parse args (simple)
-    input_file = sys.argv[1]
-    output_file = None
-    to_format = None
+    input_file = Path(sys.argv[1])
+    style = 'basic'
     
-    i = 2
-    while i < len(sys.argv):
-        if sys.argv[i] == '--to-md':
-            to_format = 'md'
-        elif sys.argv[i] == '--to-html':
-            to_format = 'html'
-        elif sys.argv[i] == '-o' and i + 1 < len(sys.argv):
-            output_file = sys.argv[i + 1]
-            i += 1
-        i += 1
+    # Check for style flag
+    if len(sys.argv) > 2:
+        if sys.argv[2] == '--magic':
+            style = 'magic'
+        elif sys.argv[2] == '--strip':
+            style = 'strip'
     
-    # Convert
-    converter = MLHTMD()
-    converter.convert_file(input_file, output_file, to_format)
+    if not input_file.exists():
+        print(f"Error: {input_file} not found")
+        sys.exit(1)
+    
+    # Read input
+    with open(input_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Detect format and convert
+    converter = MLHTMD(style)
+    
+    if input_file.suffix.lower() in ['.md', '.markdown']:
+        # Markdown to HTML (or text)
+        title = input_file.stem.replace('_', ' ').title()
+        output = converter.md_to_html(content, title)
+        output_ext = '.txt' if style == 'strip' else '.html'
+    else:
+        # HTML to text
+        output = converter.html_to_text(content)
+        output_ext = '.txt'
+    
+    # Write output
+    output_file = input_file.with_suffix(output_ext)
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(output)
+    
+    print(f"Created: {output_file}")
 
 if __name__ == "__main__":
     main()
