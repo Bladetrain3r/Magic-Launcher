@@ -33,7 +33,9 @@ While it is built to minimise complicated setup, you may need to install a few t
 - Most Linux and Mac systems should come with some variant of this installed or immediately available.
 - Windows users will need to install a 3rd party tool unless you want to pass through an RDC connection (thoroughly untested). Xming is free and easy to use.
 
-## I can't add icons! It complains about Pillow...
+Refer to the README for more detailed requirements.
+
+## Image icons aren't working.
 You'll need to install the Python Image Library to do that.
 ```powershell
 pip install Pillow
@@ -43,9 +45,14 @@ pip install Pillow
 sudo apt install python3-pil
 ```
 
-## Why can't I resize the window?
-To keep things simple I kept things fixed, it's also targeted at running on lower spec machines or smaller screens.
-In future I plan to add proper window scaling with dynamic grid size, and options for rearranging shortcuts that don't involve editing text files or onerous duplicate/delete sequences.
+## Why do I need to Ctrl+R or open a folder when I resize before the grid re-arranges?
+A side effect of the rendering mechanism - it saves on bandwidth because it only re-draws the screen when it is told to, but this does mean resizing needs a refresh.
+Because I'm not looking to worry about framerates on what is a 99% static application, this will not be changed.
+
+## The window doesn't reorganise icons when it's too small...
+While it will allow you to resize to below 640x480, this is and will remain the official lowest resolution it officially supports. 
+Unless you are working on a literal potato running some kind of e-book display or something, this seems unlikely to be too high a requirement for the window.
+In the future I may actively restrict window resizing below 640x480, but the current visually odd behavior will not affect the application's ability to navigate or launch shortcuts.
 
 ## Why do some shortcuts have a red X?
 That means the file or program can't be found. The shortcut still works for editing - just right-click to fix the path. It's a visual health check for your shortcuts.

@@ -4,6 +4,96 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0] - INDEV
+
+### Beyond Update
+- Not actually but despite some significant work, no feature changes or bug fixes.
+
+### Code Zen Found
+- After far too much thought on the topic, came to the conclusion that Magic Launcher:
+a) Solves the problem it set out to do, better than day 1 but still since day 1
+b) Mostly has bugs relating to terminal collision which are trivial to work around
+
+- Magic Launcher is therefore promoted to 1.0 as it is ready to solve problems and be composed into toolchains as-is. 
+- Roadmap remains unaltered and will continue to be worked on, this is just... an admission that, if the goal was to launch things, it has been achieved.
+- It's danger has never been *hidden* weaknesses. And why should a launcher be responsible for system security? So that is not a factor for 1.0
+
+#### Leave Well Enough Alone
+- Resisted urge to add another addendum covering why obsession with unexploitable code misses the point that it's the environment that is vulnerable.
+- Also resisted adding 69 other features that seemed like good ideas at 3am
+
+#### Hey Kid, Want Some Apps?
+- ml-extras-static is not a part of Magic Launcher and never will be. External apps are a black box to it by design.
+- But they're pretty nifty. Maybe I'm biased.
+- Current count: 15 tools that each do ONE thing with maybe, a token shiny gubbin. Except MLSweeper which really couldn't resist a boss screen. So unhealthy.
+
+#### Either Enlightenment or Intoxication
+
+- Accidentally wrote 11,000 words explaining why simplicity matters
+- Created RUP methodology (Repeat Until Predictable) while getting rather WET (Write Everything Twice)
+- Proved desktop tools are better microservices than microservices
+- Discovered AI prefers numbered menus
+- Made ASCII art cool again (was it ever not?)
+
+## 1.0 Contemplations
+
+### What Works Since Day 1
+```
+Click button → thing launches ✓
+No accounts needed ✓
+No internet required ✓
+No updates forced ✓
+No analytics collected ✓
+No fucks given about what you launch ✓
+```
+
+### What Changed Since Day 1
+```
+Window can now scale (but doesn't have to)
+Better keyboard navigation
+Search that actually helps
+Documentation that explains why this all matters
+A suite of tools proving the philosophy works
+The rage of 1000 DevOps engineers channeled into productivity
+```
+### Known Issues That Won't Be Fixed
+```
+Still launches rm -rf / if you tell it to
+Still doesn't judge your choices
+Still refuses to be smart
+Still just fucking works
+Insistently persistent modals on a "bad" right click
+```
+
+### The Stats
+
+Core launcher: ~2000 lines (sorry, not 200)
+Average ML tool: 150-400 lines
+Total manifesto: ~11,000 words (10,771 as per Focus Writer)
+Methodologies created: 1 (RUP)
+Paradigm shifts: Several
+Subprocess.run() calls: ALL OF THEM
+
+### Special Thanks
+
+To Terraform for showing us how not to do it
+To microservices for being distributed monoliths
+To modern gaming for forgetting what tools are
+To subprocess.run() for never letting us down
+And yes, to Anthropic for their *service* which is good enough as a *tool* to *solve problems* - the important parts.
+
+### The Promise, Kept
+Magic Launcher 1.0 does what it said on the tin:
+
+Starts instantly ✓
+Works everywhere ✓
+Never surprises you ✓
+Respects your time ✓
+Respects your hardware ✓
+Just. Fucking. Works. ✓
+
+Magic Launcher 1.0: Because sometimes, done is better than perfect.
+
 ## [0.3.5] - 2025-07-31
 ### Quality of Life
 - Set horizontal resolution on launch by creating ~/.config/launcher/mlwidth.txt with the horizontal resolution you want.
@@ -204,8 +294,7 @@ Additional core hotkeys to be added later.
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break keyboard shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
-- Full screen (simple output scaling)
-- Import .lnk, .desktop and .shortcut files from system
+
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
@@ -214,7 +303,6 @@ Additional core hotkeys to be added later.
 - Neaten up dependencies and imports for proper packaging.
 
 ### Long Term
-- Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
 - Nail Down New User Experience and Default Shortcuts
 - Fix Unicode support on Linux workspaces. If the terminal can display it the icon should work.
 - Two modes: Admin/Unlocked and Locked/User.
@@ -226,14 +314,20 @@ Additional core hotkeys to be added later.
 - Touch screen support (virtual keyboard mostly, mouse actions covered as long as it's multitouch)
 - Neaten up widgets
 - Create and include default maintenance and some fun stat scripts to set up as shortcuts.
+- Standardised deployment package (zip) + Python setup script (install tkinter and Launcher with Python, which is hopefully already installed)
+    - I may glob the app into one file as a single script package so it can be deployed via a simple curl piped into python. Closest we want to a package.
+    - If it's coded right, it'll still be a megabyte or two at most, and will force better organisational patterns for classes and functions to maintain coherence.
 
 ### Super Maybe
+- Import .lnk, .desktop and .shortcut files from system (Shiny, requires per platform logic)
+- Full screen (simple output scaling). You can already maximize it and fullscreen focus is frankly, a fucky affair.
 - Recent items tracking
 - Icon and font scaling
 - Select a field for find
 - Alternative icon formats (ICO, PNG, JPG) (Unofficially supported already)
 - Background Image Loading (Got Pillow already but strictly a nice to have later)
-
+- Super safe mode/ML-Lite. Pure text with lowest denominator font support.
+ 
 ### 1.0 and Beyond
 I intend to keep the application focused but continue adding features IF they contribute meaningfully to solving the core problem.
 
