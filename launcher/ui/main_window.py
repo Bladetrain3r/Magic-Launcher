@@ -130,7 +130,7 @@ class MainWindow:
                          self.show_info).pack(side='left', padx=2)
         
         # Title
-        title = tk.Label(title_frame, text=f"{config_manager.get_app_name()} v{VERSION}",
+        title = tk.Label(title_frame, text=f"{config_manager.get_app_name()}",
                         bg=COLORS['green'], fg=COLORS['white'],
                         font=('Courier', 16, 'bold'))
         title.pack(side='left', expand=True, fill='both', padx=2)

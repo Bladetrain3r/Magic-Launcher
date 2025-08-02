@@ -4,7 +4,7 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.0] - INDEV
+## [1.0] - 2025-08-02
 
 ### Beyond Update
 - Not actually but despite some significant work, no feature changes or bug fixes.
