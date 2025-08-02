@@ -155,6 +155,18 @@ Before adding any feature, ask:
 
 If any answer is "no", reconsider.
 
+## The PIL Penalty
+- The Rules for External Dependencies
+- When you MUST use a library:
+
+1. Use the oldest stable API: Fancy new features = future breakage
+2. Use the minimum functionality: Don't use 5% of a library
+3. Handle it failing: What if it's not installed?
+4. Document the tradeoff: Be honest about what you sacrificed
+
+Developers going their own way with Node and bloggers going their own way with Wordpress have created an entire cyber universe of hurt.
+It's not intent, it's ill composition.
+
 ## For ML-Extras Specifically
 
 Tools in ML-Extras should:
@@ -1094,3 +1106,4 @@ Simplicity delivers security through honesty:
 The most secure system is one too simple to lie.
 
 ~~Magic Launcher verifies nothing. How much do you trust your own shortcuts?~~
+

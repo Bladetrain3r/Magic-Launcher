@@ -511,3 +511,145 @@ When considering a feature, ask:
 If yes to all four, it might be worthy polish. If no to any, it's probably bloat.
 
 ~~Not Coincidentally a Non-Interactive MLMenu is to MLMenu what MLMenu is to Magic Launcher~~
+
+# The Magic Launcher Paradigm: Addendum 5
+## The PIL Penalty: When the Minimum Isn't Quite Enough
+
+### The Unavoidable Truth
+
+Sometimes, you need a real library. Not want. NEED.
+
+Magic Launcher uses only Python's standard library. But when you're building an image viewer, what are your options?
+
+1. **Reimplement JPEG decoding** (10,000+ lines)
+2. **Shell out to ImageMagick** (external dependency)
+3. **Use PIL/Pillow** (one import, it just works)
+
+The answer is obvious. But with it comes... the penalty.
+
+### What Is The PIL Penalty?
+
+It's what you pay when you cross the line from stdlib to external dependencies:
+
+- **Version Hell**: `Image.LANCZOS` vs `Image.Resampling.LANCZOS`
+- **Platform Differences**: Works in PowerShell, breaks in WSL
+- **Hidden Complexity**: Your 150 lines now depend on 50,000
+- **Install Friction**: `pip install Pillow` before anything works
+
+### The MLView Case Study
+
+MLView needed to display images. The options:
+
+```python
+# Option 1: Reimplement image decoding
+def decode_jpeg(bytes):
+    # 10,000 lines of bit manipulation
+    # Still wouldn't support PNG, GIF, etc.
+    
+# Option 2: Assume external tools
+subprocess.run(['display', image_path])  # What if no ImageMagick?
+
+# Option 3: Accept the penalty
+from PIL import Image
+img = Image.open(image_path)  # Just works (mostly)
+```
+
+We chose Option 3. Then immediately hit the penalty:
+
+```python
+# Pillow 10.0
+image.resize(size, Image.Resampling.LANCZOS)
+
+# Pillow 8.0  
+image.resize(size, Image.LANCZOS)
+```
+
+Our solution: Neither
+```python
+image.resize(size)  # Use the default, whatever it is
+```
+
+### The Rules for External Dependencies
+
+When you MUST use a library:
+
+1. **Use the oldest stable API**: Fancy new features = future breakage
+2. **Use the minimum functionality**: Don't use 5% of a library
+3. **Handle it failing**: What if it's not installed?
+4. **Document the tradeoff**: Be honest about what you sacrificed
+
+### When Is It Worth It?
+
+The dependency is worth it when:
+- The alternative is reimplementing a standard (JPEG, PNG, etc.)
+- The core function is impossible without it (displaying images needs image decoding)
+- The library is stable and widespread (PIL has been around forever)
+- You're using it for what it's designed for (not clever hacks)
+
+### When Is It NOT Worth It?
+
+Don't take the penalty for:
+- Convenience functions you could write yourself
+- "Nice to have" features  
+- Saving 20 lines of code
+- Following trends
+
+### The Deeper Lesson
+
+Every dependency is a bet that:
+- It will keep working
+- It will stay maintained  
+- It won't change APIs
+- It's worth the complexity
+
+Sometimes you win that bet (PIL for images).
+Sometimes you lose (left-pad).
+
+### The Magic Launcher Answer
+
+When faced with the dependency decision:
+
+1. **Can I not?** (Best option)
+2. **Can I do less?** (Remove the feature)
+3. **Can I do it badly?** (Worse is better)
+4. **Fine, but minimally** (The PIL approach)
+
+MLView emboss mode is a perfect example: One filter that's actually useful, not 50 Instagram effects. We took the PIL penalty but didn't gorge ourselves on it.
+
+### The Restraint Principle
+
+Having access to a powerful library doesn't mean using all of it:
+
+```python
+# Bad: Using PIL as a graphics framework
+img = Image.new('RGB', (800, 600))
+draw = ImageDraw.Draw(img)
+font = ImageFont.truetype('arial.ttf', size=72)
+draw.text((10, 10), "Welcome!", font=font, fill='white')
+# ...1000 more lines of drawing
+
+# Good: Using PIL for what we needed
+img = Image.open(filename)
+img.resize(size)
+img.show()
+```
+
+### Conclusion
+
+The PIL Penalty is real. Every external dependency costs:
+- Complexity
+- Compatibility  
+- Maintenance
+- Trust
+
+But sometimes, the alternative costs more. When you must pay the penalty:
+- Pay it once
+- Pay the minimum
+- Use the basics
+- Stay portable
+
+And always remember: You're not using a library, you're taking on debt. Make sure it's worth it.
+
+~~
+
+*"The best dependency is no dependency. The second best is one you understand. The worst is one you need."*
