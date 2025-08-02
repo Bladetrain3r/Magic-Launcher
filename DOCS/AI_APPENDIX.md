@@ -1,4 +1,4 @@
-# The Magic Launcher Paradigm: Addendum 6
+# The Magic Launcher Paradigm: Addendum
 ## AI Coding and the Magic Launcher Paradigm: A Natural Fit
 
 ### That Disclosure
