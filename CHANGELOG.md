@@ -4,6 +4,27 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.1] - The conf.d Apprach - PENDING
+### My Top Ten: (PENDING)
+- Ctrl+1 to Ctrl+0 now bind the selected shortcut to a doubletap of that number 
+- These hotkey-bound shortcuts are stored as individual files named 1.json, 2.json, etc., containing the full shortcut definition.
+
+### Hide My Shame (PENDING)
+- Ctrl + L now "locks" the screen
+- Reloads screen with blank JSON - no shortcuts to load, nothing to see.
+- Ctrl + U to unlock.
+- If password.txt exists in ~/.config/launcher/ it will pop up a password dialogue on unlock. 
+- (Remove once confirmed) Check if empty passwords.txt will allow a blank password to be input.
+- Won't even bother hashing it this is just a quick speedbump for casual compromisers
+
+### Not a Couples Game:
+Password field in shortcuts.json: Mess with top level hierarchy, it should be all shortcuts and folders.
+SCID field. Reason for Rejection: The new hotkey file system makes this field unnecessary, as the filename itself serves as the identifier.
+IsFavorite/Hotkey field. Reason for Rejection: This is an additional label to the shortcut, not essential to it's function.
+
+### MOTD
+- Shallow Duplication is a better solution than Deep Coupling
+
 ## [1.0] - 2025-08-03
 ### Extras Integration
 - MLMenu is now a core Magic Launcher util and will be maintained and updated within the same repo
