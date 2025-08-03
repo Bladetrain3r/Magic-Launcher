@@ -4,6 +4,17 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0] - 2025-08-03
+### Extras Integration
+- MLMenu is now a core Magic Launcher util and will be maintained and updated within the same repo
+- MLRun (experimental) similarly so, which is a tool to autolaunch in sequence/parallel from shortcuts.json
+- Both applications directly serve gaps in Magic Launcher's core functionality - a terminal menu for MLMenu, a pipeline executor for MLRun.
+
+### Addendums
+- ADDENDUMS_B.md added covering:
+- The compositing pipelines enabled by simple command to json mapping
+- An exploration of how metadata becomes a cancer on your application
+
 ## [1.0] - 2025-08-02
 
 ### Beyond Update
