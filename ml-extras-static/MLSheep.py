@@ -8,7 +8,6 @@ import tkinter as tk
 import random
 import math
 from colorsys import hsv_to_rgb
-import PIL.ImageGrab as ImageGrab
 
 class FlameGenerator:
     def __init__(self):

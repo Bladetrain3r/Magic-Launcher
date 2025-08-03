@@ -85,6 +85,22 @@ python path_to\Magic-Launcher\launcher\app.py
 #### Drag and Drop
 You can also drag and drop app.py onto the Python launch shortcut/exe.
 
+### Using the App
+The buttons along the top:
+- STOP: Stop the app
+- info icon: Keyboard hotkeys and about section
+- The "+" Icon: Adds a new shortcut on the current level
+- The "find" icon: Search functionality. No wildcards, it will find shorrtcut name containing that exact string.
+- The "s" icon: Universally substitute one target, icon, or args field for another. Exact matches only.
+
+Right click on a shortcut to edit, delete or view the properties.
+Click to select. Doubleclick to launch.
+
+#### Keyboard
+Almost all functionality can be performed with the keyboard.
+Left/right arrows to select, enter to launch.
+You can get the hotkey list by pressing Ctrl+I
+
 ### X11 Forwarding
 You can run Magic Launcher on a remote host if it's running an X server.
 Best on a LAN but it will function over WAN too.
@@ -100,36 +116,6 @@ e.g. instead of tail -f:
 while true; do tail; sleep 1; clear; done
 ```
 
-#### Setup for easy launch with WSL
-
-#### For Git Users
-
-Paste to set up with git:
-- BASH (Linux/WSL)
-```bash
-#!/bin/bash
-git clone https://github.com/Bladetrain3r/Magic-Launcher.git ~/.local/share/Magic-Launcher
-echo 'alias mlmain="python3 ~/.local/share/Magic-Launcher/launcher/app.py"' >> ~/.bashrc
-# To launch on login
-echo 'if [ -n "$DISPLAY" ]; then mlmain & fi' >> ~/.bashrc
-```
-
-Quick Setup in Windows Powershell:
-```From Powershell
-git clone "https://github.com/Bladetrain3r/Magic-Launcher.git" ~/.local/share/Magic-Launcher
-Write-Output "function MagicLaunch {python ~/.local/share/Magic-Launcher/launcher/app.py}" | Out-File -FilePath $profile
-MagicLaunch
-# To run from the "Run" menu or cmd
-# powershell -Noninteractive MagicLaunch
-```
-
-#### Shortcut in Windows
-Create a shortcut to Python and append "app.py" to the end of the target.
-Under "Start in" paste the path to the folder containing app.py
-![Windows Shortcut](image-1.png)
-
-A quick setup script is in the roadmap.
-
 #### Sample Scripts
 ### Bulk Import Example Scripts
 - scan_for_exes.py: Scan folders for executables and create shortcuts
@@ -141,14 +127,13 @@ A quick setup script is in the roadmap.
 While it can be run from anywhere, the default path will be ~/.local/share/Magic-Launcher
 This is to make auto-update scripts a bit easier and so the working directory can be more consistent.
 
-### Keyboard Shortcuts
+### Keyboard Navigation
 - **Left/Right**: Select previous/next shortcut
-- **Ctrl+F**: Toggle search mode
-- **Ctrl+D**: Duplicate selected item  
 - **Enter**: Launch selected item
+- **Ctrl+F**: Toggle search mode
 - **Escape**: Go up one level / Exit search
 - **Backspace**: Go up one level
-- **Double-click**: Launch item or open folder
+- **Ctrl+I**: Show all shortcuts
 
 ### Mouse Actions
 

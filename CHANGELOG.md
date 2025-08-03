@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Paths appended with .mlh will automatically be unhashed and copied to clipboard
 - This is just a quick way to store useful strings and commands, not a password manager.
 
+### Diet README
+- Put README through an intense cardio session to lose a lot of weight
+- INTRO doc created to cover the bare basics
+
 ## [1.1] - The conf.d Apprach - PENDING
 ### My Top Ten: (PENDING)
 - Ctrl+1 to Ctrl+0 now bind the selected shortcut to a doubletap of that number 
