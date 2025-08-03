@@ -11,9 +11,17 @@ Markers can appear anywhere in a line, allowing them to be placed in comments:
 """
 
 import sys
+import os
 from pathlib import Path
 
-def extract_section(content, section_name, keepitup=False):
+# Force UTF-8 for pipes on Windows
+if sys.platform == 'win32':
+    import codecs
+    # This forces UTF-8 even for redirected output
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
+
+def extract_section(content, section_name):
     """Extract a single section from content"""
     lines = content.split('\n')
     in_section = False
@@ -32,10 +40,9 @@ def extract_section(content, section_name, keepitup=False):
             # Check if it's actually a marker (has closing #)
             mqp_index = line.index('mqp#')
             remaining = line[mqp_index+4:]
-            # Hit another section marker, we're done
             if '#' in remaining:
-                if not keepitup:               
-                    break
+                # Hit another section marker, we're done
+                break
         
         if in_section:
             result.append(line)
@@ -61,24 +68,20 @@ def list_sections(content):
 
 def main():
     # Handle help request
-    if len(sys.argv) >= 2 and sys.argv[1] in ['-h', '--help']:
+    if len(sys.argv) == 2 and sys.argv[1] in ['-h', '--help']:
         print(__doc__)
         print("\nSpecial usage:")
-        print("  mlquickpage <file> --list         List all sections in file")
-        print("  mlquickpage <file> <section> --dontstop   Extract to end of file")
+        print("  mlquickpage <file> --list    List all sections in file")
         sys.exit(0)
     
-    if len(sys.argv) < 3:
+    if len(sys.argv) != 3:
         script = Path(sys.argv[0]).name
         print(f"Usage: {script} <file> <section>")
         print(f"       {script} <file> --list")
-        print(f"       {script} <file> <section> --dontstop")
         sys.exit(1)
-
-    # Parse arguments
+    
     filepath = Path(sys.argv[1])
     section = sys.argv[2]
-    keepitup = len(sys.argv) > 3 and sys.argv[3] == '--dontstop'
     
     if not filepath.exists():
         print(f"Error: File '{filepath}' not found!", file=sys.stderr)
@@ -103,7 +106,7 @@ def main():
         sys.exit(0)
     
     # Extract the requested section
-    result = extract_section(content, section, keepitup)
+    result = extract_section(content, section)
     
     if result:
         print(result, end='')  # Don't add extra newline
