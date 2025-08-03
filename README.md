@@ -17,7 +17,7 @@ Speed is life. Creep is death.
 Strip away everything and Magic Launcher is:
 
 1) A visual representation of a JSON file
-2) That runs subprocess.run() when clicked
+2) That runs your command when clicked (technically, launches a subprocess)
 3) Everything else is gravy.
 
 That's ~2000 lines because:
@@ -32,81 +32,8 @@ But the core is maybe 20 lines. Everything else is UI politeness.
 I love automating things, and there are many wonderful tools to enable this. But they're all a pain to use in one way or another. 
 Magic Launcher is automation, in the most accessible form I can muster.
 
-## The Goal
-Every extra step or stop to look around is extra cognitive overhead, every new messy way of organising an additional layer on top of complex enough systems on their own.
-The goal is to make any action you can perform on your computer, or almost, something that can be translated into a click and saved for re-use.
-You click, it goes. All else is to aid this objective, or it is cut.
-
-I am not averse to quality of life, and as the roadmap should indicate I have clear ideas of what constitutes a reasonably comprehensive featureset for such a project.
-But if it hits a point where I have to do more than click once on my task bar, type a few letters, and press enter, Magic Launcher has slipped from it's path.
-
-## The Artistic Statement
-At this point, I can only consider the production of Magic Launcher, the manifesto, and even the extras to be a form of programmer art.
-While DevOps isn't programming or art in the traditional sense, it's got both creative and logical demands.
-Magic Launcher, is a philosophical scream. The code manifesto, is what came out after I got the yell out of my system.
-The Magic Launcher Paradigm, as described, is what I hope becomes an example of making software in fun, making it simple, making it solve.
-Because every success I've ever had, even when working in full software as a service, has lain in making it simple, and having fun while I'm making it.
-Terraform is cool, but it is the antonym of fun. Ansible is awesome, but one misaligned YAML and you've got silent failures down the whole chain.
-
-I've also been, my entire life, an avid and regular video gamer, and power user. 
-From either perspective, it's been... demoralising to watch the potential of a connected information world get squandered in subscription services and excess analytics.
-I grew to love computers because they made magic happen on the screen, faster than I could even blink. When did that become a sign your app is insufficient?
-Everyone proudly proclaims their "low" response times and "streamlined" 12MB landing pages, when the backing behind it is several hundred appliances strong and supported by a half broken brick.
-I can't even embed some 2 minute Youtube videos in a static site without increasing the number of requests and bandwidth to load it by over a dozen times.
-
-Online applications have the potential to bring the Star Trek computer experience to us. 
-But "computer, help me with this problem." has been replaced as the ideal with the idea that an application being free means *you are the product*.
-
-This entire project is a scream. 
-But, by the very nature of it, rather than being destructive, I seek to express *frustration through utility*.
-I hope that, considering the degree of frustration, the utility is equally significant.
-
-If you have opened the repository and read this far, thank you. This much is enough, if it hasn't sparked an interest in the code presented. 
-If you are still interested, please:
-- Peruse this file, the FAQ, and the Changelog at your leisure to learn how Magic Launcher can be nifty for you.
-- Take a look at the CODEMANIFESTO and ADDENDUMs in the DOCS folder for a deep dive into exactly what this is all about.
-- Run Magic Launcher, add one or two of your favourite browser links, maybe try setting up a shortcut to open task manager or launch your IDE. Tell me how it works for you.
-- Experiment, modify, or update any of the apps involved to your taste - they're fairly bite sized.
-
-And lastly, please:
-Think of a small problem, focus on just that, and write a program to solve it. 
-It's easier than it sounds, and you know you've solved a real problem when running the fix makes a grin pop up.
-
-Enjoy Magic Launcher!
-
-🔥🔥🔥 THE ETERNAL LAUNCHER 🔥🔥🔥
-
-        "I have become Tool, destroyer of bloat"
-
-   In the grim darkness of the far future, there is only
-             S U B P R O C E S S . R U N ( )
-
-~~~~~~~~~~~~ ╔════════════════════════════════════════════════════════╗
-~~~~~~~~~~~~ ║           M A G I C   L A U N C H E R   v ∞            ║
-~~~~~~~~~~~~ ╠════════════════════════════════════════════════════════╣
-~~~~~~~~~~~~ ║                                                        ║
-~~~~~~~~~~~~ ║   Born: 2025                                           ║
-~~~~~~~~~~~~ ║   Dependencies: python.os.subprocess()                 ║
-~~~~~~~~~~~~ ║   Death: Sometime between grep and sed                 ║
-~~~~~~~~~~~~ ║                                                        ║
-~~~~~~~~~~~~ ║   "It launches things."                                ║
-~~~~~~~~~~~~ ║   "That's it."                                         ║
-~~~~~~~~~~~~ ║                                                        ║
-~~~~~~~~~~~~ ║   ┌───────────────────────────────────────────────┐    ║
-~~~~~~~~~~~~ ║   │  while universe.exists():                     │    ║
-~~~~~~~~~~~~ ║   │      if button.clicked():                     │    ║
-~~~~~~~~~~~~ ║   │          subprocess.run(thing)                │    ║
-~~~~~~~~~~~~ ║   └───────────────────────────────────────────────┘    ║
-~~~~~~~~~~~~ ║                                                        ║
-~~~~~~~~~~~~ ║   Not a service. Not a platform. Just a tool.          ║
-~~~~~~~~~~~~ ║                                                        ║
-~~~~~~~~~~~~ ╚════════════════════════════════════════════════════════╝
-
-           In 2045, when the AIs have taken over,
-           they'll still use Magic Launcher to run
-                    their world domination scripts.
-                    
-                 Because it just works.™
+For more information the the design philosophy and thinking driving it's development, check out INTRO.md for a jumpoff point.
+If you want the deep dive, check DOCS for the manifesto and various addendums to it.
 
 ## Features
 
