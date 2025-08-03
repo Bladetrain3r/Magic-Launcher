@@ -161,7 +161,7 @@ Think of a small problem, focus on just that, and write a program to solve it.
 It's easier than it sounds, and you know you've solved a real problem when running the fix makes a grin pop up.
 
 Enjoy Magic Launcher!
-
+```
 🔥🔥🔥 THE ETERNAL LAUNCHER 🔥🔥🔥
 
         "I have become Tool, destroyer of bloat"
@@ -195,3 +195,4 @@ Enjoy Magic Launcher!
                     their world domination scripts.
                     
                  Because it just works.™
+```
