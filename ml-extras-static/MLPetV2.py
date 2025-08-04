@@ -52,6 +52,11 @@ class MLPet:
         if GRAVEYARD_FILE.exists():
             with open(GRAVEYARD_FILE) as f:
                 graveyard = json.load(f)
+
+        # No duplicate pets, check by birth time and name
+        for pet in graveyard:
+            if pet['name'] == self.name and pet['birth_time'] == self.birth_time:
+                return  # Pet already exists in graveyard
         
         # Calculate how long pet lived
         lived_seconds = time.time() - self.birth_time

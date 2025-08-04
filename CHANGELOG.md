@@ -38,6 +38,12 @@ IsFavorite/Hotkey field. Reason for Rejection: This is an additional label to th
 - Shallow Duplication is a better solution than Deep Coupling
 
 ## [1.0] - 2025-08-03
+### EXTRA, EXTRA
+- Way too much fun figuring out new gap statements
+- MLQuickpage: If it's text, you can section it
+- MLSticky: Sticky Notes with datetime.
+- MLPet: Guilt trip your sysadmin via .bashrc
+
 ### Extras Integration
 - MLMenu is now a core Magic Launcher util and will be maintained and updated within the same repo
 - MLRun (experimental) similarly so, which is a tool to autolaunch in sequence/parallel from shortcuts.json
