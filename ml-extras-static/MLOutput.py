@@ -126,13 +126,20 @@ class MLOutput:
     def _start_process(self):
         """Start the subprocess"""
         try:
+            # Set up environment for UTF-8
+            env = os.environ.copy()
+            env['PYTHONIOENCODING'] = 'utf-8'
+            
             self.process = subprocess.Popen(
                 self.command,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True,
+                # Use UTF-8 encoding explicitly
+                encoding='utf-8',
+                errors='replace',  # Replace undecodable chars with ?
                 bufsize=1,
-                universal_newlines=True
+                universal_newlines=True,
+                env=env
             )
             
             # Start reader threads
@@ -149,8 +156,9 @@ class MLOutput:
             for line in self.process.stdout:
                 if self.show_stdout.get():
                     self._add_line(line.rstrip(), 'stdout')
-        except:
-            pass
+        except Exception as e:
+            # Log any encoding errors
+            self._add_line(f"Output error: {e}", 'stderr')
         finally:
             self.status.config(text="Process ended")
     
@@ -160,8 +168,9 @@ class MLOutput:
             for line in self.process.stderr:
                 if self.show_stderr.get():
                     self._add_line(line.rstrip(), 'stderr')
-        except:
-            pass
+        except Exception as e:
+            # Log any encoding errors
+            self._add_line(f"Error output error: {e}", 'stderr')
     
     def _add_line(self, line, stream):
         """Add line to output or buffer"""
@@ -183,8 +192,15 @@ class MLOutput:
     
     def _append_output(self, line, stream, is_filtered):
         """Append to output widget (must be called from main thread)"""
-        self.output.insert('end', line + '\n', stream if not is_filtered else 'filtered')
-        self.output.see('end')
+        try:
+            self.output.insert('end', line + '\n', stream if not is_filtered else 'filtered')
+            self.output.see('end')
+        except tk.TclError as e:
+            # Handle any Tkinter encoding issues
+            # Replace problematic characters and try again
+            safe_line = line.encode('ascii', errors='replace').decode('ascii')
+            self.output.insert('end', safe_line + '\n', stream if not is_filtered else 'filtered')
+            self.output.see('end')
     
     def _toggle_pause(self):
         """Toggle pause state"""
@@ -209,13 +225,21 @@ class MLOutput:
             self.status.config(text="Process terminated")
 
 def main():
+    # Force UTF-8 on Windows Python output
+    if sys.platform == 'win32':
+        import locale
+        if sys.stdout.encoding != 'utf-8':
+            sys.stdout.reconfigure(encoding='utf-8')
+        if sys.stderr.encoding != 'utf-8':
+            sys.stderr.reconfigure(encoding='utf-8')
+    
     if len(sys.argv) < 2:
         print("MLOutput - Terminal output viewer")
         print("Usage: mloutput.py <command>")
         print("Examples:")
         print("  mloutput.py 'ping google.com'")
         print("  mloutput.py 'python script.py'")
-        print("  tail -f /var/log/syslog | mloutput.py -")
+        print("  mlquickpage file.txt section | mloutput.py -")
         print("\nKeyboard shortcuts:")
         print("  Space     - Pause/Resume")
         print("  Ctrl+C    - Stop process")
@@ -224,9 +248,12 @@ def main():
     
     # Handle piped input
     if sys.argv[1] == '-':
-        # Read from stdin
-        command = [sys.executable, '-c', 
-                  'import sys; [print(line, end="") for line in sys.stdin]']
+        # Read from stdin - ensure UTF-8
+        command = [sys.executable, '-u', '-c', 
+                  '''import sys
+sys.stdout.reconfigure(encoding="utf-8")
+for line in sys.stdin:
+    print(line, end="")''']
     else:
         # Parse command
         command = shlex.split(' '.join(sys.argv[1:]))

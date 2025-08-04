@@ -4,6 +4,56 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2] - Obscurity not Security - PLANNING
+
+### Save Our Strings
+- Obscured string type added
+- Uses initial implementation of path prefix system - prepend path with mlh. to hash it and store said hash as the path
+- Paths appended with .mlh will automatically be unhashed and copied to clipboard
+- This is just a quick way to store useful strings and commands, not a password manager.
+
+### Diet README
+- Put README through an intense cardio session to lose a lot of weight
+- INTRO doc created to cover the bare basics
+
+## [1.1] - The conf.d Apprach - PENDING
+### My Top Ten: (PENDING)
+- Ctrl+1 to Ctrl+0 now bind the selected shortcut to a doubletap of that number 
+- These hotkey-bound shortcuts are stored as individual files named 1.json, 2.json, etc., containing the full shortcut definition.
+
+### Hide My Shame (PENDING)
+- Ctrl + L now "locks" the screen
+- Reloads screen with blank JSON - no shortcuts to load, nothing to see.
+- Ctrl + U to unlock.
+- If password.txt exists in ~/.config/launcher/ it will pop up a password dialogue on unlock. 
+- (Remove once confirmed) Check if empty passwords.txt will allow a blank password to be input.
+- Won't even bother hashing it this is just a quick speedbump for casual compromisers
+
+### Not a Couples Game:
+Password field in shortcuts.json: Mess with top level hierarchy, it should be all shortcuts and folders.
+SCID field. Reason for Rejection: The new hotkey file system makes this field unnecessary, as the filename itself serves as the identifier.
+IsFavorite/Hotkey field. Reason for Rejection: This is an additional label to the shortcut, not essential to it's function.
+
+### MOTD
+- Shallow Duplication is a better solution than Deep Coupling
+
+## [1.0] - 2025-08-03
+### EXTRA, EXTRA
+- Way too much fun figuring out new gap statements
+- MLQuickpage: If it's text, you can section it
+- MLSticky: Sticky Notes with datetime.
+- MLPet: Guilt trip your sysadmin via .bashrc
+
+### Extras Integration
+- MLMenu is now a core Magic Launcher util and will be maintained and updated within the same repo
+- MLRun (experimental) similarly so, which is a tool to autolaunch in sequence/parallel from shortcuts.json
+- Both applications directly serve gaps in Magic Launcher's core functionality - a terminal menu for MLMenu, a pipeline executor for MLRun.
+
+### Addendums
+- ADDENDUMS_B.md added covering:
+- The compositing pipelines enabled by simple command to json mapping
+- An exploration of how metadata becomes a cancer on your application
+
 ## [1.0] - 2025-08-02
 
 ### Beyond Update
@@ -277,15 +327,17 @@ Additional core hotkeys to be added later.
 - Window and Grid size scaling (DONE - 0.3.5)
 
 ### Short Term (Quick Implement)
+- Fig Leaf Mode (load blank shortcuts file, basic unencrypted password.txt)
+  - Blocks all input to prevent circumvention by hotkey. 
+  - Auto lock on password.txt presence, if you want that off delete the file.
+  - Add default shortcut to edit password.txt with Unitext
 - Only render unique shortcuts in search - if [name/target file/args] match only the first result is shown.
    - This way people can have copies of shortcuts in different folders if there is overlap, e.g. "Favorites" might share multiple shortcuts or you might have a game listed under "GOG" and "Action" folders.
 - SIMPLE auto reorder of the current level only (load the level in as a dict, order it by type first, then alphabetical, the re-insert in it's former spot?). Bind to Ctrl+Alt+S.
-- Secure String shortcut type (maybe - keepass or a simple script can handle secret retrieval)
-- Add scid (shortcut id) to BaseItem in models.py
-- Using scid as test, add function to check shortcuts for compulsory fields and assign a default/generated value - migrate old configs in code without bespoke logic.
-- Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID.
 - Folder level indicator on search results (small roman numeral on top left corner of the shortcut). Mitigate confusion from similarly named results.
-- Auto-open folders in the local file explorer (should be a trivial check of the object type in path)
+    - Should need no metadata, the launcher just needs to quantify how nested the JSON object is
+- Auto-open folders in the local file explorer (should be a trivial check of the object type in path, e.g. [[ -f "path" ]] in BASH terms )
+- Obscure String shortcut type (creates a hashed copy of the string and sets THAT as the path after user clicks OK)
 
 ### Medium Term
 - Maintenance Menu via F11
@@ -294,7 +346,6 @@ Additional core hotkeys to be added later.
   - If not, migrate install to ~/.local/share/Magic-Launcher/ and use a symbolic or junction link to make it visible in the user's target folder.
 - Break keyboard shortcut handling out of main_window.py into it's own ui module
 - Portable mode putting .config in the working directory. (Check for empty file "portable", enable by creating the file)
-
 - Custom color schemes
 - Better handling of streaming output like tail -f
 - "Duplicate to..." function to copy shortcuts to other folders
@@ -319,6 +370,7 @@ Additional core hotkeys to be added later.
     - If it's coded right, it'll still be a megabyte or two at most, and will force better organisational patterns for classes and functions to maintain coherence.
 
 ### Super Maybe
+- Hidden flag for shortcuts. Prevents showing up in search. Similar to SCID. (Can be done indirectly with hotkeys as they don't use shortcuts.json)
 - Import .lnk, .desktop and .shortcut files from system (Shiny, requires per platform logic)
 - Full screen (simple output scaling). You can already maximize it and fullscreen focus is frankly, a fucky affair.
 - Recent items tracking
@@ -354,20 +406,6 @@ Magic Launcher, being the name behind my paradigm, shall aim to set a strong exa
 - Also: Anything which might produce an unexpectedly slow response time is not part of the code
 
 ## Particular Feature Notes
-
-#### Secure String
-```
-Path field: Non-sensitive context (username, service name, etc.) - visible
-Args field: The actual secret - hidden/obscured
-Visual Indicators: Unicode lock icon, but maybe just a pair of bars to start to ensure it displays. Blue for secure.
-Visual Indicators: Maybe a special blue border when selected too, trivial to add a type check and coloured borders are a flexible visual aid.
-UI: Obscure inputs and don't show the value in properties.
-Implementation: A new type of shortcut. Only Args field is active.
-Hashing: SHA256, even a Pi can do it.
-Salt: Randomly generate a secure salt with a (bounded) random length using a base64 string generator.
-Use: Double click attempts to copy to the clipboard. Right click and edit to update.
-Duplication seems pointless but "duplicate to" once implemented may be useful, so we won't prevent it.
-```
 
 ### Maintenance Menu
 For managing shortcuts.json
@@ -411,19 +449,12 @@ e.g. python app.py --unlock ~/.ssh/admin_key
 ```
 
 #### Hidden flag for shortcuts
-```
-Easy enough to add - a single optional field in the BaseItem properties.
-If field is present and/or True, don't render in search results.
-Consider performance impact, but should be trivial next to search itself.
-Visual indicator for flagged icons (different icon background?)
-```
+Once hotkeys are implemented you will have up to 10 "secret" shortcuts.
+Search will not check those files and so, deleting it from shortcuts.json makes it effectively hidden.
 
 #### Password Protected Folders
 ```
-Similar to the Hidden flag, easy optional field, backwards compatible by default as absence means False/blank.
-An extra field in shortcut properties.
-Treat similarly to secure strings, store as salted hash in the shortcut properties, and obfuscate in the UI.
-Not really secure (they can add a shortcut to edit shortcuts.json and get all the hashes) but combined with lock mode or a read-only environment, good for an extra hindrance.
+Passwords flag might be unwise
 ```
 
 #### Profiles
@@ -434,13 +465,18 @@ Maybe 6 lines, few complications.
 
 ### 1-9 Shortcut Keys
 ```
-Requires Shortcut IDs (scid) to be implemented.
-Purely keyboard driven.
-Ctrl+1 - Ctrl+9 assigns selected shortcut by ID
-To launch, F1-F9 keys
-To delete, Ctrl + Alt + Number
-Shortcut gets a special green font, or green border if it has an image icon.
-F10 filters for only the assigned shortcuts, escape to return to previous screen or Ctrl+H to go home.
+Refers to 1.json to 0.json in .config/launcher/hotkeys folder
+Each is a direct copy of a shortcut, no weird linking - one to one better than one to many for our purposes
+Ctrl+Numkey to assign, doubletap Numkey to run
+Keep it Simple, Keep it Safe.
+```
+
+### Obscured Strings
+```
+- A new faux file extension called .mlh (Magic Launcher Hash) will be added to existing extension checks
+- If a shortcut path ends in .mlh, it is treated as a string to be de-hashed
+- STARTING a path with mlh. hashes the proceeding string, removes the mlh., and adds .mlh to the path
+    - Initial thought, subject to examination for complications first, but a basic pre-path check seems a useful way to add flags without building new GUI elements.
 ```
 
 ## What is 1.0?
