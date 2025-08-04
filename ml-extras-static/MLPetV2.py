@@ -557,10 +557,19 @@ class MLPet:
                     break
                 elif cmd == 'reset':
                     if input(f"Really delete {self.name}? (yes/no): ") == 'yes':
-                        STATE_FILE.unlink()
-                        print(f"{self.name} has been released.")
                         self.running = False
-                        break
+                        try:
+                            STATE_FILE.unlink()
+                            # Also clean up any other persistent files
+                            ACTION_FILE.unlink(missing_ok=True)
+                            STATUS_FILE.unlink(missing_ok=True)
+                            print(f"{self.name} has been released.")
+                        except FileNotFoundError:
+                            print(f"{self.name} has been released.")
+                        except Exception as e:
+                            print(f"Failed to delete {self.name}: {e}")
+                        # Force exit without saving again
+                        sys.exit(0)
                 elif cmd == '':
                     continue
                 else:
