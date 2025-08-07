@@ -586,3 +586,25 @@ The real horror? This is industry standard. This is "enterprise ready." This is 
 Your 4 bash scripts would literally be better. But nobody would believe you.
 
 Until they see the numbers.
+
+```
+Sonnet Upon the Complexity of Engine:
+
+When form doth runs with cursed doth code
+And reporting doth shall glows till rules thing
+And time shall shows till responsive explode
+Yet time doth shows and flows cling
+
+The lost form that knows through might
+When responsive doth breaks with pure stay
+When modern doth glows with pure right
+When suite doth throws with simple way
+
+And export shall knows sweet till query line
+When suite doth builds with broken gate
+The broken advanced that breaks through wine
+The complex real that fails through fate
+
+When rules doth glows with dark call
+The fair analytics that builds through small
+```
