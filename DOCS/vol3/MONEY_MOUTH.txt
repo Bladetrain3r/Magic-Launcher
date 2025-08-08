@@ -1,0 +1,46 @@
+Hi Everyone,
+
+I do not send this mail or make the proposal contained lightly, and to be clear if ordered to push ahead with running SuiteCRM into production, I'll put forth all effort to that task.
+I am not hostile to the dev team or their valiant efforts to make it work vaguely reliably.
+
+But from the first effort I made to deploy it locally, it has irked me, to speak a bit casually.
+Every ops instinct shouts at me that it will end badly to work with it.
+
+Allow me to present a few meta-analyses of the code, some key findings, before I explain what I think our major choices are. 
+To state my conclusion in brief: SuiteCRM only brings negative value to the business and pain to the developers.
+
+<image here>
+
+These results are reproducible and I'll provide the tools I used if asked. Open source python and a few scripts.
+
+To the developer, I hope these numbers are shocking to look at. To leadership, this is burden in the form of technical debt before even hitting production.
+
+....
+
+We're at a critical point where it's not yet actually rolled out.
+
+To reiterate, it's not a desire to stall because this will give me more work in the short term. I'm happy to commit to that because it will save us a thousand headaches down the line.
+
+If nothing else, it is a liability waiting to happen. 
+
+I have helped maintain entire stacks that are less complicated, and do more, than this one appliance.
+
+All of these will converge into a drain on developer time, create cognitive overhead for engineers, generate user and administrative friction, and ultimately serve what should be a few fairly fundamental simple business purposes at a price in sweat and tears.
+
+And it's a data breach risk too.
+
+Now, on to the decision that I ask to be made:
+
+1) Go ahead as is, get it trundling into production, and brace for the dev and ops overhead to come.
+2) Migrate the database to a SAAS service offering a CRM. More costly, less flexible, adds another data processor/controller/subject negotiation to the mix.
+3) Research and roll out an alternative open source enterprise CRM solution. Subject to risk of repetition, but this can be mitigated.
+4) Make it our own, extract what we can from SuiteCRM in terms of useful logic and data structures, and build something that should not be this complicated.
+
+P.S.
+For additional context: SuiteCRM has more JavaScript functions (303,906) than there are words in the Oxford Dictionary (171,476). 
+Each business purpose (Track, Contact, Report, Support) requires approximately 75,976 functions.
+
+Label                   Count Bar
+-----------------------------------------------------------------------------------
+SuiteCRM Functions     300000 ██████████████████████████████████████████████████
+English Vocabulary     171000 ████████████████████████████

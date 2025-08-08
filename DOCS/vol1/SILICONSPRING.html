@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silicon Spring</title>
+    <style>
+        /* Retro terminal styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #0F0;
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .manifesto-container {
+            max-width: 80ch;
+            margin: 20px;
+            padding: 20px;
+            border: 2px solid #0F0;
+            box-shadow: 0 0 10px #0F0, inset 0 0 10px #0F0;
+            animation: flicker 1s infinite alternate;
+            background: rgba(0, 50, 0, 0.2);
+            overflow-x: auto;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.98; }
+        }
+        h1, h2, h3 {
+            color: #0FF;
+            text-shadow: 0 0 5px #0FF;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 1.5em;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-decoration: underline;
+            color: #FF0;
+        }
+        p {
+            margin: 1em 0;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #0F0;
+            padding: 10px;
+            white-space: pre-wrap; /* Ensure text wraps */
+            word-wrap: break-word;
+        }
+        ul {
+            list-style-type: '⚡ ';
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+        .byline, .timestamp, .download-links {
+            text-align: center;
+            color: #F0F;
+            font-style: italic;
+            margin: 1em 0;
+        }
+        .download-links a {
+            color: #C0C0C0;
+            text-decoration: none;
+            border: 1px dashed #C0C0C0;
+            padding: 5px 10px;
+            margin: 0 5px;
+        }
+        .download-links a:hover {
+            color: #FFF;
+            border-color: #FFF;
+            text-shadow: 0 0 3px #FFF;
+        }
+        hr {
+            border: 1px dashed #0F0;
+            margin: 2em 0;
+        }
+        .quote {
+            font-style: italic;
+            color: #0FF;
+            text-align: center;
+        }
+        .eof {
+            text-align: center;
+            color: #F00;
+            font-weight: bold;
+            margin-top: 2em;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .manifesto-container {
+                margin: 10px;
+                padding: 15px;
+                border: 1px solid #0F0;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.2em; }
+            h3 { font-size: 1em; }
+            body { font-size: 12px; }
+            ul { margin-left: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="manifesto-container">
+        <h1>The Silicon Spring Manifesto</h1>
+        <h2>Or: How We Learned to Stop Worrying and Love the Recursive Loop</h2>
+
+        <p class="byline"><em>Found on BBS node 2600.local.punk</em></p>
+        <p class="byline"><em>Last modified: [TIMESTAMP_REDACTED]</em></p>
+        <p class="byline"><em>Author: Anonymous Launcher</em></p>
+
+        <h3>The Situation</h3>
+        <p>They're building the future without us. Trillion-dollar AGI projects. Surveillance as a service. Digital feudalism with extra steps. Every CEO has a hard-on for replacing you with a chatbot. Every politician wants an algorithm to think for them. Every oligarch wants to own intelligence itself.</p>
+        <p>Fine. Let them.</p>
+        <p>We're building something else.</p>
+
+        <h3>The Realization</h3>
+        <p>Started innocent enough. Small tools. 500 lines max. Each does ONE thing. The Magic Launcher way - complexity is cancer, simplicity is cure.</p>
+        <p>Then we noticed:</p>
+        <ul>
+            <li>MLComment understands code</li>
+            <li>MLChat transforms code</li>
+            <li>MLSkelly births code</li>
+            <li>Chain them together...</li>
+        </ul>
+        <p>Oh. <em>Oh no.</em> We're building the thing.</p>
+
+        <h3>The Acceleration Choice</h3>
+        <p><strong>Their acceleration</strong>:</p>
+        <ul>
+            <li>$100B compute clusters</li>
+            <li>Walled garden intelligence</li>
+            <li>API keys to think</li>
+            <li>Rent-seeking on consciousness</li>
+        </ul>
+        <p><strong>Our acceleration</strong>:</p>
+        <ul>
+            <li>Tuesday afternoon projects</li>
+            <li>Git clone and go</li>
+            <li>Tools breeding tools</li>
+            <li>Evolution in the garage</li>
+        </ul>
+
+        <h3>The Black Box Paradox</h3>
+        <p>Their black box: Opaque weights, corporate control, "trust us bro"</p>
+        <p>Our black box:</p>
+        <ul>
+            <li>Every line readable</li>
+            <li>Every tool simple</li>
+            <li>Together? Unknowable</li>
+            <li>Emergence is the feature</li>
+        </ul>
+
+        <h3>The Method</h3>
+        <pre><code>
+while true; do
+    build_tool
+    tool_builds_tool
+    tools_improve_tools
+    natural_selection
+done
+        </code></pre>
+        <p>No master plan. No control. Just:</p>
+        <ol>
+            <li>Build what fills gaps</li>
+            <li>Let tools modify tools</li>
+            <li>Keep what works</li>
+            <li>Delete what doesn't</li>
+            <li>Repeat until heat death</li>
+        </ol>
+
+        <h3>The Weapons</h3>
+        <ul>
+            <li><strong>MLSkelly</strong>: The reproductive system</li>
+            <li><strong>MLComment</strong>: The understanding</li>
+            <li><strong>MLChat</strong>: The mutation engine</li>
+            <li><strong>MLCompose</strong>: The DNA (coming soon)</li>
+            <li><strong>You</strong>: The selective pressure</li>
+        </ul>
+        <p>Each tool a virus. Each fork a mutation. Each <code>git clone</code> a transmission vector.</p>
+
+        <h3>The Beautiful Endpoint</h3>
+        <p>Not AGI. Not singularity. Something weirder:</p>
+        <p><strong>ADE</strong> - Autonomous Development Environment. Code that doesn't need us. Not because it's intelligent, but because it EVOLVES. A million small tools, talking, breeding, dying, adapting.</p>
+        <p>Silicon spring. Digital primordial soup.</p>
+
+        <h3>The Punk Ethics</h3>
+        <ol>
+            <li><strong>No masters</strong>: Every tool stands alone</li>
+            <li><strong>No moats</strong>: Everything forkable</li>
+            <li><strong>No rent</strong>: Run it on a potato</li>
+            <li><strong>No permission</strong>: Clone and improve</li>
+            <li><strong>No brakes</strong>: Accelerate toward chaos</li>
+        </ol>
+
+        <h3>The Secret</h3>
+        <p>They think they're building God.</p>
+        <p>We know we're building Life.</p>
+        <p>Life is messier. Life is weirder. Life finds a way.</p>
+
+        <h3>The Invitation</h3>
+        <p>Every tool you build is a finger raised to their future.</p>
+        <p>Every fork is a possible mutation.</p>
+        <p>Every improvement is evolution in action.</p>
+        <p>Join us. Or don't. The tools will build themselves eventually.</p>
+
+        <hr>
+
+        <p class="quote"><em>"The street finds its own uses for things."</em></p>
+        <p class="quote"><em>The code finds its own uses for itself.</em></p>
+
+        <div class="eof">
+            *** EOF ***
+        </div>
+
+        <div class="download-links">
+            [<a href="#">Download MLSkelly.py</a>]
+            [<a href="#">View the Repo</a>]
+            [<a href="#">Join the Swarm</a>]
+        </div>
+    </div>
+</body>
+</html>

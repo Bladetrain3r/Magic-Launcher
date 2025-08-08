@@ -1153,8 +1153,8 @@ The hardest part is step 5: STOP.
 - Built: Image viewer with one useful filter
 - Stopped: No editing, no library, no sharing
 
-**MLNote:**
-- Gap: "Persistent notes about server state"
+**MLSticky:**
+- Gap: "Persistent notes for a system or user"
 - Built: Append-only text file with timestamps
 - Stopped: No editing, no tags, no search
 

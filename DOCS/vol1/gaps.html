@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gap Driven Development</title>
+    <style>
+        body { margin: 0; padding: 0; background: #000; color: #0F0; font-family: "Courier New", monospace; font-size: 14px; line-height: 1.4; }
+        .header { background: #0F0; color: #000; padding: 2px 5px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0F0; }
+        .header-title { font-weight: bold; }
+        .header-buttons { display: flex; gap: 10px; }
+        .header-button { background: #C0C0C0; color: #000; border: 2px outset #FFF; padding: 1px 6px; cursor: pointer; font-family: inherit; font-size: inherit; }
+        .content { padding: 10px; max-width: 80ch; margin: 0 auto; }
+        h1 { color: #0FF; text-align: center; border: 1px solid #0FF; padding: 10px; margin: 20px 0; }
+        h2 { color: #FF0; text-decoration: underline; }
+        h3 { color: #F0F; }
+        p { margin: 10px 0; text-align: justify; }
+        pre { background: #111; border: 1px solid #0F0; padding: 10px; overflow-x: auto; color: #FFF; }
+        code { color: #0FF; background: #111; padding: 2px 4px; }
+        ul, ol { margin: 10px 0; padding-left: 30px; }
+        li { margin: 5px 0; }
+        a { color: #00F; text-decoration: underline; }
+        a:hover { background: #00F; color: #FFF; }
+        .footer { text-align: center; color: #666; margin-top: 40px; padding: 20px; border-top: 1px solid #333; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span class="header-title">UniText - Tmp</span>
+        <div class="header-buttons">
+            <button class="header-button">_</button>
+            <button class="header-button">□</button>
+            <button class="header-button" onclick="window.location.href='/'">🏠</button>
+        </div>
+    </div>
+    <div class="content">
+<h1>The Magic Launcher Paradigm: Addendum 14</h1>
+<h2>Gap-Driven Development: The Missing Design Primitive</h2>
+<h3>The Missing Question</h3>
+<p>Every design meeting starts with solutions. Features. Integrations. Roadmaps.</p>
+<p>Nobody asks: "What's the gap?"</p>
+<h3>What Is A Gap Statement?</h3>
+<p>A gap statement identifies what's actually missing. Not what would be nice. Not what competitors have. What's MISSING.</p>
+<p><strong>Good gap statements:</strong></p>
+<ul>
+    <li>"I can't extract sections from text files"  MLQuickpage</li>
+    <li>"PowerShell adds null bytes to my CSV"  MLNonul</li>
+    <li>"I want minesweeper right now"  MLSweeper</li>
+    <li>"No terminal pet exists"  MLPet</li>
+</ul>
+<p><strong>Bad gap statements:</strong></p>
+<ul>
+    <li>"Users need a better experience"  Better how? What gap?</li>
+    <li>"We need modern features"  Which gap do they close?</li>
+    <li>"Competitors have X"  Is X filling a gap or creating one?</li>
+</ul>
+<h3>The Papering Problem</h3>
+<p>Most software doesn't close gaps. It papers over them.</p>
+<p><strong>Papering</strong>: Adding layers on top of problems instead of solving them.</p>
+<p><strong>Example - The Notification Gap:</strong></p>
+<ul>
+    <li><strong>Gap</strong>: "I miss important messages"</li>
+    <li><strong>Solution</strong>: Notifications</li>
+    <li><strong>Papering</strong>: Priority notifications</li>
+    <li><strong>More papering</strong>: Notification settings</li>
+    <li><strong>More</strong>: Notification schedules</li>
+    <li><strong>More</strong>: AI-powered notification filtering</li>
+    <li><strong>Result</strong>: Now you miss important messages AND spend time managing notifications</li>
+</ul>
+<p>The gap never closed. It just got wallpaper.</p>
+<h3>Real-World Papering</h3>
+<p><strong>Kubernetes:</strong></p>
+<ul>
+    <li><strong>Original gap</strong>: "Deploy containers consistently"</li>
+    <li><strong>Papering</strong>: Service mesh (to manage the services)</li>
+    <li><strong>More papering</strong>: Helm (to manage the configs)</li>
+    <li><strong>More</strong>: Operators (to manage Helm)</li>
+    <li><strong>More</strong>: GitOps (to manage operators)</li>
+    <li><strong>Result</strong>: Need a team to manage the gap-closing tool</li>
+</ul>
+<p><strong>JIRA:</strong></p>
+<ul>
+    <li><strong>Original gap</strong>: "Track issues"</li>
+    <li><strong>Papering</strong>: Workflows, sprints, epics, stories</li>
+    <li><strong>More papering</strong>: Custom fields, schemes, permissions</li>
+    <li><strong>Result</strong>: Finding an issue takes 10 clicks</li>
+</ul>
+<p><strong>Slack:</strong></p>
+<ul>
+    <li><strong>Original gap</strong>: "Team chat"</li>
+    <li><strong>Papering</strong>: Threads, reactions, apps, workflows</li>
+    <li><strong>More papering</strong>: Huddles, canvas, AI summaries</li>
+    <li><strong>Result</strong>: Communication is now harder</li>
+</ul>
+<h3>Gap-Driven Development Process</h3>
+<p>1. <strong>Identify the gap</strong> (one sentence max)</p>
+<p>2. <strong>Verify it's real</strong> (not invented or aspirational)</p>
+<p>3. <strong>Define minimum closure</strong> (what makes the gap gone?)</p>
+<p>4. <strong>Build only that</strong></p>
+<p>5. <strong>Stop</strong></p>
+<p>That's it. That's the entire methodology.</p>
+<h3>The Stop Sign</h3>
+<p>The hardest part is step 5: STOP.</p>
+<p><strong>How to know when to stop:</strong></p>
+<ul>
+    <li>Gap statement satisfied? Stop.</li>
+    <li>Adding features beyond the gap? Stop.</li>
+    <li>Creating new gaps? Stop.</li>
+    <li>Papering over something? Stop.</li>
+</ul>
+<h3>Examples from ML-Extras</h3>
+<p><strong>MLTimer:</strong></p>
+<ul>
+    <li>Gap: "Visual countdown that runs a command"</li>
+    <li>Built: Visual countdown that runs a command</li>
+    <li>Stopped: No scheduling, no multiple timers, no history</li>
+</ul>
+<p><strong>MLView:</strong></p>
+<ul>
+    <li>Gap: "View images in terminal environments"</li>
+    <li>Built: Image viewer with one useful filter</li>
+    <li>Stopped: No editing, no library, no sharing</li>
+</ul>
+<p><strong>MLSticky:</strong></p>
+<ul>
+    <li>Gap: "Persistent notes for a system or user"</li>
+    <li>Built: Append-only text file with timestamps</li>
+    <li>Stopped: No editing, no tags, no search</li>
+</ul>
+<p>Each tool stops exactly when its gap closes.</p>
+<h3>The Feature Request Test</h3>
+<p>When someone asks for a feature:</p>
+<p>1. "What gap does this close?"</p>
+<p>2. "Is it the same gap as our gap statement?"</p>
+<p>3. If no: "That's a different tool"</p>
+<p>4. If yes: "Does the gap already closed?"</p>
+<p>5. If yes: "Then we're done"</p>
+<h3>Anti-Patterns</h3>
+<p><strong>The Moving Gap:</strong></p>
+<ul>
+    <li>"We need chat"  "We need threaded chat"  "We need AI chat"</li>
+    <li>The gap keeps moving because it was never defined</li>
+</ul>
+<p><strong>The Invented Gap:</strong></p>
+<ul>
+    <li>"Users need gamification"</li>
+    <li>Nobody asked for this. You invented a gap to fill</li>
+</ul>
+<p><strong>The Meta Gap:</strong></p>
+<ul>
+    <li>"We need to manage our gap-closing tool"</li>
+    <li>Your solution created new gaps</li>
+</ul>
+<p><strong>The Competitive Gap:</strong></p>
+<ul>
+    <li>"Competitor has feature X"</li>
+    <li>That's their gap (or papering), not yours</li>
+</ul>
+<h3>Why Gaps Get Papered Instead of Closed</h3>
+<p>1. <strong>Unclear gap definition</strong> - Can't close what you can't define</p>
+<p>2. <strong>Scope creep</strong> - Today's feature is tomorrow's platform</p>
+<p>3. <strong>Job security</strong> - Closed gaps don't need teams</p>
+<p>4. <strong>Marketing</strong> - "New features!" sells; "Still works!" doesn't</p>
+<p>5. <strong>Misaligned incentives</strong> - Promoted for adding, not removing</p>
+<h3>The Magic Launcher Example</h3>
+<p><strong>Gap</strong>: "I want to click and launch things"</p>
+<p><strong>What we DIDN'T add:</strong></p>
+<ul>
+    <li>User accounts (not part of the gap)</li>
+    <li>Cloud sync (not part of the gap)</li>
+    <li>Analytics (not part of the gap)</li>
+    <li>Plugins (not part of the gap)</li>
+    <li>Themes beyond basic (not part of the gap)</li>
+</ul>
+<p><strong>What we added:</strong></p>
+<ul>
+    <li>Click detection</li>
+    <li>Launch capability</li>
+    <li>Visual organization</li>
+</ul>
+<p>Gap closed. Development stopped.</p>
+<h3>Gap Statements for Teams</h3>
+<p>In design meetings, require:</p>
+<p>1. <strong>Written gap statement</strong> (one sentence)</p>
+<p>2. <strong>Evidence the gap exists</strong> (user complaints, observed behavior)</p>
+<p>3. <strong>Definition of closure</strong> (when is it closed?)</p>
+<p>4. <strong>List of non-gaps</strong> (what we're NOT solving)</p>
+<p><strong>Template:</strong></p>
+<pre>
+Gap: [Users cannot X]
+Evidence: [Observed/reported by Y]
+Closure: [Users can X via Z]
+Non-gaps: [We are not solving A, B, C]
+</pre>
+<h3>The Composition Solution</h3>
+<p>Instead of papering, compose:</p>
+<p><strong>Bad (papering):</strong></p>
+<ul>
+    <li>Chat app adds file sharing, video, screen share, AI...</li>
+</ul>
+<p><strong>Good (composition):</strong></p>
+<ul>
+    <li>Chat app does chat</li>
+    <li>File sharing app shares files</li>
+    <li>Pipe them together</li>
+</ul>
+<p>Each tool closes ONE gap completely.</p>
+<h3>The Economic Argument</h3>
+<p><strong>Papering costs:</strong></p>
+<ul>
+    <li>Endless development</li>
+    <li>Growing complexity</li>
+    <li>Increasing maintenance</li>
+    <li>User confusion</li>
+    <li>Technical debt</li>
+</ul>
+<p><strong>Gap-closing saves:</strong></p>
+<ul>
+    <li>Development stops when gap closes</li>
+    <li>Maintenance is minimal</li>
+    <li>Users understand it</li>
+    <li>No debt if it works</li>
+</ul>
+<h3>The User Argument</h3>
+<p>Users don't want features. They want gaps closed.</p>
+<ul>
+    <li>"I want to edit text" not "I want AI-powered collaborative cloud-native editing"</li>
+    <li>"I want to track issues" not "I want agile transformation platform"</li>
+    <li>"I want to launch programs" not "I want an application lifecycle manager"</li>
+</ul>
+<h3>The Developer Argument</h3>
+<p>Developers prefer:</p>
+<ul>
+    <li>Clear requirements (gap statements)</li>
+    <li>Defined success (gap closed)</li>
+    <li>Permission to stop (gap closed = done)</li>
+    <li>Simple maintenance (less paper = less problems)</li>
+</ul>
+<h3>Case Study: The Terminal Gap</h3>
+<p><strong>Gap</strong>: "I can't see what my script is outputting"</p>
+<p><strong>Solution A (papering):</strong></p>
+<ul>
+    <li>Add logging framework</li>
+    <li>Add log levels</li>
+    <li>Add log rotation</li>
+    <li>Add log analysis</li>
+    <li>Add log shipping</li>
+    <li>Result: Now need to manage logs</li>
+</ul>
+<p><strong>Solution B (gap-closing):</strong></p>
+<ul>
+    <li><code>echo "doing thing"</code></li>
+    <li>Gap closed</li>
+</ul>
+<h3>The Test Suite</h3>
+<p>Before building, ask:</p>
+<p>1. Can I state the gap in one sentence?</p>
+<p>2. Can I define when it's closed?</p>
+<p>3. Am I solving THIS gap or creating others?</p>
+<p>4. Will my solution need its own solutions?</p>
+<p>5. Can I compose existing tools instead?</p>
+<p>If any answer concerns you, you're about to paper.</p>
+<h3>Conclusion</h3>
+<p>Gap-Driven Development isn't a methodology. It's a question: "What's the gap?"</p>
+<p>If you can't answer in one sentence, you don't understand the problem.</p>
+<p>If your solution creates new gaps, you're papering.</p>
+<p>If you keep adding after the gap closes, you've become the problem.</p>
+<p>The discipline isn't in what you build. It's in what you don't.</p>
+<hr>
+<p><em>"Every feature is either closing a gap or creating one. There is no middle ground."</em></p>
+<p><strong>Remember</strong>: The next time someone says "We need to add...", ask "What gap does that close?" Watch the room go silent. That silence is the sound of papering being prevented.</p>
+    </div>
+</body>
+</html>

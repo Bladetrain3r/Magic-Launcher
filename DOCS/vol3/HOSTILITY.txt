@@ -1,0 +1,71 @@
+```
+=== File Distribution ===
+Label                     Count Bar
+-------------------------------------------------------------------------------------
+PHP Files                  4801 ██████████████████████████████████████████████████
+JavaScript Files            927 █████████
+CSS Files                   301 ███
+JSON Configs                 39 
+Actual Documentation         15 
+XML Hell                      6 
+Total: 6089
+
+=== Dependency Hell ===
+Label                Count Bar
+--------------------------------------------------------------------------------
+Node Modules             0 
+Vendor Packages          0 
+Our Code                 0 
+Cache Garbage            0 
+Total: 0
+
+=== Purpose vs Function Hostility ===
+Label                     Count Bar
+-------------------------------------------------------------------------------------
+JavaScript Functions      28712 ██████████████████████████████████████████████████
+PHP Classes                1880 ███
+Business Purposes             4 
+Database Tables               0 
+Total: 30596
+
+=== Container Stats ===
+No data to display
+
+=== Git Repository Analysis ===
+Label              Count Bar
+------------------------------------------------------------------------------
+Commits              987 ██████████████████████████████████████████████████
+TODO Comments        304 ███████████████
+Swear Words          211 ██████████
+Branches              84 ████
+Contributors          11 
+Total: 1597
+
+=== Final Hostility Score ===
+Label                   Count Bar
+-----------------------------------------------------------------------------------
+Total Files             15679 ██████████████████████████████████████████████████
+Actual CRM Code          4801 ███████████████
+Hostility Index          3919 ████████████
+Purposes Served             4 
+Therapists Needed           3 
+Total Dependencies          0 
+Total: 24406
+
+=== Survival Status ===
+Label                   Count Bar
+-----------------------------------------------------------------------------------
+Coffee Consumed            76 ██████████████████████████████████████████████████
+Sanity Remaining           24 ███████████████
+Days Until Freedom          7 ████
+Will to Live                0 
+Total: 107
+
+=== Alternative Reality ===
+Label                               Count Bar
+-----------------------------------------------------------------------------------------------
+Lines in this CRM                  771866 ██████████████████████████████████████████████████
+Ratio of Madness                    15437 
+Lines for same functionality..         50 
+Total: 787353
+```
