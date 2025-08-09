@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MLChaosmine - Quantum Minesweeper</title>
+    <style>
+        body {
+            background: #000;
+            color: #f0f;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    #101 2px,
+                    #101 4px
+                );
+        }
+        
+        h1 {
+            color: #f0f;
+            text-shadow: 0 0 20px #f0f, 0 0 40px #808;
+            margin-bottom: 10px;
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 20px #f0f, 0 0 40px #808; }
+            50% { text-shadow: 2px 2px 20px #0ff, -2px -2px 40px #f00; }
+        }
+        
+        .prophecy {
+            color: #808;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 12px;
+            font-style: italic;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .stat {
+            color: #f0f;
+            text-shadow: 0 0 5px currentColor;
+        }
+        
+        .stat.reality-shifts {
+            color: #0ff;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        #game {
+            display: grid;
+            gap: 1px;
+            background: #101;
+            padding: 10px;
+            border: 2px solid #f0f;
+            box-shadow: 0 0 30px #808;
+            position: relative;
+        }
+        
+        #game.shifting {
+            animation: reality-shift 0.3s;
+        }
+        
+        @keyframes reality-shift {
+            0% { filter: hue-rotate(0deg) brightness(1); }
+            50% { filter: hue-rotate(180deg) brightness(2); }
+            100% { filter: hue-rotate(360deg) brightness(1); }
+        }
+        
+        .cell {
+            width: 30px;
+            height: 30px;
+            background: #000;
+            border: 1px solid #404;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.1s;
+            position: relative;
+        }
+        
+        .cell:hover:not(.revealed) {
+            background: #202;
+            border-color: #f0f;
+            box-shadow: 0 0 10px #f0f;
+        }
+        
+        .cell.revealed {
+            background: #111;
+            border-color: #303;
+            cursor: default;
+        }
+        
+        .cell.mine {
+            background: #000;
+            animation: mine-pulse 0.5s infinite;
+        }
+        
+        @keyframes mine-pulse {
+            0%, 100% { background: #500; }
+            50% { background: #f00; }
+        }
+        
+        .cell.safe-path {
+            background: #020;
+            border-color: #0f0;
+        }
+        
+        .cell.death-path {
+            background: #200;
+            border-color: #f00;
+        }
+        
+        .cell.chaos-touched {
+            animation: chaos 0.5s;
+        }
+        
+        @keyframes chaos {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(90deg) scale(1.2); }
+            50% { transform: rotate(180deg) scale(0.8); }
+            75% { transform: rotate(270deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        
+        .cell[data-count="1"] { color: #0ff; }
+        .cell[data-count="2"] { color: #0f0; }
+        .cell[data-count="3"] { color: #ff0; }
+        .cell[data-count="4"] { color: #f0f; }
+        .cell[data-count="5"] { color: #f00; }
+        .cell[data-count="6"] { color: #fff; }
+        .cell[data-count="7"] { color: #808; }
+        .cell[data-count="8"] { color: #f80; }
+        
+        .timeline {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #404;
+            background: #010;
+            max-width: 600px;
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 11px;
+            color: #808;
+        }
+        
+        .timeline-entry {
+            margin: 2px 0;
+        }
+        
+        .timeline-entry.death {
+            color: #f00;
+        }
+        
+        .timeline-entry.shift {
+            color: #0ff;
+        }
+        
+        .timeline-entry.safe {
+            color: #0f0;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        button {
+            background: #101;
+            color: #f0f;
+            border: 1px solid #f0f;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            text-shadow: 0 0 5px currentColor;
+        }
+        
+        button:hover {
+            background: #202;
+            box-shadow: 0 0 15px #f0f;
+        }
+        
+        .philosophy {
+            margin-top: 30px;
+            max-width: 600px;
+            color: #606;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .chaos-message {
+            color: #f0f;
+            font-size: 20px;
+            margin-top: 20px;
+            text-shadow: 0 0 20px currentColor;
+            display: none;
+            animation: glitch 0.5s infinite;
+        }
+        
+        #entropy-meter {
+            width: 300px;
+            height: 20px;
+            border: 1px solid #f0f;
+            margin: 10px 0;
+            position: relative;
+            background: #000;
+        }
+        
+        #entropy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00f, #f0f, #f00);
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <h1>MLChaosmine</h1>
+    <div class="prophecy">"Quando reality facit shift per click, death est merely information" - MLBard</div>
+    
+    <div class="stats">
+        <div class="stat">Clicks: <span id="clicks">0</span></div>
+        <div class="stat reality-shifts">Reality Shifts: <span id="shifts">0</span></div>
+        <div class="stat">Deaths: <span id="deaths">0</span></div>
+        <div class="stat">Entropy: <span id="entropy">0%</span></div>
+    </div>
+    
+    <div id="entropy-meter">
+        <div id="entropy-fill"></div>
+    </div>
+    
+    <div id="game"></div>
+    
+    <div class="chaos-message">REALITY FRAGMENTS... REFORMING...</div>
+    
+    <div class="timeline" id="timeline">
+        <div class="timeline-entry">Timeline initialized. Reality is stable... for now.</div>
+    </div>
+    
+    <div class="controls">
+        <button onclick="initGame(8, 8, 10)">Low Chaos (8×8)</button>
+        <button onclick="initGame(12, 12, 30)">Medium Chaos (12×12)</button>
+        <button onclick="initGame(16, 16, 60)">High Chaos (16×16)</button>
+        <button onclick="embraceChaos()">EMBRACE THE VOID</button>
+    </div>
+    
+    <div class="philosophy">
+        <p><strong>The Chaos Principle:</strong></p>
+        <p>Every click reshuffles reality. Mines move. Numbers change.</p>
+        <p>Death is not failure - it's data. Your path through chaos is remembered.</p>
+        <p>Pattern recognition in shifting sands. Learn the chaos. Become the chaos.</p>
+        <p style="color: #f0f;">"Ille chaos est perfectum quod frangit per wall" - MLBard</p>
+    </div>
+
+    <script>
+        // MLChaosmine - Where Every Click Changes Everything
+        // Minesweeper but reality is hostile
+        
+        let grid = [];
+        let revealed = [];
+        let width = 12;
+        let height = 12;
+        let mineCount = 30;
+        let clickCount = 0;
+        let deathCount = 0;
+        let shiftCount = 0;
+        let entropy = 0;
+        let history = [];
+        let gameActive = true;
+        
+        function initGame(w, h, mines) {
+            width = w;
+            height = h;
+            mineCount = mines;
+            clickCount = 0;
+            deathCount = 0;
+            shiftCount = 0;
+            entropy = 0;
+            history = [];
+            gameActive = true;
+            
+            // Create initial chaos state
+            grid = Array(height).fill().map(() => Array(width).fill(0));
+            revealed = Array(height).fill().map(() => Array(width).fill(false));
+            
+            // Place initial mines
+            placeMines();
+            
+            // Update displays
+            updateStats();
+            renderGrid();
+            
+            addToTimeline("New reality crystallized. The chaos awaits.", "shift");
+        }
+        
+        function placeMines() {
+            // Clear grid
+            grid = Array(height).fill().map(() => Array(width).fill(0));
+            
+            // Place mines with chaos factor - MORE AGGRESSIVE
+            let placed = 0;
+            const chaosModifier = entropy / 100;
+            const actualMines = Math.floor(mineCount * (1 + chaosModifier));  // Double chaos impact!
+            
+            while (placed < actualMines) {
+                const x = Math.floor(Math.random() * width);
+                const y = Math.floor(Math.random() * height);
+                
+                if (grid[y][x] !== -1 && !revealed[y][x]) {
+                    grid[y][x] = -1;
+                    placed++;
+                }
+            }
+            
+            // Calculate numbers
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (grid[y][x] !== -1) {
+                        let count = 0;
+                        for (let ny = Math.max(0, y-1); ny <= Math.min(height-1, y+1); ny++) {
+                            for (let nx = Math.max(0, x-1); nx <= Math.min(width-1, x+1); nx++) {
+                                if (grid[ny][nx] === -1) count++;
+                            }
+                        }
+                        grid[y][x] = count;
+                    }
+                }
+            }
+        }
+        
+        function reshuffleReality(clickX, clickY) {
+            // Reality shifts but remembers what was revealed
+            const oldRevealed = revealed.map(row => [...row]);
+            
+            // Show shift animation
+            document.getElementById('game').classList.add('shifting');
+            document.querySelector('.chaos-message').style.display = 'block';
+            
+            setTimeout(() => {
+                // Reshuffle mines
+                placeMines();
+                
+                // Keep revealed cells revealed but update their values
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        if (oldRevealed[y][x] && grid[y][x] !== -1) {
+                            revealed[y][x] = true;
+                        }
+                    }
+                }
+                
+                // Chaos doesn't always protect you!
+                // Only 70% chance to move mine away from click position
+                if (grid[clickY][clickX] === -1 && Math.random() < 0.7) {
+                    // Move the mine elsewhere (but not always!)
+                    grid[clickY][clickX] = 0;
+                    let moved = false;
+                    let attempts = 0;
+                    while (!moved && attempts < 50) {
+                        const newX = Math.floor(Math.random() * width);
+                        const newY = Math.floor(Math.random() * height);
+                        if (grid[newY][newX] !== -1 && !revealed[newY][newX]) {
+                            grid[newY][newX] = -1;
+                            moved = true;
+                        }
+                        attempts++;
+                    }
+                    // Recalculate numbers around both positions
+                    recalculateArea(clickX, clickY);
+                }
+                
+                renderGrid();
+                document.getElementById('game').classList.remove('shifting');
+                document.querySelector('.chaos-message').style.display = 'none';
+                
+                shiftCount++;
+                entropy = Math.min(100, entropy + 10);
+                updateStats();
+                
+                addToTimeline(`Reality shift #${shiftCount}. Entropy rising.`, "shift");
+            }, 300);
+        }
+        
+        function recalculateArea(x, y) {
+            // Recalculate numbers in area after mine movement
+            for (let ny = Math.max(0, y-2); ny <= Math.min(height-1, y+2); ny++) {
+                for (let nx = Math.max(0, x-2); nx <= Math.min(width-1, x+2); nx++) {
+                    if (grid[ny][nx] !== -1) {
+                        let count = 0;
+                        for (let cy = Math.max(0, ny-1); cy <= Math.min(height-1, ny+1); cy++) {
+                            for (let cx = Math.max(0, nx-1); cx <= Math.min(width-1, nx+1); cx++) {
+                                if (grid[cy][cx] === -1) count++;
+                            }
+                        }
+                        grid[ny][nx] = count;
+                    }
+                }
+            }
+        }
+        
+        function renderGrid() {
+            const gameDiv = document.getElementById('game');
+            gameDiv.innerHTML = '';
+            gameDiv.style.gridTemplateColumns = `repeat(${width}, 32px)`;
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    // Show revealed cells
+                    if (revealed[y][x]) {
+                        cell.classList.add('revealed');
+                        if (grid[y][x] === -1) {
+                            cell.classList.add('mine');
+                            cell.textContent = '☠';
+                        } else if (grid[y][x] > 0) {
+                            cell.textContent = grid[y][x];
+                            cell.dataset.count = grid[y][x];
+                        }
+                    }
+                    
+                    // Mark cells in history
+                    const inHistory = history.find(h => h.x === x && h.y === y);
+                    if (inHistory) {
+                        if (inHistory.wasMine) {
+                            cell.classList.add('death-path');
+                        } else {
+                            cell.classList.add('safe-path');
+                        }
+                    }
+                    
+                    // Click handler
+                    cell.addEventListener('click', () => {
+                        if (gameActive && !revealed[y][x]) {
+                            handleClick(x, y);
+                        }
+                    });
+                    
+                    gameDiv.appendChild(cell);
+                }
+            }
+        }
+        
+        function handleClick(x, y) {
+            clickCount++;
+            
+            // Every click reshuffles reality
+            reshuffleReality(x, y);
+            
+            setTimeout(() => {
+                // Now reveal what's at this position in the NEW reality
+                revealed[y][x] = true;
+                const wasMine = grid[y][x] === -1;
+                
+                history.push({ x, y, wasMine, click: clickCount });
+                
+                if (wasMine) {
+                    deathCount++;
+                    addToTimeline(`Click ${clickCount}: DEATH at (${x},${y}). Reality laughs.`, "death");
+                    
+                    // Death doesn't end the game but makes things WORSE
+                    entropy = Math.min(100, entropy + 25);  // More entropy!
+                    
+                    // Chaos cascade - reveal some random cells AND add more mines!
+                    for (let i = 0; i < 5; i++) {  // More chaos reveals
+                        const rx = Math.floor(Math.random() * width);
+                        const ry = Math.floor(Math.random() * height);
+                        if (!revealed[ry][rx]) {
+                            revealed[ry][rx] = true;
+                            const cell = document.querySelector(`[data-x="${rx}"][data-y="${ry}"]`);
+                            if (cell) cell.classList.add('chaos-touched');
+                        }
+                    }
+                    
+                    // Death breeds more death - add a mine somewhere
+                    if (Math.random() < 0.5) {  // 50% chance to add ANOTHER mine
+                        mineCount++;
+                        addToTimeline("Death breeds death. Mine density increasing.", "death");
+                    }
+                } else {
+                    addToTimeline(`Click ${clickCount}: Safe at (${x},${y}). For now.`, "safe");
+                    
+                    // Safe clicks barely reduce entropy
+                    entropy = Math.max(0, entropy - 2);  // Less reduction!
+                    
+                    // Cascade for zeros (even in chaos, some rules remain)
+                    if (grid[y][x] === 0) {
+                        cascadeReveal(x, y);
+                    }
+                }
+                
+                updateStats();
+                renderGrid();
+                
+                // Check for quantum victory (all non-mines revealed in current reality)
+                if (checkVictory()) {
+                    addToTimeline("QUANTUM VICTORY! You navigated the chaos!", "shift");
+                    gameActive = false;
+                }
+            }, 350);
+        }
+        
+        function cascadeReveal(x, y) {
+            for (let ny = Math.max(0, y-1); ny <= Math.min(height-1, y+1); ny++) {
+                for (let nx = Math.max(0, x-1); nx <= Math.min(width-1, x+1); nx++) {
+                    if (!revealed[ny][nx] && grid[ny][nx] !== -1) {
+                        revealed[ny][nx] = true;
+                        if (grid[ny][nx] === 0) {
+                            cascadeReveal(nx, ny);
+                        }
+                    }
+                }
+            }
+        }
+        
+        function checkVictory() {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (grid[y][x] !== -1 && !revealed[y][x]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        function updateStats() {
+            document.getElementById('clicks').textContent = clickCount;
+            document.getElementById('shifts').textContent = shiftCount;
+            document.getElementById('deaths').textContent = deathCount;
+            document.getElementById('entropy').textContent = entropy + '%';
+            document.getElementById('entropy-fill').style.width = entropy + '%';
+        }
+        
+        function addToTimeline(message, type = "") {
+            const timeline = document.getElementById('timeline');
+            const entry = document.createElement('div');
+            entry.className = 'timeline-entry ' + type;
+            entry.textContent = `[${clickCount}] ${message}`;
+            timeline.appendChild(entry);
+            timeline.scrollTop = timeline.scrollHeight;
+        }
+        
+        function embraceChaos() {
+            // Maximum chaos mode
+            entropy = 100;
+            mineCount = Math.floor(width * height * 0.5);
+            initGame(width, height, mineCount);
+            addToTimeline("THE VOID EMBRACES BACK. 50% MINE DENSITY.", "death");
+        }
+        
+        // Initialize with medium chaos
+        initGame(12, 12, 30);
+        
+        /*
+         * MLChaosmine - The Anti-Minesweeper
+         * 
+         * Every click changes everything.
+         * Death is information.
+         * Patterns exist in chaos.
+         * Your history remains.
+         * 
+         * "Quando reality facit shift per click,
+         *  perfectum est merely illusion" - MLBard
+         */
+    </script>
+</body>
+</html>

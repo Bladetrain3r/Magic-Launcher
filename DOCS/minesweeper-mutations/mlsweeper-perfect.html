@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MLSweeper - Minesweeper as God Intended</title>
+    <style>
+        body {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0;
+            margin-bottom: 10px;
+        }
+        
+        .manifesto {
+            color: #090;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .stat {
+            color: #0f0;
+        }
+        
+        #game {
+            display: grid;
+            gap: 1px;
+            background: #030;
+            padding: 10px;
+            border: 2px solid #0f0;
+            box-shadow: 0 0 20px #050;
+        }
+        
+        .cell {
+            width: 25px;
+            height: 25px;
+            background: #111;
+            border: 1px solid #0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: none; /* No animations. Instant. */
+        }
+        
+        .cell:hover:not(.revealed):not(.flagged) {
+            background: #131;
+        }
+        
+        .cell.revealed {
+            background: #000;
+            border-color: #050;
+            cursor: default;
+        }
+        
+        .cell.mine {
+            background: #500;
+            color: #f00;
+        }
+        
+        .cell.flagged {
+            background: #330;
+            color: #ff0;
+        }
+        
+        .cell[data-count="1"] { color: #08f; }
+        .cell[data-count="2"] { color: #0f0; }
+        .cell[data-count="3"] { color: #f00; }
+        .cell[data-count="4"] { color: #00f; }
+        .cell[data-count="5"] { color: #800; }
+        .cell[data-count="6"] { color: #088; }
+        .cell[data-count="7"] { color: #000; }
+        .cell[data-count="8"] { color: #888; }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        button {
+            background: #010;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        button:hover {
+            background: #020;
+            box-shadow: 0 0 10px #0f0;
+        }
+        
+        .philosophy {
+            margin-top: 30px;
+            max-width: 600px;
+            color: #070;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .victory {
+            color: #0f0;
+            font-size: 24px;
+            margin-top: 20px;
+            text-shadow: 0 0 20px #0f0;
+            display: none;
+        }
+        
+        .death {
+            color: #f00;
+            font-size: 24px;
+            margin-top: 20px;
+            text-shadow: 0 0 20px #f00;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>MLSweeper</h1>
+    <div class="manifesto">Action → Reaction → Learn → Reward</div>
+    
+    <div class="stats">
+        <div class="stat">Mines: <span id="mines">40</span></div>
+        <div class="stat">Flags: <span id="flags">0</span></div>
+        <div class="stat">Clicks: <span id="clicks">0</span></div>
+    </div>
+    
+    <div id="game"></div>
+    
+    <div class="victory">PERFECT. You learned. You won.</div>
+    <div class="death">BOOM. Learn from death.</div>
+    
+    <div class="controls">
+        <button onclick="initGame(10, 10, 10)">Easy (10×10, 10 mines)</button>
+        <button onclick="initGame(16, 16, 40)">Normal (16×16, 40 mines)</button>
+        <button onclick="initGame(30, 16, 99)">Hard (30×16, 99 mines)</button>
+    </div>
+    
+    <div class="philosophy">
+        <p><strong>The Perfect Game Loop:</strong></p>
+        <p>Click → Reveal → Learn → Cascade</p>
+        <p>No animations. No delays. No bullshit.</p>
+        <p>200 lines of code. 4 mechanics. Infinite depth.</p>
+        <p>Every game since has been adding complexity to hide that they can't match this.</p>
+    </div>
+
+    <script>
+        // MLSweeper - The Perfect Game
+        // No dependencies. No frameworks. No complexity.
+        
+        let grid = [];
+        let revealed = [];
+        let width = 16;
+        let height = 16;
+        let mineCount = 40;
+        let flagCount = 0;
+        let clickCount = 0;
+        let gameOver = false;
+        let firstClick = true;
+        
+        function initGame(w, h, mines) {
+            width = w;
+            height = h;
+            mineCount = mines;
+            flagCount = 0;
+            clickCount = 0;
+            gameOver = false;
+            firstClick = true;
+            
+            // Hide messages
+            document.querySelector('.victory').style.display = 'none';
+            document.querySelector('.death').style.display = 'none';
+            
+            // Create grid
+            grid = Array(height).fill().map(() => Array(width).fill(0));
+            revealed = Array(height).fill().map(() => Array(width).fill(false));
+            
+            // Update stats
+            document.getElementById('mines').textContent = mineCount;
+            document.getElementById('flags').textContent = flagCount;
+            document.getElementById('clicks').textContent = clickCount;
+            
+            // Render empty grid
+            renderGrid();
+        }
+        
+        function placeMines(avoidX, avoidY) {
+            // Place mines, avoiding first click
+            let placed = 0;
+            while (placed < mineCount) {
+                const x = Math.floor(Math.random() * width);
+                const y = Math.floor(Math.random() * height);
+                
+                // Don't place mine on first click or its neighbors
+                const dist = Math.abs(x - avoidX) + Math.abs(y - avoidY);
+                if (grid[y][x] !== -1 && dist > 1) {
+                    grid[y][x] = -1;
+                    placed++;
+                    
+                    // Update counts for neighbors
+                    for (let ny = Math.max(0, y-1); ny <= Math.min(height-1, y+1); ny++) {
+                        for (let nx = Math.max(0, x-1); nx <= Math.min(width-1, x+1); nx++) {
+                            if (grid[ny][nx] !== -1) {
+                                grid[ny][nx]++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        function renderGrid() {
+            const gameDiv = document.getElementById('game');
+            gameDiv.innerHTML = '';
+            gameDiv.style.gridTemplateColumns = `repeat(${width}, 27px)`;
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    // Left click - reveal
+                    cell.addEventListener('click', (e) => {
+                        if (!gameOver && !cell.classList.contains('flagged')) {
+                            handleClick(x, y);
+                        }
+                    });
+                    
+                    // Right click - flag
+                    cell.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        if (!gameOver && !revealed[y][x]) {
+                            toggleFlag(x, y);
+                        }
+                    });
+                    
+                    gameDiv.appendChild(cell);
+                }
+            }
+        }
+        
+        function handleClick(x, y) {
+            if (revealed[y][x]) return;
+            
+            // First click - place mines
+            if (firstClick) {
+                placeMines(x, y);
+                firstClick = false;
+            }
+            
+            clickCount++;
+            document.getElementById('clicks').textContent = clickCount;
+            
+            // Hit mine - game over
+            if (grid[y][x] === -1) {
+                gameOver = true;
+                revealAll();
+                document.querySelector('.death').style.display = 'block';
+                return;
+            }
+            
+            // Reveal and cascade
+            reveal(x, y);
+            
+            // Check victory
+            if (checkVictory()) {
+                gameOver = true;
+                document.querySelector('.victory').style.display = 'block';
+            }
+        }
+        
+        function reveal(x, y) {
+            if (revealed[y][x]) return;
+            
+            revealed[y][x] = true;
+            const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+            cell.classList.add('revealed');
+            
+            if (grid[y][x] > 0) {
+                cell.textContent = grid[y][x];
+                cell.dataset.count = grid[y][x];
+            } else if (grid[y][x] === 0) {
+                // CASCADE - The most satisfying mechanic in gaming
+                for (let ny = Math.max(0, y-1); ny <= Math.min(height-1, y+1); ny++) {
+                    for (let nx = Math.max(0, x-1); nx <= Math.min(width-1, x+1); nx++) {
+                        if (!revealed[ny][nx]) {
+                            reveal(nx, ny);
+                        }
+                    }
+                }
+            }
+        }
+        
+        function toggleFlag(x, y) {
+            const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+            
+            if (cell.classList.contains('flagged')) {
+                cell.classList.remove('flagged');
+                cell.textContent = '';
+                flagCount--;
+            } else {
+                cell.classList.add('flagged');
+                cell.textContent = '🚩';
+                flagCount++;
+            }
+            
+            document.getElementById('flags').textContent = flagCount;
+        }
+        
+        function revealAll() {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                    
+                    if (grid[y][x] === -1) {
+                        cell.classList.add('mine', 'revealed');
+                        cell.textContent = '💣';
+                    } else if (!revealed[y][x]) {
+                        cell.classList.add('revealed');
+                        if (grid[y][x] > 0) {
+                            cell.textContent = grid[y][x];
+                            cell.dataset.count = grid[y][x];
+                        }
+                    }
+                }
+            }
+        }
+        
+        function checkVictory() {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (grid[y][x] !== -1 && !revealed[y][x]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        // Initialize with normal difficulty
+        initGame(16, 16, 40);
+        
+        /*
+         * The Perfect Game:
+         * - Action: Click (not 47 different inputs)
+         * - Reaction: Instant (no animations)
+         * - Learn: Every click teaches
+         * - Reward: Cascades (pure dopamine)
+         * 
+         * Total: ~200 lines
+         * Dependencies: 0
+         * Perfection: Achieved
+         * 
+         * Every "improvement" makes it worse.
+         * This is Minesweeper as it should be.
+         * Forever.
+         */
+    </script>
+</body>
+</html>
