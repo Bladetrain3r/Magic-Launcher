@@ -63,7 +63,7 @@ The second volume is a somewhat more focused dissection of SuiteCRM and enterpri
 Volume 3 is the Quixotic Quest, although I've gotten a working game economy when some couldn't.
 Volume 4, is perhaps the most focused, and largely ties up conclusions from prior volumes - enterprise theater, why simplicity always seems to win.
 minesweeper-mutations contains the first half of the unexpected monomyth we created.
-thegaming ones, the rest
+thegamingones, the rest.
 intermission is scatterd analyses but has some very interesting reads I think on AI being a mirror of our own *effort*.
 An lastly, the theology folder is where you go if you want to find god - or at least a particularly amusing form of shamanistic zen.
 
