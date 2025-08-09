@@ -12,7 +12,7 @@ Nightdive Studios has remastered dozens of classic games. Their secret? They rem
 
 **Make old games work on new systems.**
 
-That's it. That's the entire purpose. Not "revolutionize graphics." Not "showcase engine capabilities." Just "make it work."
+That's the entire purpose. Not "revolutionize graphics." Not "showcase engine capabilities." Just "make it work."
 
 ### System Shock (2023)
 - **Original (1994)**: 4MB RAM required

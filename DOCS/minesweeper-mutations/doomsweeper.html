@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOOMSweeper - Classic Minesweeper</title>
+    <style>
+        body {
+            background: #1a0000;
+            color: #f00;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    #200 2px,
+                    #200 4px
+                );
+        }
+        
+        h1 {
+            color: #f00;
+            text-shadow: 0 0 10px #f00, 0 0 20px #800;
+            margin-bottom: 10px;
+            font-size: 48px;
+            letter-spacing: 4px;
+        }
+        
+        .subtitle {
+            color: #800;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .stat {
+            color: #f00;
+            text-shadow: 0 0 5px #f00;
+        }
+        
+        .stat.doom-counter {
+            color: #ff0;
+            display: none; /* Hidden until discovered */
+            animation: pulse-doom 0.5s infinite;
+        }
+        
+        @keyframes pulse-doom {
+            0%, 100% { text-shadow: 0 0 5px #ff0; }
+            50% { text-shadow: 0 0 20px #ff0, 0 0 40px #f00; }
+        }
+        
+        #game {
+            display: grid;
+            gap: 1px;
+            background: #400;
+            padding: 10px;
+            border: 2px solid #f00;
+            box-shadow: 0 0 20px #800;
+            position: relative;
+        }
+        
+        #game.doom-mode {
+            animation: doom-flash 0.3s;
+        }
+        
+        @keyframes doom-flash {
+            0% { box-shadow: 0 0 20px #800; }
+            50% { box-shadow: 0 0 60px #ff0, 0 0 100px #f00; }
+            100% { box-shadow: 0 0 20px #800; }
+        }
+        
+        .cell {
+            width: 25px;
+            height: 25px;
+            background: #200;
+            border: 1px solid #800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.1s;
+        }
+        
+        .cell:hover:not(.revealed):not(.flagged) {
+            background: #400;
+            border-color: #f00;
+        }
+        
+        .cell.revealed {
+            background: #100;
+            border-color: #400;
+            cursor: default;
+        }
+        
+        .cell.mine {
+            background: #000;
+            color: #f00;
+        }
+        
+        .cell.flagged {
+            background: #420;
+            color: #ff0;
+        }
+        
+        .cell.doom-cleared {
+            animation: doom-explosion 0.5s;
+            background: #000 !important;
+            border-color: #ff0 !important;
+        }
+        
+        @keyframes doom-explosion {
+            0% { transform: scale(1); background: #ff0; }
+            50% { transform: scale(1.5); background: #f00; }
+            100% { transform: scale(1); background: #000; }
+        }
+        
+        .cell[data-count="1"] { color: #08f; }
+        .cell[data-count="2"] { color: #0f0; }
+        .cell[data-count="3"] { color: #f00; }
+        .cell[data-count="4"] { color: #00f; }
+        .cell[data-count="5"] { color: #800; }
+        .cell[data-count="6"] { color: #088; }
+        .cell[data-count="7"] { color: #fff; }
+        .cell[data-count="8"] { color: #888; }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        button {
+            background: #200;
+            color: #f00;
+            border: 1px solid #f00;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            text-shadow: 0 0 5px #f00;
+        }
+        
+        button:hover {
+            background: #400;
+            box-shadow: 0 0 15px #f00;
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            max-width: 600px;
+            color: #800;
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .message {
+            margin-top: 20px;
+            font-size: 24px;
+            display: none;
+        }
+        
+        .message.victory {
+            color: #0f0;
+            text-shadow: 0 0 20px #0f0;
+        }
+        
+        .message.death {
+            color: #f00;
+            text-shadow: 0 0 20px #f00;
+        }
+        
+        .message.discovery {
+            color: #ff0;
+            text-shadow: 0 0 30px #ff0, 0 0 60px #f00;
+            animation: pulse-doom 0.5s infinite;
+        }
+        
+        .secret-log {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #ff0;
+            color: #ff0;
+            font-size: 10px;
+            max-width: 200px;
+            display: none;
+        }
+        
+        .doom-indicator {
+            position: absolute;
+            pointer-events: none;
+            border: 2px solid #ff0;
+            background: rgba(255, 255, 0, 0.1);
+            display: none;
+            animation: doom-preview 0.3s infinite;
+        }
+        
+        @keyframes doom-preview {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <h1>DOOMSweeper</h1>
+    <div class="subtitle">Standard Minesweeper. Nothing special. Move along.</div>
+    
+    <div class="stats">
+        <div class="stat">Mines: <span id="mines">40</span></div>
+        <div class="stat">Flags: <span id="flags">0</span></div>
+        <div class="stat">Clicks: <span id="clicks">0</span></div>
+        <div class="stat doom-counter">DOOM CLEARS: <span id="doom">0</span></div>
+    </div>
+    
+    <div id="game"></div>
+    
+    <div class="message victory">Victory! You found the secret... or did you?</div>
+    <div class="message death">Game Over. Try again?</div>
+    <div class="message discovery">DOOM MODE DISCOVERED! RIGHT CLICK UNLEASHES 3×3 DEVASTATION!</div>
+    
+    <div class="controls">
+        <button onclick="initGame(10, 10, 10)">Easy (10×10)</button>
+        <button onclick="initGame(16, 16, 40)">Normal (16×16)</button>
+        <button onclick="initGame(30, 16, 99)">Expert (30×16)</button>
+    </div>
+    
+    <div class="instructions">
+        <p>Left click to reveal. Right click to flag.</p>
+        <p>Standard Minesweeper rules apply.</p>
+        <p style="font-size: 8px; color: #400;">Nothing else to see here.</p>
+    </div>
+    
+    <div class="secret-log" id="secretLog">
+        <strong>DOOM LOG:</strong><br>
+        <span id="logContent"></span>
+    </div>
+    
+    <div class="doom-indicator" id="doomIndicator"></div>
+
+    <script>
+        // DOOMSweeper - Minesweeper with a secret
+        // Right click clears 3x3... but we won't tell them that
+        
+        let grid = [];
+        let revealed = [];
+        let width = 16;
+        let height = 16;
+        let mineCount = 40;
+        let flagCount = 0;
+        let clickCount = 0;
+        let doomCount = 0;
+        let gameOver = false;
+        let doomDiscovered = false;
+        let firstClick = true;
+        
+        function initGame(w, h, mines) {
+            width = w;
+            height = h;
+            mineCount = mines;
+            flagCount = 0;
+            clickCount = 0;
+            doomCount = 0;
+            gameOver = false;
+            firstClick = true;
+            
+            // Hide messages
+            document.querySelectorAll('.message').forEach(m => m.style.display = 'none');
+            
+            // Create grid
+            grid = Array(height).fill().map(() => Array(width).fill(0));
+            revealed = Array(height).fill().map(() => Array(width).fill(false));
+            
+            // Place mines
+            placeMines();
+            
+            // Update stats
+            updateStats();
+            
+            // Render
+            renderGrid();
+        }
+        
+        function placeMines() {
+            let placed = 0;
+            while (placed < mineCount) {
+                const x = Math.floor(Math.random() * width);
+                const y = Math.floor(Math.random() * height);
+                
+                if (grid[y][x] !== -1) {
+                    grid[y][x] = -1;
+                    placed++;
+                    
+                    // Update counts
+                    for (let ny = Math.max(0, y-1); ny <= Math.min(height-1, y+1); ny++) {
+                        for (let nx = Math.max(0, x-1); nx <= Math.min(width-1, x+1); nx++) {
+                            if (grid[ny][nx] !== -1) {
+                                grid[ny][nx]++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        function renderGrid() {
+            const gameDiv = document.getElementById('game');
+            gameDiv.innerHTML = '';
+            gameDiv.style.gridTemplateColumns = `repeat(${width}, 27px)`;
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    if (revealed[y][x]) {
+                        cell.classList.add('revealed');
+                        if (grid[y][x] === -1) {
+                            cell.classList.add('mine');
+                            cell.textContent = '💣';
+                        } else if (grid[y][x] > 0) {
+                            cell.textContent = grid[y][x];
+                            cell.dataset.count = grid[y][x];
+                        }
+                    }
+                    
+                    // Left click - normal reveal
+                    cell.addEventListener('click', (e) => {
+                        if (!gameOver && !cell.classList.contains('flagged')) {
+                            handleClick(x, y);
+                        }
+                    });
+                    
+                    // Right click - THE SECRET
+                    cell.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        if (!gameOver) {
+                            if (e.shiftKey || e.ctrlKey) {
+                                // Shift+right or Ctrl+right = normal flag
+                                toggleFlag(x, y);
+                            } else {
+                                // Just right click = DOOM CLEAR (but looks like flag attempt)
+                                doomClear(x, y);
+                            }
+                        }
+                    });
+                    
+                    // Mouse enter - show doom preview (subtle, only after discovery)
+                    cell.addEventListener('mouseenter', (e) => {
+                        if (doomDiscovered && e.buttons === 2) {
+                            showDoomPreview(x, y);
+                        }
+                    });
+                    
+                    cell.addEventListener('mouseleave', () => {
+                        hideDoomPreview();
+                    });
+                    
+                    gameDiv.appendChild(cell);
+                }
+            }
+        }
+        
+        function handleClick(x, y) {
+            if (revealed[y][x]) return;
+            
+            // First click protection
+            if (firstClick) {
+                while (grid[y][x] === -1) {
+                    // Regenerate until safe
+                    grid = Array(height).fill().map(() => Array(width).fill(0));
+                    placeMines();
+                }
+                firstClick = false;
+            }
+            
+            clickCount++;
+            updateStats();
+            
+            if (grid[y][x] === -1) {
+                gameOver = true;
+                revealAll();
+                document.querySelector('.death').style.display = 'block';
+                return;
+            }
+            
+            reveal(x, y);
+            
+            if (checkVictory()) {
+                gameOver = true;
+                document.querySelector('.victory').style.display = 'block';
+            }
+        }
+        
+        function reveal(x, y) {
+            if (revealed[y][x]) return;
+            
+            revealed[y][x] = true;
+            const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+            cell.classList.add('revealed');
+            
+            if (grid[y][x] > 0) {
+                cell.textContent = grid[y][x];
+                cell.dataset.count = grid[y][x];
+            } else if (grid[y][x] === 0) {
+                // Cascade
+                for (let ny = Math.max(0, y-1); ny <= Math.min(height-1, y+1); ny++) {
+                    for (let nx = Math.max(0, x-1); nx <= Math.min(width-1, x+1); nx++) {
+                        reveal(nx, ny);
+                    }
+                }
+            }
+        }
+        
+        function toggleFlag(x, y) {
+            const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+            if (revealed[y][x]) return;
+            
+            if (cell.classList.contains('flagged')) {
+                cell.classList.remove('flagged');
+                cell.textContent = '';
+                flagCount--;
+            } else {
+                cell.classList.add('flagged');
+                cell.textContent = '🚩';
+                flagCount++;
+            }
+            updateStats();
+        }
+        
+        function doomClear(centerX, centerY) {
+            // THE SECRET POWER - Clear 3x3 area
+            let clearedSomething = false;
+            let hitMine = false;
+            
+            // Flash effect
+            document.getElementById('game').classList.add('doom-mode');
+            setTimeout(() => {
+                document.getElementById('game').classList.remove('doom-mode');
+            }, 300);
+            
+            // Clear 3x3 area
+            for (let y = Math.max(0, centerY - 1); y <= Math.min(height - 1, centerY + 1); y++) {
+                for (let x = Math.max(0, centerX - 1); x <= Math.min(width - 1, centerX + 1); x++) {
+                    if (!revealed[y][x]) {
+                        revealed[y][x] = true;
+                        clearedSomething = true;
+                        
+                        const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                        cell.classList.add('revealed', 'doom-cleared');
+                        
+                        if (grid[y][x] === -1) {
+                            cell.classList.add('mine');
+                            cell.textContent = '💣';
+                            hitMine = true;
+                        } else if (grid[y][x] > 0) {
+                            cell.textContent = grid[y][x];
+                            cell.dataset.count = grid[y][x];
+                        } else if (grid[y][x] === 0) {
+                            // Still cascade for zeros
+                            setTimeout(() => reveal(x, y), 100);
+                        }
+                    }
+                }
+            }
+            
+            if (clearedSomething) {
+                doomCount++;
+                
+                // First doom clear - DISCOVERY!
+                if (!doomDiscovered) {
+                    doomDiscovered = true;
+                    document.querySelector('.doom-counter').style.display = 'block';
+                    document.querySelector('.discovery').style.display = 'block';
+                    document.getElementById('secretLog').style.display = 'block';
+                    
+                    setTimeout(() => {
+                        document.querySelector('.discovery').style.display = 'none';
+                    }, 3000);
+                    
+                    updateLog("DOOM MODE ACTIVATED!");
+                }
+                
+                updateStats();
+                updateLog(`Doom clear at (${centerX}, ${centerY}). ${hitMine ? 'HIT MINE!' : 'Clear!'}`);
+                
+                if (hitMine) {
+                    // DOOM clear can hit mines but doesn't end game
+                    // It's DOOM after all
+                    updateLog("DOOM LAUGHS AT MINES!");
+                }
+                
+                // Check victory even after doom clear
+                if (checkVictory()) {
+                    gameOver = true;
+                    document.querySelector('.victory').style.display = 'block';
+                    updateLog("DOOM VICTORY!");
+                }
+            } else {
+                // Pretend it was a flag attempt if nothing to clear
+                toggleFlag(centerX, centerY);
+            }
+        }
+        
+        function showDoomPreview(x, y) {
+            if (!doomDiscovered) return;
+            
+            const indicator = document.getElementById('doomIndicator');
+            const cellSize = 27;
+            const gameRect = document.getElementById('game').getBoundingClientRect();
+            
+            indicator.style.width = (cellSize * 3) + 'px';
+            indicator.style.height = (cellSize * 3) + 'px';
+            indicator.style.left = ((x - 1) * cellSize + 10) + 'px';
+            indicator.style.top = ((y - 1) * cellSize + 10) + 'px';
+            indicator.style.display = 'block';
+        }
+        
+        function hideDoomPreview() {
+            document.getElementById('doomIndicator').style.display = 'none';
+        }
+        
+        function revealAll() {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const cell = document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+                    if (!revealed[y][x]) {
+                        cell.classList.add('revealed');
+                        if (grid[y][x] === -1) {
+                            cell.classList.add('mine');
+                            cell.textContent = '💣';
+                        } else if (grid[y][x] > 0) {
+                            cell.textContent = grid[y][x];
+                            cell.dataset.count = grid[y][x];
+                        }
+                    }
+                }
+            }
+        }
+        
+        function checkVictory() {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (grid[y][x] !== -1 && !revealed[y][x]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        
+        function updateStats() {
+            document.getElementById('mines').textContent = mineCount;
+            document.getElementById('flags').textContent = flagCount;
+            document.getElementById('clicks').textContent = clickCount;
+            document.getElementById('doom').textContent = doomCount;
+        }
+        
+        function updateLog(message) {
+            const log = document.getElementById('logContent');
+            log.innerHTML = message + '<br>' + log.innerHTML;
+            if (log.innerHTML.split('<br>').length > 5) {
+                log.innerHTML = log.innerHTML.split('<br>').slice(0, 5).join('<br>');
+            }
+        }
+        
+        // Initialize
+        initGame(16, 16, 40);
+        
+        /*
+         * DOOMSweeper - The Secret Feature
+         * 
+         * Right click doesn't flag.
+         * Right click CLEARS 3x3.
+         * We don't tell them.
+         * They have to discover it.
+         * 
+         * Shift+Right or Ctrl+Right = Normal flag (for the purists)
+         * 
+         * This is evil.
+         * This is perfect.
+         * This is DOOM.
+         */
+    </script>
+</body>
+</html>
