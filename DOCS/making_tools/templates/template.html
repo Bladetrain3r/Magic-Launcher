@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>MLTool Web</title>
+   <style>
+       /* Magic Launcher Theme - CGA/EGA Forever */
+       :root {
+           --bg: #000000;
+           --fg: #00FF00;
+           --accent: #00FFFF;
+           --warning: #FFFF00;
+           --error: #FF00FF;
+           --panel: #1a1a1a;
+           --border: #00FF00;
+           --text: #FFFFFF;
+       }
+       
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+       
+       body {
+           font-family: 'Courier New', monospace;
+           background: var(--bg);
+           color: var(--fg);
+           min-height: 100vh;
+           display: flex;
+           flex-direction: column;
+           line-height: 1.4;
+       }
+       
+       /* Header Bar */
+       header {
+           background: var(--panel);
+           border-bottom: 2px solid var(--border);
+           padding: 10px;
+           display: flex;
+           align-items: center;
+           gap: 10px;
+       }
+       
+       h1 {
+           font-size: 18px;
+           font-weight: normal;
+           color: var(--fg);
+           text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+       }
+       
+       /* Main Content */
+       main {
+           flex: 1;
+           padding: 20px;
+           max-width: 1024px;
+           margin: 0 auto;
+           width: 100%;
+       }
+       
+       /* Input/Output Areas */
+       .io-container {
+           display: grid;
+           grid-template-columns: 1fr 1fr;
+           gap: 20px;
+           height: 400px;
+       }
+       
+       @media (max-width: 768px) {
+           .io-container {
+               grid-template-columns: 1fr;
+               height: auto;
+           }
+       }
+       
+       .panel {
+           background: var(--panel);
+           border: 1px solid var(--border);
+           padding: 10px;
+           display: flex;
+           flex-direction: column;
+       }
+       
+       .panel-header {
+           color: var(--accent);
+           margin-bottom: 10px;
+           font-weight: bold;
+       }
+       
+       textarea, .output {
+           flex: 1;
+           background: var(--bg);
+           color: var(--text);
+           border: 1px solid var(--border);
+           padding: 10px;
+           font-family: 'Courier New', monospace;
+           font-size: 14px;
+           resize: none;
+           overflow: auto;
+       }
+       
+       textarea:focus {
+           outline: none;
+           border-color: var(--accent);
+           box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+       }
+       
+       .output {
+           white-space: pre-wrap;
+           word-wrap: break-word;
+       }
+       
+       /* Controls */
+       .controls {
+           margin: 20px 0;
+           display: flex;
+           gap: 10px;
+           flex-wrap: wrap;
+       }
+       
+       button, select, input[type="text"], input[type="number"] {
+           background: var(--panel);
+           color: var(--fg);
+           border: 1px solid var(--border);
+           padding: 8px 16px;
+           font-family: 'Courier New', monospace;
+           font-size: 14px;
+           cursor: pointer;
+       }
+       
+       button:hover {
+           background: var(--fg);
+           color: var(--bg);
+       }
+       
+       button:active {
+           transform: translateY(1px);
+       }
+       
+       button:disabled {
+           opacity: 0.5;
+           cursor: not-allowed;
+       }
+       
+       select, input[type="text"], input[type="number"] {
+           cursor: text;
+       }
+       
+       input[type="text"]:focus, 
+       input[type="number"]:focus, 
+       select:focus {
+           outline: none;
+           border-color: var(--accent);
+       }
+       
+       /* Status Bar */
+       footer {
+           background: var(--panel);
+           border-top: 2px solid var(--border);
+           padding: 10px;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           font-size: 12px;
+       }
+       
+       .status {
+           color: var(--accent);
+       }
+       
+       .status.error {
+           color: var(--error);
+       }
+       
+       .status.warning {
+           color: var(--warning);
+       }
+       
+       /* Utility Classes */
+       .hidden {
+           display: none !important;
+       }
+       
+       .monospace {
+           font-family: 'Courier New', monospace;
+       }
+       
+       .flash {
+           animation: flash 0.5s;
+       }
+       
+       @keyframes flash {
+           0%, 100% { opacity: 1; }
+           50% { opacity: 0.3; }
+       }
+       
+       /* Loading Spinner (if needed) */
+       .spinner {
+           display: inline-block;
+           width: 16px;
+           height: 16px;
+           border: 2px solid var(--border);
+           border-top-color: transparent;
+           border-radius: 50%;
+           animation: spin 1s linear infinite;
+       }
+       
+       @keyframes spin {
+           to { transform: rotate(360deg); }
+       }
+   </style>
+</head>
+<body>
+   <header>
+       <h1>MLTool</h1>
+       <span style="color: var(--accent);">│</span>
+       <span style="color: var(--warning);">One job. Fast.</span>
+   </header>
+   
+   <main>
+       <!-- Input/Output Split View -->
+       <div class="io-container">
+           <div class="panel">
+               <div class="panel-header">INPUT</div>
+               <textarea id="input" placeholder="Paste or type input here..."></textarea>
+           </div>
+           <div class="panel">
+               <div class="panel-header">OUTPUT</div>
+               <div id="output" class="output"></div>
+           </div>
+       </div>
+       
+       <!-- Controls -->
+       <div class="controls">
+           <button onclick="processData()">PROCESS</button>
+           <button onclick="clearAll()">CLEAR</button>
+           <button onclick="copyOutput()">COPY</button>
+           
+           <!-- Optional: Tool-specific controls -->
+           <select id="mode" class="hidden">
+               <option value="default">Default</option>
+               <option value="advanced">Advanced</option>
+           </select>
+           
+           <input type="number" id="param" class="hidden" placeholder="Parameter" min="1" max="100">
+       </div>
+   </main>
+   
+   <footer>
+       <span class="status" id="status">Ready</span>
+       <span>
+           <span id="charcount">0</span> chars │ 
+           <span id="linecount">0</span> lines
+       </span>
+   </footer>
+   
+   <script>
+       // Core functionality
+       const input = document.getElementById('input');
+       const output = document.getElementById('output');
+       const status = document.getElementById('status');
+       
+       // Your tool logic here
+       function processData() {
+           const text = input.value;
+           
+           if (!text) {
+               setStatus('No input provided', 'error');
+               return;
+           }
+           
+           setStatus('Processing...', 'warning');
+           
+           // REPLACE THIS WITH YOUR ACTUAL TOOL LOGIC
+           // Example: uppercase everything
+           const result = text.toUpperCase();
+           
+           // Display result
+           output.textContent = result;
+           output.classList.add('flash');
+           setTimeout(() => output.classList.remove('flash'), 500);
+           
+           setStatus('Complete', 'success');
+           updateCounts();
+       }
+       
+       // Utility functions
+       function clearAll() {
+           input.value = '';
+           output.textContent = '';
+           setStatus('Cleared', 'status');
+           updateCounts();
+       }
+       
+       function copyOutput() {
+           const text = output.textContent;
+           if (!text) {
+               setStatus('Nothing to copy', 'error');
+               return;
+           }
+           
+           navigator.clipboard.writeText(text).then(() => {
+               setStatus('Copied to clipboard', 'success');
+           }).catch(() => {
+               // Fallback for older browsers
+               const ta = document.createElement('textarea');
+               ta.value = text;
+               document.body.appendChild(ta);
+               ta.select();
+               document.execCommand('copy');
+               document.body.removeChild(ta);
+               setStatus('Copied to clipboard', 'success');
+           });
+       }
+       
+       function setStatus(text, type = 'status') {
+           status.textContent = text;
+           status.className = `status ${type}`;
+       }
+       
+       function updateCounts() {
+           const text = input.value;
+           document.getElementById('charcount').textContent = text.length;
+           document.getElementById('linecount').textContent = text.split('\n').length;
+       }
+       
+       // Event handlers
+       input.addEventListener('input', updateCounts);
+       
+       // Keyboard shortcuts
+       document.addEventListener('keydown', (e) => {
+           if (e.ctrlKey || e.metaKey) {
+               switch(e.key) {
+                   case 'Enter':
+                       e.preventDefault();
+                       processData();
+                       break;
+                   case 'd':
+                       e.preventDefault();
+                       clearAll();
+                       break;
+                   case 'c':
+                       if (output.textContent && !window.getSelection().toString()) {
+                           e.preventDefault();
+                           copyOutput();
+                       }
+                       break;
+               }
+           }
+       });
+       
+       // Load from URL parameters (optional)
+       const params = new URLSearchParams(window.location.search);
+       if (params.has('input')) {
+           input.value = decodeURIComponent(params.get('input'));
+           updateCounts();
+       }
+       
+       // Auto-process if data provided
+       if (params.has('auto')) {
+           processData();
+       }
+       
+       // PWA-ready (optional)
+       if ('serviceWorker' in navigator && location.protocol === 'https:') {
+           // navigator.serviceWorker.register('/sw.js');
+       }
+       
+       // Initialize
+       updateCounts();
+       setStatus('Ready', 'status');
+   </script>
+</body>
+</html>
