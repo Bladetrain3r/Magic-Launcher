@@ -9,7 +9,40 @@ If you're arguing for complexity, you've already lost.
 
 ---
 
-## The Sacred Constraints
+## The Pillars
+
+### Speed is Life, Bloat is Death  
+- Sub-second startup, <50MB RAM.  
+- Every feature must justify its performance cost.
+
+### OS-Free Thinking  
+- Same behavior across platforms (Raspberry Pi to gaming rig).  
+- No OS-specific dependencies; use file-based configs.
+
+### Focused Functionality  
+- Solve one problem exceptionally.  
+- Resist feature creep; explainable in one sentence.
+
+## Technical Standards
+
+### Minimum Requirements:  
+- 640x480 display, 32MB RAM, Python 3.6+, minimal dependencies (stdlib preferred).
+
+### Visual Design:  
+- CGA/EGA-inspired colors, monospace fonts, fixed grids.  
+- No animations, support 16-color terminals.
+
+### Code Principles:  
+- Simple, fast code (e.g., subprocess.run(path)) over clever abstractions.  
+- Fail gracefully, log quietly, prioritize keyboard navigation.
+```
+File Structure:  app_name/
+├── app.py        # Core logic
+├── config.json   # Human-readable config
+└── README.md     # One-page max
+```
+
+## Target Constraints
 
 ### 1. Line Limit: 500 Maximum, 200 Optimal
 - Under 200 lines: Perfect, ship it
@@ -388,6 +421,35 @@ But also:
 
 ---
 
+### Recommended Reading
+The DOCS folder has gotten quite lengthy and I admit significant portions are the WHY of things or musings on completely separate topics.
+Key Documents I think will provide you the toolkit to create tools that bring you joy:
+
+#### APP_GUIDELINES.md
+The core principles and technical standards. Start here. Everything else builds on this foundation.
+
+#### making_tools/command_expansion.md
+How to use `$()` to compose tools. The forgotten Unix power that turns every CLI into a function.
+
+#### making_tools/templates/
+- `core.py` - Basic CLI template (17 lines of boilerplate)
+- `core_plus_gui.py` - CLI with optional GUI 
+- `template.html` - Web interface template
+Start with these. Modify the `run()` function. Ship it.
+
+#### Vol. 2 03 + 04
+- "Glyphs are magic" explains a lot about why pipes and text streams can be powerful
+
+#### Vol1. Silicon_Spring.html
+The aspiration. The mad dream. The philosophy behind the revolution. Read when you need motivation or context.
+Or just hit up the webpage: 
+
+#### making_tools/ (folder)
+A folder specifically earmarked for documents covering practical implementation:
+- Command expansion, pipes, and Unix composition patterns
+- Cron scheduling and automation
+- Different ways of composing MLTools to produce solutions
+- Real-world examples and patterns
 ## END TRANSMISSION
 
 May your tools be simple and your code be short.
