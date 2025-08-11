@@ -53,6 +53,9 @@ def send(self, message):
 **New Dependencies**: tkinter (stdlib)
 **Result**: Same core, better UX
 
+**And Also**
+- An HTML client NOT using websocket.
+
 ---
 
 ## The Metrics
