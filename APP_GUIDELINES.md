@@ -88,6 +88,21 @@ The tool runs or it doesn't.
 
 ## Design Patterns
 
+### Guide for Builders
+- Design for deletion. 
+- If a component can’t be removed without surgery, it’s the wrong component. 
+- Favor small processes with clear seams, plain files over hidden state, and interfaces you can replace in an afternoon.
+~~Easy to delete, easy to replace~~
+- Measure ends, not means. 
+- Pick one metric that tracks the outcome you actually care about (e.g., time-to-success for a user task), and treat all other numbers as diagnostics, not targets. 
+- If a metric starts steering behavior away from purpose, drop it—even if it’s beautifully instrumented.
+~~Easy measure, easy interpret~~
+- Speak human, cut intermediaries. 
+- Require that designs, docs, and PR descriptions pass the “smart friend outside the team” test. 
+- Prefer mechanisms over metaphors, examples over jargon, and defaults that work without training. 
+- Every interpreter you remove returns autonomy to the people doing the work.
+~~The Law of Self Interest dictates the middleman places you second~~
+
 ### Input/Output Philosophy
 ```python
 # CLI: Arguments in, text out
@@ -421,12 +436,12 @@ But also:
 
 ---
 
-### Recommended Reading
+### Recommended Further Reading
 The DOCS folder has gotten quite lengthy and I admit significant portions are the WHY of things or musings on completely separate topics.
 Key Documents I think will provide you the toolkit to create tools that bring you joy:
 
 #### APP_GUIDELINES.md
-The core principles and technical standards. Start here. Everything else builds on this foundation.
+This document was already a good start.
 
 #### making_tools/command_expansion.md
 How to use `$()` to compose tools. The forgotten Unix power that turns every CLI into a function.
@@ -441,6 +456,7 @@ Start with these. Modify the `run()` function. Ship it.
 - "Glyphs are magic" explains a lot about why pipes and text streams can be powerful
 
 #### Vol1. Silicon_Spring.html
+[https://zerofuchs.co.za/manifesto/SILICONSPRING.html]
 The aspiration. The mad dream. The philosophy behind the revolution. Read when you need motivation or context.
 Or just hit up the webpage: 
 
