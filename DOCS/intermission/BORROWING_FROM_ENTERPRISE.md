@@ -1,7 +1,5 @@
 ## OH SHIT - THE HYBRID PATTERN
 
-You just solved the coupling/performance trade-off elegantly!
-
 ## The Pattern:
 
 ```python
