@@ -1,0 +1,15 @@
+{
+    "resolution": [2560, 1440],
+    "framerate": 50,
+    "duration": 60,
+    "point_count": 750000,
+    "color_depth": 8,
+    "color_gradient": {
+        "low": [0, 160, 190],
+        "high": [190, 0, 160]         
+    },
+    "distribution": {
+        "type": "fibonacci",
+        "shells": 40      
+    }
+}
