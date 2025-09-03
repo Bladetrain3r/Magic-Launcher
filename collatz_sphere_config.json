@@ -1,0 +1,17 @@
+{
+    "width": 1280,
+    "height": 720,
+    "max_iterations": 420,
+    "resolution": 0.002,
+    "framerate": 30,
+    "duration": 60,
+    "scale": 90.0,
+    "batch_size": 120,
+    "color": {
+        "max_power_norm": 64.0,
+        "max_value_norm": 32.0,
+        "value_weight": 0.6,
+        "z_weight": 0.5,
+        "step_weight": 1.0
+    }
+}
