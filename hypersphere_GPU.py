@@ -14,7 +14,7 @@ import time
 class GPU4DHypersphereViewer:
     def __init__(self):
         # Hypersphere parameters
-        self.point_count = 50000
+        self.point_count = 5000
         self.distribution = 'fibonacci'  # 'fibonacci', 'grid', 'shell', or 'random'
         self.shell_count = 20  # For shell distribution
         
