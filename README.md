@@ -147,7 +147,7 @@ All configuration is stored in `~/.config/launcher/`:
 - `shortcuts.json`: Your shortcuts and folders
 - `icons/`: BMP icon files
 - `launcher.log`: Application logs
-- `app_name.txt`: Title Bar file
+- `title.txt`: Title Bar file
 ### Adding Shortcuts
 
 1. Click the **+** button or right-click and select "New"
@@ -382,7 +382,7 @@ This is why import and scan functions for things which are not *in* the config f
 
 ### SSH/X11 Issues
 - Ensure X11 forwarding is enabled: `ssh -X user@host`
-- The fixed 720p resolution should work on most displays
+- The default 720p window (640x480 fallback on small screens) should work on most displays
 
 ### Spaces and special characters can cause problems in Windows
 - Workaround: Use powershell to launch with Start-Process e.g.
@@ -399,11 +399,9 @@ This is why import and scan functions for things which are not *in* the config f
 ### Known Issues
 - Launching multiple terminal apps at once is permitted and may cause a mess in your TTY. Restart Magic Launcher and/or the terminal session to resolve.
 - Unicode font support may be limited based on OS.
-- Right-click dialogue starts popping up every time you mouse over certain coordinates, sometimes. Right click event not handling properly?
 - Delayed response over a network and multiple inputs can make things weird.
 - String handling needs to be sanity checked.
 - When run on Linux the resizing is enabled (future feature, current bug)
-- Changing an empty shortcut to a folder still results in a missing shortcut error. Delete isn't affected so recreate to resolve.
 - Brackets* in Windows path names are problematic
 - Shortcut keys may still trigger actions when the window is out of focus
 - Sample script imports may see executables but not add them if the path is weird (dashes, etc.).

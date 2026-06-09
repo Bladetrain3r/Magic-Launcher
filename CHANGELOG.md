@@ -17,6 +17,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - INTRO doc created to cover the bare basics
 
 ## [1.1] - The conf.d Apprach - PENDING
+### Bug Smash (DONE)
+- Fixed missing `import sys` in app.py - the friendly "install tkinter" message now actually prints instead of crashing with a NameError.
+- Fixed unbound variable crash in config.py when default.json is missing.
+- Edit dialog can now actually convert shortcut↔folder (was silently ignored, leaving the "missing shortcut" known issue). Converting a non-empty folder asks first.
+- Duplicating a folder now copies its contents instead of creating an empty folder.
+- Edit/Duplicate/Delete from search results now operate on the item's real parent folder instead of the currently viewed folder.
+- Right-click menu uses tk_popup with proper grab release - fixes the phantom context menu popping up on mouse-over.
+- Shortcut validity checks (the red X overlay) are now cached per path, so search-as-you-type no longer hits the filesystem and PATH for every icon on every keystroke. Ctrl+R clears the cache.
+- Deduplicated the validity check (was copy-pasted in main_window and widgets) into utils/launcher.
+- Fixed unreachable small-screen warning branch in window sizing; sub-640px screens now warn AND get safe-mode sizing instead of crashing on missing attributes.
+- README: title bar file is title.txt (was documented as app_name.txt).
+
 ### My Top Ten: (PENDING)
 - Ctrl+1 to Ctrl+0 now bind the selected shortcut to a doubletap of that number 
 - These hotkey-bound shortcuts are stored as individual files named 1.json, 2.json, etc., containing the full shortcut definition.
