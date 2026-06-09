@@ -29,16 +29,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Fixed unreachable small-screen warning branch in window sizing; sub-640px screens now warn AND get safe-mode sizing instead of crashing on missing attributes.
 - README: title bar file is title.txt (was documented as app_name.txt).
 
-### My Top Ten: (PENDING)
+### My Top Ten: (DONE)
 - Ctrl+1 to Ctrl+0 now bind the selected shortcut to a doubletap of that number 
 - These hotkey-bound shortcuts are stored as individual files named 1.json, 2.json, etc., containing the full shortcut definition.
+- Stored in ~/.config/launcher/hotkeys/ - edit or delete the files directly to manage bindings.
+- Digit taps are ignored while typing in an entry field, so searching for "2048" doesn't launch anything.
 
-### Hide My Shame (PENDING)
+### Hide My Shame (DONE)
 - Ctrl + L now "locks" the screen
-- Reloads screen with blank JSON - no shortcuts to load, nothing to see.
+- Renders nothing, ignores all hotkeys and toolbar buttons except Ctrl+U and Ctrl+Q.
 - Ctrl + U to unlock.
-- If password.txt exists in ~/.config/launcher/ it will pop up a password dialogue on unlock. 
-- (Remove once confirmed) Check if empty passwords.txt will allow a blank password to be input.
+- If password.txt exists in ~/.config/launcher/ it will pop up a password dialogue on unlock, and the launcher starts locked.
+- Confirmed: an empty (or whitespace-only) password.txt means no password prompt - same as no file. Delete or empty it to disable.
 - Won't even bother hashing it this is just a quick speedbump for casual compromisers
 
 ### Not a Couples Game:

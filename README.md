@@ -134,6 +134,10 @@ This is to make auto-update scripts a bit easier and so the working directory ca
 - **Escape**: Go up one level / Exit search
 - **Backspace**: Go up one level
 - **Ctrl+I**: Show all shortcuts
+- **Ctrl+1 to Ctrl+0**: Bind the selected shortcut to that number
+- **Doubletap 1-0**: Launch the bound shortcut
+- **Ctrl+L**: Lock the screen (shows nothing, ignores input)
+- **Ctrl+U**: Unlock the screen
 
 ### Mouse Actions
 
@@ -148,6 +152,20 @@ All configuration is stored in `~/.config/launcher/`:
 - `icons/`: BMP icon files
 - `launcher.log`: Application logs
 - `title.txt`: Title Bar file
+- `hotkeys/`: Number-key bindings (1.json to 0.json, one shortcut each)
+- `password.txt`: Optional lock screen password (plain text)
+
+### Number Hotkeys
+Select a shortcut and press Ctrl+1 through Ctrl+0 to bind it to that number.
+Doubletap the number to launch it from anywhere in the launcher.
+Each binding is a standalone copy of the shortcut in `~/.config/launcher/hotkeys/<n>.json` - edit or delete the files directly to manage them.
+Bindings are copies, not links: editing the original shortcut later does not update the hotkey.
+
+### Lock Screen
+Ctrl+L blanks the screen and ignores all input except Ctrl+U (unlock) and Ctrl+Q (quit).
+If `~/.config/launcher/password.txt` contains a password, unlocking prompts for it - and the launcher starts locked.
+Delete the file (or leave it empty) to disable the password.
+This is a fig leaf for casual snoopers, not security: the password is plain text and your shortcuts file is readable by anything.
 ### Adding Shortcuts
 
 1. Click the **+** button or right-click and select "New"
