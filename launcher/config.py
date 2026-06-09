@@ -110,15 +110,15 @@ class ConfigManager:
         try:
             with open(DEFAULT_SHORTCUTS_PATH, 'r', encoding='utf-8') as f:
                 default_shortcuts = json.load(f)
-            for name, item_data in default_shortcuts.items():
-                shortcuts[name] = item_from_dict(name, item_data)
         except FileNotFoundError as e:
             logger.error(f"Default shortcuts file not found: {e}")
             exit(1)
         if not default_shortcuts:
             logger.warning("Failure loading default shortcuts, please check the default.json file")
             exit(1)
-        
+        for name, item_data in default_shortcuts.items():
+            shortcuts[name] = item_from_dict(name, item_data)
+
         # Save defaults
         self.save_shortcuts(shortcuts)
         return shortcuts

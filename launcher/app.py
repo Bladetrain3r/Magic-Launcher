@@ -3,6 +3,8 @@
 Main application module.
 """
 
+import sys
+
 try:
     import tkinter as tk
 except ImportError:
@@ -22,7 +24,7 @@ import locale
 from ui.main_window import MainWindow
 from utils.logger import logger
 from constants import VERSION
-from config import ConfigManager
+from config import config_manager
 
 class LauncherApp:
     """Main application controller."""
@@ -49,7 +51,7 @@ class LauncherApp:
     def run(self):
         """Run the application."""
         try:
-            logger.info(f"Starting {ConfigManager.get_app_name(self)} v{VERSION}")
+            logger.info(f"Starting {config_manager.get_app_name()} v{VERSION}")
 
             # Create main window
             self.main_window = MainWindow(self.root)

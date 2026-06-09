@@ -134,6 +134,10 @@ This is to make auto-update scripts a bit easier and so the working directory ca
 - **Escape**: Go up one level / Exit search
 - **Backspace**: Go up one level
 - **Ctrl+I**: Show all shortcuts
+- **Ctrl+1 to Ctrl+0**: Bind the selected shortcut to that number
+- **Doubletap 1-0**: Launch the bound shortcut
+- **Ctrl+L**: Lock the screen (shows nothing, ignores input)
+- **Ctrl+U**: Unlock the screen
 
 ### Mouse Actions
 
@@ -147,7 +151,21 @@ All configuration is stored in `~/.config/launcher/`:
 - `shortcuts.json`: Your shortcuts and folders
 - `icons/`: BMP icon files
 - `launcher.log`: Application logs
-- `app_name.txt`: Title Bar file
+- `title.txt`: Title Bar file
+- `hotkeys/`: Number-key bindings (1.json to 0.json, one shortcut each)
+- `password.txt`: Optional lock screen password (plain text)
+
+### Number Hotkeys
+Select a shortcut and press Ctrl+1 through Ctrl+0 to bind it to that number.
+Doubletap the number to launch it from anywhere in the launcher.
+Each binding is a standalone copy of the shortcut in `~/.config/launcher/hotkeys/<n>.json` - edit or delete the files directly to manage them.
+Bindings are copies, not links: editing the original shortcut later does not update the hotkey.
+
+### Lock Screen
+Ctrl+L blanks the screen and ignores all input except Ctrl+U (unlock) and Ctrl+Q (quit).
+If `~/.config/launcher/password.txt` contains a password, unlocking prompts for it - and the launcher starts locked.
+Delete the file (or leave it empty) to disable the password.
+This is a fig leaf for casual snoopers, not security: the password is plain text and your shortcuts file is readable by anything.
 ### Adding Shortcuts
 
 1. Click the **+** button or right-click and select "New"
@@ -382,7 +400,7 @@ This is why import and scan functions for things which are not *in* the config f
 
 ### SSH/X11 Issues
 - Ensure X11 forwarding is enabled: `ssh -X user@host`
-- The fixed 720p resolution should work on most displays
+- The default 720p window (640x480 fallback on small screens) should work on most displays
 
 ### Spaces and special characters can cause problems in Windows
 - Workaround: Use powershell to launch with Start-Process e.g.
@@ -399,11 +417,9 @@ This is why import and scan functions for things which are not *in* the config f
 ### Known Issues
 - Launching multiple terminal apps at once is permitted and may cause a mess in your TTY. Restart Magic Launcher and/or the terminal session to resolve.
 - Unicode font support may be limited based on OS.
-- Right-click dialogue starts popping up every time you mouse over certain coordinates, sometimes. Right click event not handling properly?
 - Delayed response over a network and multiple inputs can make things weird.
 - String handling needs to be sanity checked.
 - When run on Linux the resizing is enabled (future feature, current bug)
-- Changing an empty shortcut to a folder still results in a missing shortcut error. Delete isn't affected so recreate to resolve.
 - Brackets* in Windows path names are problematic
 - Shortcut keys may still trigger actions when the window is out of focus
 - Sample script imports may see executables but not add them if the path is weird (dashes, etc.).

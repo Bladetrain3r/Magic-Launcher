@@ -4,8 +4,42 @@ import subprocess
 import platform
 import os
 from pathlib import Path
+from shutil import which
 from typing import Optional
 from utils.logger import logger
+
+# Cache of path -> validity so re-renders (especially search-as-you-type)
+# don't hit the filesystem or PATH lookup for every icon, every keystroke.
+_validity_cache = {}
+
+
+def is_valid_target(path: str) -> bool:
+    """Check if a shortcut target points at something launchable."""
+    if not path:
+        return False
+
+    if path in _validity_cache:
+        return _validity_cache[path]
+
+    # URLs are always considered valid (we can't check them quickly)
+    if path.startswith(('http://', 'https://')):
+        valid = True
+    else:
+        expanded = os.path.expanduser(os.path.expandvars(path))
+        if os.path.isabs(expanded):
+            valid = os.path.exists(expanded)
+        else:
+            # Might be a command in PATH
+            cmd = path.split()[0]
+            valid = which(cmd) is not None
+
+    _validity_cache[path] = valid
+    return valid
+
+
+def clear_validity_cache():
+    """Forget cached path checks (e.g. on config refresh)."""
+    _validity_cache.clear()
 
 
 class Launcher:

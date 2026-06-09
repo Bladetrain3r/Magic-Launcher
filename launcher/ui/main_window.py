@@ -1,26 +1,19 @@
 """Main window for the launcher."""
 
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, simpledialog
 from typing import Dict, List, Tuple, Optional
-import os
-from shutil import which
+import json
+import time
 
 from constants import *
 from models import BaseItem, Folder, Shortcut, item_from_dict
 from config import config_manager
-from utils.launcher import Launcher
+from utils.launcher import Launcher, is_valid_target, clear_validity_cache
 from utils.logger import logger
 from ui.widgets import IconWidget, SearchBar
 from ui.dialogs import ItemDialog
 
-# Cursed but simple
-
-try:
-    with open(CONFIG_DIR / 'mlwidth.txt', 'r', encoding='utf-8') as f:
-        custom_width = int(f.read().strip())
-except (FileNotFoundError, TypeError, ValueError):
-    custom_width = WINDOW_WIDTH
 
 class MainWindow:
     """Main application window."""
@@ -38,7 +31,7 @@ class MainWindow:
         try:
             actual_screen_width = self.root.winfo_screenwidth()
             # If you're just gonna make us declare the type anyway...
-            if int(custom_width) >= 640 and int(custom_width) < int(actual_screen_width):
+            if custom_width and 640 <= int(custom_width) < int(actual_screen_width):
                 multiplier = int(custom_width) / WINDOW_WIDTH
                 self.width_cols = int(multiplier * ICON_GRID_COLUMNS)
                 self.width_hq = int(custom_width)
@@ -46,12 +39,12 @@ class MainWindow:
             # Safe Mode if screen width smaller than default
             # This is a fallback for very small screens
             elif actual_screen_width < WINDOW_WIDTH:
+                if actual_screen_width < 640:
+                    print("Warning: Screen width is less than 640px, unsupported resolution.")
+                    logger.warning("Screen width is less than 640px, unexpected results may occur.")
                 self.width_cols = 4
                 self.width_hq = 640
                 self.height_hq = 480
-            elif actual_screen_width < 640:
-                print("Warning: Screen width is less than 640px, unsupported resolution.")
-                logger.warning("Screen width is less than 640px, unexpected results may occur.")
             else:
                 # Catch-all for any other issues
                 self.width_cols = ICON_GRID_COLUMNS
@@ -62,7 +55,7 @@ class MainWindow:
             self.width_hq = WINDOW_WIDTH
             self.height_hq = WINDOW_HEIGHT
 
-        
+
         logger.info(f"Using {self.width_cols} columns, {self.width_hq}x{self.height_hq} resolution")
         logger.info(f"Screen width: {self.root.winfo_screenwidth()}")
         logger.info(f"Screen height: {self.root.winfo_screenheight()}")
@@ -79,7 +72,15 @@ class MainWindow:
         self.search_query = ""
         self.selected_item: Optional[Tuple[BaseItem, List[str]]] = None
         self.dialog_open = False
-        
+
+        # Lock state - auto-lock on startup if a password is set
+        # (delete password.txt to disable)
+        self.locked = bool(self._get_password())
+
+        # Doubletap tracking for number-key hotkeys
+        self._last_digit = None
+        self._last_digit_time = 0.0
+
         # Load data
         self.load_shortcuts()
         
@@ -102,6 +103,7 @@ class MainWindow:
 
     def refresh_shortcuts(self):
         """Reload shortcuts from config."""
+        clear_validity_cache()
         self.load_shortcuts()
         self.render_items()
     
@@ -136,16 +138,20 @@ class MainWindow:
         title.pack(side='left', expand=True, fill='both', padx=2)
 
         self._make_button(title_frame, "S", COLORS['light_gray'],
-                         self.substitute_paths_dialog).pack(side='right', padx=2)
+                         self._guard(self.substitute_paths_dialog)).pack(side='right', padx=2)
 
         separator = tk.Frame(title_frame, width=2, bg=COLORS['dark_gray'], height=30)
         separator.pack(side='right', padx=5)
-        
+
         # Right buttons
         self._make_button(title_frame, "FIND", COLORS['light_gray'],
-                         self.toggle_search).pack(side='right', padx=2)
+                         self._guard(self.toggle_search)).pack(side='right', padx=2)
         self._make_button(title_frame, "+", COLORS['light_gray'],
-                         self.add_item).pack(side='right', padx=2)
+                         self._guard(self.add_item)).pack(side='right', padx=2)
+
+    def _guard(self, fn):
+        """Wrap a button command so it does nothing while locked."""
+        return lambda: None if self.locked else fn()
     
     def _create_info_bar(self):
         """Create the info bar with breadcrumb and search."""
@@ -192,29 +198,47 @@ class MainWindow:
                         highlightthickness=0, padx=10)
     
     def _bind_shortcuts(self):
-        """Bind keyboard shortcuts."""
+        """Bind keyboard shortcuts. All but quit/lock/unlock are inert while locked."""
         self.root.bind('<Control-q>', lambda e: self.quit_app())
-        self.root.bind('<Control-i>', lambda e: self.show_info())
-        self.root.bind('<Control-s>', lambda e: self.substitute_paths_dialog())
-        self.root.bind('<Control-n>', lambda e: self.add_item())
-        self.root.bind('<Control-h>', lambda e: self.go_home())
-        self.root.bind('<Control-f>', lambda e: self.toggle_search())
-        self.root.bind('<Control-d>', lambda e: self.duplicate_selected())
-        self.root.bind('<Control-e>', lambda e: self.edit_item(self.selected_item[0]) if self.selected_item else None)
-        self.root.bind('<Control-r>', lambda e: self.refresh_shortcuts())
-        self.root.bind('<Control-p>', lambda e: self.show_properties(self.selected_item[0]) if self.selected_item else None)
-        self.root.bind('<Escape>', self._handle_escape)
-        self.root.bind('<Return>', self._handle_enter)
-        self.root.bind('<BackSpace>', lambda e: self.go_up() if self.current_path else None)
-        self.root.bind('<Left>', self.navigate_left)
-        self.root.bind('<Right>', self.navigate_right)
+        self.root.bind('<Control-l>', lambda e: self.lock_screen())
+        self.root.bind('<Control-u>', lambda e: self.unlock_screen())
+
+        def bind_unlocked(sequence, handler):
+            self.root.bind(sequence, lambda e: None if self.locked else handler(e))
+
+        bind_unlocked('<Control-i>', lambda e: self.show_info())
+        bind_unlocked('<Control-s>', lambda e: self.substitute_paths_dialog())
+        bind_unlocked('<Control-n>', lambda e: self.add_item())
+        bind_unlocked('<Control-h>', lambda e: self.go_home())
+        bind_unlocked('<Control-f>', lambda e: self.toggle_search())
+        bind_unlocked('<Control-d>', lambda e: self.duplicate_selected())
+        bind_unlocked('<Control-e>', lambda e: self.edit_item(*self.selected_item) if self.selected_item else None)
+        bind_unlocked('<Control-r>', lambda e: self.refresh_shortcuts())
+        bind_unlocked('<Control-p>', lambda e: self.show_properties(self.selected_item[0]) if self.selected_item else None)
+        bind_unlocked('<Escape>', self._handle_escape)
+        bind_unlocked('<Return>', self._handle_enter)
+        bind_unlocked('<BackSpace>', lambda e: self.go_up() if self.current_path else None)
+        bind_unlocked('<Left>', self.navigate_left)
+        bind_unlocked('<Right>', self.navigate_right)
+
+        # Number hotkeys: Ctrl+digit assigns selected shortcut,
+        # doubletap digit launches it
+        for digit in '1234567890':
+            bind_unlocked(f'<Control-Key-{digit}>',
+                          lambda e, d=digit: self.assign_hotkey(d))
+            bind_unlocked(f'<Key-{digit}>',
+                          lambda e, d=digit: self._on_digit_key(d))
     
     def render_items(self):
         """Render the current items."""
         # Clear existing
         for widget in self.item_frame.winfo_children():
             widget.destroy()
-        
+
+        if self.locked:
+            self.breadcrumb.config(text="LOCKED - Ctrl+U to unlock")
+            return
+
         items_to_show = self._get_items_to_show()
 
         # Get the width of the actual window
@@ -273,9 +297,13 @@ class MainWindow:
     
     def _get_current_folder(self):
         """Get the current folder."""
+        return self._get_folder_at(self.current_path)
+
+    def _get_folder_at(self, path: List[str]):
+        """Get the folder container at the given path."""
         folder = self.shortcuts
-        
-        for name in self.current_path:
+
+        for name in path:
             if isinstance(folder, dict):
                 item = folder.get(name)
             else:
@@ -347,37 +375,13 @@ class MainWindow:
             self.render_items()
         elif isinstance(item, Shortcut):
             # Check if shortcut is valid before launching
-            if self._is_valid_shortcut(item):
+            if is_valid_target(item.path):
                 if not Launcher.launch(item.path, item.args):
                     messagebox.showerror("Launch Error", 
                                        f"Could not launch {item.name}")
             else:
                 messagebox.showerror("Broken Shortcut", 
                                    f"'{item.name}' points to a missing file or program:\n{item.path}\n\nRight-click to edit or delete.")
-    
-    def _is_valid_shortcut(self, shortcut: Shortcut) -> bool:
-        """Check if a shortcut path is valid."""
-        path = shortcut.path
-        
-        # Empty path is invalid
-        if not path:
-            return False
-        
-        # URLs are always considered valid
-        if path.startswith(('http://', 'https://')):
-            return True
-        
-        # Expand environment variables and user paths
-        expanded = os.path.expanduser(os.path.expandvars(path))
-        
-        # Check if it's an absolute path that exists
-        if os.path.isabs(expanded):
-            return os.path.exists(expanded)
-        
-        # Check if it's a command in PATH
-        from shutil import which
-        cmd = path.split()[0] if path else ""
-        return which(cmd) is not None
     
     def on_item_right_click(self, event, item: BaseItem, path: List[str]):
         """Handle right-click on item."""
@@ -388,17 +392,22 @@ class MainWindow:
                       fg=COLORS['black'], activebackground=COLORS['blue'],
                       activeforeground=COLORS['white'])
         
-        menu.add_command(label="Edit", 
-                        command=lambda: self.edit_item(item))
-        menu.add_command(label="Duplicate", 
-                        command=lambda: self.duplicate_item(item))
-        menu.add_command(label="Delete", 
-                        command=lambda: self.delete_item(item))
+        menu.add_command(label="Edit",
+                        command=lambda: self.edit_item(item, path))
+        menu.add_command(label="Duplicate",
+                        command=lambda: self.duplicate_item(item, path))
+        menu.add_command(label="Delete",
+                        command=lambda: self.delete_item(item, path))
         menu.add_separator()
-        menu.add_command(label="Properties", 
+        menu.add_command(label="Properties",
                         command=lambda: self.show_properties(item))
-        
-        menu.post(event.x_root, event.y_root)
+
+        # tk_popup + grab_release instead of post() so the menu can't get
+        # stuck and reappear on later mouse-overs
+        try:
+            menu.tk_popup(event.x_root, event.y_root)
+        finally:
+            menu.grab_release()
     
     def toggle_search(self):
         """Toggle search mode."""
@@ -417,6 +426,114 @@ class MainWindow:
         """Handle search query change."""
         self.search_query = query
         self.render_items()
+
+    def assign_hotkey(self, digit: str):
+        """Bind the selected shortcut to a doubletap of the given digit."""
+        # Don't fire while typing in an entry field
+        if isinstance(self.root.focus_get(), tk.Entry):
+            return
+        if not self.selected_item:
+            messagebox.showinfo("Hotkey", "Select a shortcut first (click or arrow keys)")
+            return
+
+        item, _ = self.selected_item
+        if not isinstance(item, Shortcut) or item.type == 'up':
+            messagebox.showwarning("Hotkey", "Only shortcuts can be bound to hotkeys")
+            return
+
+        try:
+            HOTKEYS_DIR.mkdir(parents=True, exist_ok=True)
+            with open(HOTKEYS_DIR / f"{digit}.json", 'w', encoding='utf-8') as f:
+                json.dump({item.name: item.to_dict()}, f, indent=2)
+            logger.info(f"Hotkey {digit} bound to '{item.name}'")
+            messagebox.showinfo("Hotkey Assigned",
+                              f"'{item.name}' bound to doubletap {digit}")
+        except Exception as e:
+            logger.error(f"Error saving hotkey {digit}: {e}")
+            messagebox.showerror("Hotkey Error", f"Could not save hotkey {digit}")
+
+    def _on_digit_key(self, digit: str):
+        """Track digit presses; doubletap within 0.5s launches the hotkey."""
+        # Don't fire while typing in an entry field (e.g. search)
+        if isinstance(self.root.focus_get(), tk.Entry):
+            return
+
+        now = time.monotonic()
+        if self._last_digit == digit and now - self._last_digit_time < 0.5:
+            self._last_digit = None
+            self.run_hotkey(digit)
+        else:
+            self._last_digit = digit
+            self._last_digit_time = now
+
+    def run_hotkey(self, digit: str):
+        """Launch the shortcut bound to the given digit, if any."""
+        hotkey_file = HOTKEYS_DIR / f"{digit}.json"
+        try:
+            with open(hotkey_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            logger.debug(f"No hotkey bound to {digit}")
+            return
+        except Exception as e:
+            logger.error(f"Error reading hotkey {digit}: {e}")
+            return
+
+        for name, item_data in data.items():
+            item = item_from_dict(name, item_data)
+            if isinstance(item, Shortcut):
+                logger.info(f"Hotkey {digit}: launching '{item.name}'")
+                if is_valid_target(item.path):
+                    if not Launcher.launch(item.path, item.args):
+                        messagebox.showerror("Launch Error",
+                                           f"Could not launch {item.name}")
+                else:
+                    messagebox.showerror("Broken Shortcut",
+                                       f"Hotkey {digit} ('{item.name}') points to a missing "
+                                       f"file or program:\n{item.path}")
+            break  # one shortcut per hotkey file
+
+    def _get_password(self) -> str:
+        """Read the lock password. Empty/missing file means no password."""
+        try:
+            return PASSWORD_FILE.read_text(encoding='utf-8').strip()
+        except FileNotFoundError:
+            return ""
+        except Exception as e:
+            logger.error(f"Error reading password file: {e}")
+            return ""
+
+    def lock_screen(self):
+        """Lock the screen - render nothing, ignore input until unlocked."""
+        if self.locked:
+            return
+        self.locked = True
+        self.selected_item = None
+        if self.search_active:
+            self.search_active = False
+            self.search_bar.pack_forget()
+            self.search_query = ""
+        self.render_items()
+        logger.info("Screen locked")
+
+    def unlock_screen(self):
+        """Unlock the screen, prompting for password.txt contents if set."""
+        if not self.locked:
+            return
+
+        password = self._get_password()
+        if password:
+            entered = simpledialog.askstring("Unlock", "Password:",
+                                           show='*', parent=self.root)
+            if entered is None:
+                return
+            if entered.strip() != password:
+                messagebox.showerror("Locked", "Incorrect password")
+                return
+
+        self.locked = False
+        self.render_items()
+        logger.info("Screen unlocked")
 
     def go_home(self):
         """Navigate to home directory."""
@@ -509,98 +626,103 @@ class MainWindow:
             self.save_shortcuts()
             self.render_items()
     
-    def edit_item(self, item: BaseItem):
+    def edit_item(self, item: BaseItem, parent_path: Optional[List[str]] = None):
         """Edit an item."""
         if self.dialog_open:
             return
-            
+
         self.dialog_open = True
         dialog = ItemDialog(self.root, f"Edit {item.name}", item)
         result = dialog.wait()
         self.dialog_open = False
-        
+
         if result:
             name, item_type, path, icon, args = result
-            
-            # Update item properties
+
             old_name = item.name
-            item.name = name
-            item.icon = icon or name[0].upper()
-            
-            if isinstance(item, Shortcut):
-                item.path = path
-                item.args = args
-            
-            # Update in parent if name changed
-            if name != old_name:
-                folder = self._get_current_folder()
-                if isinstance(folder, dict):
-                    del folder[old_name]
-                    folder[name] = item
+            # Use the item's own parent folder so editing from search
+            # results doesn't touch the wrong folder
+            if parent_path is None:
+                parent_path = self.current_path
+            folder = self._get_folder_at(parent_path)
+            items = folder if isinstance(folder, dict) else folder.items
+
+            old_type = 'folder' if isinstance(item, Folder) else 'shortcut'
+            if item_type != old_type:
+                # Type changed: replace with a new item of the right type
+                if isinstance(item, Folder) and item.items:
+                    if not messagebox.askyesno("Convert Folder",
+                                             f"'{old_name}' contains {len(item.items)} item(s) "
+                                             "which will be lost. Convert anyway?"):
+                        return
+                if item_type == 'folder':
+                    new_item = Folder(name=name, icon=icon or name[0].upper())
                 else:
-                    del folder.items[old_name]
-                    folder.items[name] = item
-            
+                    new_item = Shortcut(name=name, icon=icon or name[0].upper(),
+                                       path=path, args=args)
+                del items[old_name]
+                items[name] = new_item
+            else:
+                # Update item properties
+                item.name = name
+                item.icon = icon or name[0].upper()
+
+                if isinstance(item, Shortcut):
+                    item.path = path
+                    item.args = args
+
+                # Update in parent if name changed
+                if name != old_name:
+                    del items[old_name]
+                    items[name] = item
+
             self.save_shortcuts()
             self.render_items()
     
-    def duplicate_item(self, item: BaseItem):
+    def duplicate_item(self, item: BaseItem, parent_path: Optional[List[str]] = None):
         """Duplicate an item."""
-        folder = self._get_current_folder()
-        
+        if parent_path is None:
+            parent_path = self.current_path
+        folder = self._get_folder_at(parent_path)
+        items = folder if isinstance(folder, dict) else folder.items
+
         # Find unique name
         base_name = item.name
         new_name = f"{base_name} copy"
         counter = 2
-        
-        while True:
-            if isinstance(folder, dict):
-                if new_name not in folder:
-                    break
-            else:
-                if new_name not in folder.items:
-                    break
+
+        while new_name in items:
             new_name = f"{base_name} copy {counter}"
             counter += 1
-        
-        # Create duplicate
-        if isinstance(item, Folder):
-            new_item = Folder(name=new_name, icon=item.icon)
-        else:
-            new_item = Shortcut(name=new_name, icon=item.icon,
-                               path=item.path, args=item.args)
-        
-        # Add to folder
-        if isinstance(folder, dict):
-            folder[new_name] = new_item
-        else:
-            folder.items[new_name] = new_item
-        
+
+        # Deep copy via dict round-trip so folder contents come along too
+        new_item = item_from_dict(new_name, item.to_dict())
+        items[new_name] = new_item
+
         self.save_shortcuts()
         self.render_items()
-        
+
         # Offer to edit
-        if messagebox.askyesno("Edit Duplicate", 
+        if messagebox.askyesno("Edit Duplicate",
                              f"Edit '{new_name}' now?"):
-            self.edit_item(new_item)
-    
+            self.edit_item(new_item, parent_path)
+
     def duplicate_selected(self):
         """Duplicate the selected item."""
         if self.selected_item:
             item, path = self.selected_item
-            self.duplicate_item(item)
-    
-    def delete_item(self, item: BaseItem):
+            self.duplicate_item(item, path)
+
+    def delete_item(self, item: BaseItem, parent_path: Optional[List[str]] = None):
         """Delete an item."""
-        if messagebox.askyesno("Delete Item", 
+        if messagebox.askyesno("Delete Item",
                              f"Delete '{item.name}'?"):
-            folder = self._get_current_folder()
-            
-            if isinstance(folder, dict):
-                del folder[item.name]
-            else:
-                del folder.items[item.name]
-            
+            if parent_path is None:
+                parent_path = self.current_path
+            folder = self._get_folder_at(parent_path)
+            items = folder if isinstance(folder, dict) else folder.items
+            items.pop(item.name, None)
+
             self.save_shortcuts()
             self.render_items()
     
@@ -637,6 +759,10 @@ Shortcuts:
 - Ctrl+E: Edit selected
 - Ctrl+R: Refresh
 - Ctrl+P: Show properties
+- Ctrl+1..0: Bind selected shortcut to that number
+- Doubletap 1..0: Launch bound shortcut
+- Ctrl+L: Lock screen
+- Ctrl+U: Unlock screen
 - Enter: Launch selected
 - Escape: Go up/close search
 - Backspace: Go up one level
@@ -690,7 +816,7 @@ https://github.com/Bladetrain3r/Magic-Launcher"""
             return
         
         # Find current index more efficiently
-        current_item, _ = self.selected_item  # THIS LINE NEEDS TO BE INDENTED HERE
+        current_item, _ = self.selected_item
         try:
             current_index = next(i for i, (_, item, _) in enumerate(items) 
                                if item == current_item)

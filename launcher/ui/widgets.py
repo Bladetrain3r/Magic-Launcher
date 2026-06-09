@@ -2,12 +2,11 @@
 
 import tkinter as tk
 from typing import Callable, Optional, List
-import os
-from shutil import which
 
 from constants import COLORS, ICON_SIZE, LABEL_BASE_WIDTH
 from models import BaseItem, Folder, Shortcut
 from utils.icons import icon_manager
+from utils.launcher import is_valid_target
 from utils.logger import logger
 
 
@@ -58,7 +57,7 @@ class IconWidget(tk.Frame):
         self.icon_label.place(relx=0.5, rely=0.5, anchor='center', width=ICON_SIZE-8, height=ICON_SIZE-8)
         # Check if shortcut is broken and add red X overlay
         if isinstance(self.item, Shortcut) and self.item.path:
-            if not self._is_valid_shortcut():
+            if not is_valid_target(self.item.path):
                 self._add_broken_overlay()
 
         # Get label width based on name length
@@ -87,27 +86,6 @@ class IconWidget(tk.Frame):
                 relief='flat',
                 borderwidth=0
             )
-    
-    def _is_valid_shortcut(self) -> bool:
-        """Check if a shortcut path is valid."""
-        path = self.item.path
-        
-        # URLs are always considered valid (we can't check them quickly)
-        if path.startswith(('http://', 'https://')):
-            return True
-        
-        # Expand environment variables and user paths
-        expanded = os.path.expanduser(os.path.expandvars(path))
-        
-        # Check if it's an absolute path that exists
-        if os.path.isabs(expanded):
-            return os.path.exists(expanded)
-        
-        # Check if it's a command in PATH
-        from shutil import which
-        # Extract just the command name (before any arguments)
-        cmd = path.split()[0] if path else ""
-        return which(cmd) is not None
     
     def _add_broken_overlay(self):
         """Add a red X overlay for broken shortcuts."""
