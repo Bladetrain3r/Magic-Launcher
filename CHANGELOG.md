@@ -16,7 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Put README through an intense cardio session to lose a lot of weight
 - INTRO doc created to cover the bare basics
 
-## [1.1] - The conf.d Apprach - PENDING
+## [1.1] - Top Ten @ 10 - (DONE)
 ### Bug Smash (DONE)
 - Fixed missing `import sys` in app.py - the friendly "install tkinter" message now actually prints instead of crashing with a NameError.
 - Fixed unbound variable crash in config.py when default.json is missing.
