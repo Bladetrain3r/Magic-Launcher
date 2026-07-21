@@ -108,6 +108,24 @@ Best on a LAN but it will function over WAN too.
 ssh -XC -t user@server "python3 path_to/Magic-Launcher/launcher/app.py"
 ```
 
+### Web Stream Deck (Magic Launcher Server)
+Serve your shortcuts as a tappable tile grid to any browser - phone, tablet or
+old laptop becomes a Stream Deck for the machine running the server. No X, no
+per-device setup, stdlib only.
+```bash
+python3 path_to/Magic-Launcher/launcher/server.py                    # this machine only
+python3 path_to/Magic-Launcher/launcher/server.py --host 0.0.0.0     # any device on your LAN
+```
+Then open `http://<machine-ip>:8180/` on the device. Folders drill down like
+the native app, tapping a shortcut launches it on the server's machine, and
+edits made in native Magic Launcher show up on the next page load.
+
+The web view is strictly read-only: all editing stays in the native app, and
+the browser can only launch shortcuts that already exist in `shortcuts.json` -
+it can never send a command of its own. There's no authentication, so only
+bind beyond localhost on a network you trust: anyone who can open the page can
+launch your shortcuts.
+
 #### Streams and framebuffer output to terminal
 Applications like Top or Vim may have issues or display problems with different terminal configurations.
 In general, it's better practice to use a loop that cleanly exits each time, than running a passive stream.
