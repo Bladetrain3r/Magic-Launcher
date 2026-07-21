@@ -121,6 +121,10 @@ Then open `http://<machine-ip>:8180/` on the device. Folders drill down like
 the native app, tapping a shortcut launches it on the server's machine, and
 edits made in native Magic Launcher show up on the next page load.
 
+Each tile shows a status dot for its latest launch: yellow while it's still
+running, green once it exits cleanly, red if it exited with an error or never
+started. Note that a GUI app counts as "running" until you close it.
+
 The web view is strictly read-only: all editing stays in the native app, and
 the browser can only launch shortcuts that already exist in `shortcuts.json` -
 it can never send a command of its own. There's no authentication, so only

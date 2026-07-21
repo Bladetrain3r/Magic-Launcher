@@ -4,6 +4,15 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.1] - Green Means Go - (DONE)
+
+### Launch Feedback
+- Web tiles now carry a status dot in the icon corner: yellow while the launch is still running, green when it exited cleanly, red when it exited nonzero or failed to spawn.
+- Each tile tracks its own latest launch, so two things running is just two yellow dots - no global precedence rules.
+- New `/status` endpoint reports per-tile state as JSON; the page polls it every 2 seconds (paused while the tab is hidden). Without JavaScript, dots still render on each page load.
+- `Launcher` guts revamp: new `launch_process()` returns the process handle instead of discarding it, which is what makes exit-code tracking possible. `launch()` keeps its bool contract, so the native app is unchanged but can adopt the same trick later.
+- Status transitions are kept in a capped in-memory event log - groundwork for the 1.2.2 `/log` endpoint.
+
 ## [1.2] - Obscurity not Security - PLANNING
 
 ### Every Screen's a Stream Deck (DONE)
