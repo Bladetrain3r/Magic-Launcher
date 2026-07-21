@@ -4,6 +4,13 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.2.2] - Paper Trail - (DONE)
+
+### Launch Log
+- New `/log` endpoint on the web deck: the recent launch history (timestamp, shortcut, status transition) as a CGA-styled table, newest first, auto-refreshing every 5 seconds. Linked from the header on every deck page.
+- Same endpoint answers `Accept: application/json` with the raw event list (epoch + ISO time, shortcut path, status) - the start of a machine-readable convention for agents and scripts, alongside the existing JSON `/status`.
+- Log is the in-memory event buffer from 1.2.1 (last 200 transitions), so it costs nothing extra and vanishes on restart - `launcher.log` remains the permanent record.
+
 ## [1.2.1] - Green Means Go - (DONE)
 
 ### Launch Feedback

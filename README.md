@@ -125,6 +125,12 @@ Each tile shows a status dot for its latest launch: yellow while it's still
 running, green once it exits cleanly, red if it exited with an error or never
 started. Note that a GUI app counts as "running" until you close it.
 
+The LOG link in the header (or `/log`) shows the recent launch history -
+timestamp, shortcut, and each status change. It's in-memory only (last 200
+events, cleared on restart); `launcher.log` keeps the permanent record.
+Scripts and agents can request `/log` and `/status` with an
+`Accept: application/json` header to get the data without the HTML.
+
 The web view is strictly read-only: all editing stays in the native app, and
 the browser can only launch shortcuts that already exist in `shortcuts.json` -
 it can never send a command of its own. There's no authentication, so only

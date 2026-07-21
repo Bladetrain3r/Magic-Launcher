@@ -70,6 +70,11 @@ def load_tree() -> dict:
     return {name: item_from_dict(name, item_data) for name, item_data in data.items()}
 
 
+def decode_id(item_id: str) -> str:
+    """Turn an encoded tree-path id back into a readable path for display."""
+    return '/'.join(unquote(seg) for seg in item_id.split('/'))
+
+
 def encode_id(segments) -> str:
     """Encode a list of item names into a URL-safe tree-path id.
 
@@ -131,6 +136,12 @@ class LaunchTracker:
                     self.events.append((time.time(), item_id, rec['status']))
             return {item_id: rec['status']
                     for item_id, rec in self._latest.items()}
+
+    def log(self) -> list:
+        """Chronological copy of the event log (oldest first)."""
+        self.statuses()  # settle any just-finished processes first
+        with self._lock:
+            return list(self.events)
 
 
 tracker = LaunchTracker()
@@ -227,6 +238,23 @@ main {{
 .badge.st-ok {{ display: block; background: {COLORS['light_green']}; }}
 .badge.st-fail {{ display: block; background: {COLORS['light_red']}; }}
 .empty {{ color: {COLORS['light_gray']}; padding: 20px; grid-column: 1 / -1; }}
+header .loglink {{ margin-left: auto; }}
+table.log {{
+    border-collapse: collapse;
+    margin: 14px;
+    width: calc(100% - 28px);
+    font-size: 0.9em;
+}}
+.log th, .log td {{
+    border: 1px solid {COLORS['dark_gray']};
+    padding: 5px 10px;
+    text-align: left;
+}}
+.log th {{ background: {COLORS['dark_gray']}; color: {COLORS['yellow']}; }}
+.log td {{ color: {COLORS['light_gray']}; }}
+.log td.st-running {{ color: {COLORS['yellow']}; }}
+.log td.st-ok {{ color: {COLORS['light_green']}; }}
+.log td.st-fail {{ color: {COLORS['light_red']}; }}
 footer {{
     color: {COLORS['dark_gray']};
     font-size: 0.8em;
@@ -331,12 +359,44 @@ def render_page(segments, items: dict, statuses: dict) -> str:
 <style>{PAGE_STYLE}</style>
 </head>
 <body>
-<header><h1>{title}</h1><nav>{breadcrumb}</nav></header>
+<header><h1>{title}</h1><nav>{breadcrumb}</nav><nav class="loglink"><a href="/log">LOG</a></nav></header>
 <main>
 {grid}
 </main>
 <footer>Magic Launcher Server v{VERSION} - read-only view, edit in the native app</footer>
 <script>{PAGE_SCRIPT}</script>
+</body>
+</html>"""
+
+
+def render_log_page(events) -> str:
+    """Render the launch event log, newest first, auto-refreshing."""
+    rows = []
+    for ts, item_id, status in reversed(events):
+        stamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(ts))
+        rows.append(f'<tr><td>{stamp}</td>'
+                    f'<td>{html.escape(decode_id(item_id))}</td>'
+                    f'<td class="st-{status}">{status.upper()}</td></tr>')
+    if rows:
+        table = ('<table class="log"><tr><th>Time</th><th>Shortcut</th>'
+                 '<th>Status</th></tr>' + '\n'.join(rows) + '</table>')
+    else:
+        table = '<p class="empty">No launches yet.</p>'
+
+    title = html.escape(get_app_name())
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="5">
+<title>{title} - Log</title>
+<style>{PAGE_STYLE}</style>
+</head>
+<body>
+<header><h1>{title}</h1><nav><a href="/">HOME</a> <span>&gt;</span> LOG</nav></header>
+{table}
+<footer>Magic Launcher Server v{VERSION} - last {len(events)} launch events, in memory only</footer>
 </body>
 </html>"""
 
@@ -374,6 +434,20 @@ class StreamDeckHandler(BaseHTTPRequestHandler):
         elif path == '/status':
             payload = json.dumps(tracker.statuses()).encode('utf-8')
             self._send(200, 'application/json', payload)
+        elif path == '/log':
+            events = tracker.log()
+            if 'application/json' in (self.headers.get('Accept') or ''):
+                payload = json.dumps([
+                    {'time': ts,
+                     'iso': time.strftime('%Y-%m-%dT%H:%M:%S',
+                                          time.localtime(ts)),
+                     'id': item_id,
+                     'shortcut': decode_id(item_id),
+                     'status': status}
+                    for ts, item_id, status in events]).encode('utf-8')
+                self._send(200, 'application/json', payload)
+            else:
+                self._send_html(200, render_log_page(events))
         elif path.startswith('/folder/'):
             item_id = path[len('/folder/'):].rstrip('/')
             item = resolve(load_tree(), item_id)
