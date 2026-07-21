@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.2] - Obscurity not Security - PLANNING
 
+### Every Screen's a Stream Deck (DONE)
+- New `launcher/server.py`: a read-only web renderer of shortcuts.json - serves the tile grid to any browser so a phone/tablet on the LAN becomes a Stream Deck for the host machine.
+- Same CGA look (yellow folders, gray shortcuts, red-X broken overlay), folder drilldown with HOME breadcrumb, BMP icons served from the icons dir.
+- Fresh-reads the config on every request, so edits in the native app appear on the next page load. The server never writes shortcuts.json.
+- Launch is by tree-path identifier resolved against the trusted config - the browser can never submit a command string. Binds to 127.0.0.1 by default; `--host 0.0.0.0` to open it to the LAN (no auth in v1, network scope is the boundary).
+- Pure stdlib (http.server), one file, works without JavaScript (plain form fallback).
+
 ### Save Our Strings
 - Obscured string type added
 - Uses initial implementation of path prefix system - prepend path with mlh. to hash it and store said hash as the path
