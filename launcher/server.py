@@ -18,6 +18,15 @@ Usage (same convention as app.py):
     python3 launcher/server.py --host 0.0.0.0 --port 8180   # expose to LAN
 
 No auth in v1 - network scope (localhost/LAN binding) is the boundary.
+
+Agent/script surface: every endpoint answers `Accept: application/json`
+with data instead of HTML. The launcher is just a launcher - it reports
+what can be launched and what happened, never the commands behind tiles:
+    GET  /                  tiles at the top level (id, name, type, status)
+    GET  /folder/<id>       tiles inside a folder
+    POST /launch  id=<id>   launch by trusted id -> {ok, status}
+    GET  /status            latest status per tile
+    GET  /log               recent launch events (in-memory, capped)
 """
 
 import argparse
@@ -369,6 +378,25 @@ def render_page(segments, items: dict, statuses: dict) -> str:
 </html>"""
 
 
+def items_json(segments, items: dict, statuses: dict) -> dict:
+    """The agent-facing view of one folder level: ids, names, types and
+    launch status only. Deliberately no paths or args - the launcher
+    reports what can be launched and what happened, nothing more."""
+    out = []
+    for name, item in items.items():
+        item_id = encode_id(segments + [name])
+        entry = {'id': item_id, 'name': name}
+        if isinstance(item, Folder):
+            entry['type'] = 'folder'
+        else:
+            entry['type'] = 'shortcut'
+            entry['status'] = statuses.get(item_id)
+            if not is_valid_target(item.path):
+                entry['broken'] = True
+        out.append(entry)
+    return {'path': segments, 'items': out}
+
+
 def render_log_page(events) -> str:
     """Render the launch event log, newest first, auto-refreshing."""
     rows = []
@@ -417,14 +445,27 @@ class StreamDeckHandler(BaseHTTPRequestHandler):
     def _send_html(self, code: int, text: str):
         self._send(code, 'text/html; charset=utf-8', text.encode('utf-8'))
 
+    def _wants_json(self) -> bool:
+        return 'application/json' in (self.headers.get('Accept') or '')
+
+    def _send_json(self, code: int, data):
+        self._send(code, 'application/json',
+                   json.dumps(data).encode('utf-8'))
+
     def _send_page(self, segments, items):
-        # Re-check target validity per page load so the red-X state
-        # tracks the filesystem, not the first request's cache.
+        # Re-check target validity per page load so the red-X/broken
+        # state tracks the filesystem, not the first request's cache.
         clear_validity_cache()
-        self._send_html(200, render_page(segments, items, tracker.statuses()))
+        if self._wants_json():
+            self._send_json(200, items_json(segments, items, tracker.statuses()))
+        else:
+            self._send_html(200, render_page(segments, items, tracker.statuses()))
 
     def _not_found(self):
-        self._send_html(404, '<h1>404</h1><p>Not found.</p>')
+        if self._wants_json():
+            self._send_json(404, {'error': 'not found'})
+        else:
+            self._send_html(404, '<h1>404</h1><p>Not found.</p>')
 
     def do_GET(self):
         path = urlparse(self.path).path

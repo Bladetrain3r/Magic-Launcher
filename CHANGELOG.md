@@ -4,6 +4,13 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3] - Just a Launcher - (DONE)
+
+### Agents Welcome, Tightly Bounded
+- The deck pages (`/` and `/folder/<id>`) now answer `Accept: application/json` with the tile list - id, name, type, latest launch status, and a broken flag. Combined with the existing JSON `/launch`, `/status` and `/log`, the whole surface is machine-readable without any HTML scraping.
+- Deliberately minimal: the JSON never exposes the paths or args behind tiles. An agent can see what's launchable and what happened - launched, running, finished, failed - and nothing else. More information is the job of the agent's other tools; Magic Launcher is just a launcher.
+- The security model is unchanged and is the point: an agent can only invoke entries you pre-defined in shortcuts.json, by id, over a LAN-scoped (or localhost-only) socket. 404s are JSON too when asked for JSON.
+
 ## [1.2.2] - Paper Trail - (DONE)
 
 ### Launch Log

@@ -128,8 +128,14 @@ started. Note that a GUI app counts as "running" until you close it.
 The LOG link in the header (or `/log`) shows the recent launch history -
 timestamp, shortcut, and each status change. It's in-memory only (last 200
 events, cleared on restart); `launcher.log` keeps the permanent record.
-Scripts and agents can request `/log` and `/status` with an
-`Accept: application/json` header to get the data without the HTML.
+
+Scripts and agents can send `Accept: application/json` to any endpoint and
+get data instead of HTML: `/` and `/folder/<id>` list the tiles (id, name,
+type, latest status), `POST /launch` takes a tile id, and `/status` and
+`/log` report what happened. The JSON never exposes the commands behind
+tiles - an agent can only launch what you've pre-defined, by id, and see
+whether it launched, is running, finished or failed. Magic Launcher is just
+a launcher; anything more is the job of the agent's other tools.
 
 The web view is strictly read-only: all editing stays in the native app, and
 the browser can only launch shortcuts that already exist in `shortcuts.json` -
