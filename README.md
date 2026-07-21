@@ -127,6 +127,8 @@ it can never send a command of its own. There's no authentication, so only
 bind beyond localhost on a network you trust: anyone who can open the page can
 launch your shortcuts.
 
+![Web Interface](magic_server.png)
+
 #### Streams and framebuffer output to terminal
 Applications like Top or Vim may have issues or display problems with different terminal configurations.
 In general, it's better practice to use a loop that cleanly exits each time, than running a passive stream.
