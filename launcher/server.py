@@ -18,11 +18,23 @@ Usage (same convention as app.py):
     python3 launcher/server.py --host 0.0.0.0 --port 8180   # expose to LAN
 
 No auth in v1 - network scope (localhost/LAN binding) is the boundary.
+
+Agent/script surface: every endpoint answers `Accept: application/json`
+with data instead of HTML. The launcher is just a launcher - it reports
+what can be launched and what happened, never the commands behind tiles:
+    GET  /                  tiles at the top level (id, name, type, status)
+    GET  /folder/<id>       tiles inside a folder
+    POST /launch  id=<id>   launch by trusted id -> {ok, status}
+    GET  /status            latest status per tile
+    GET  /log               recent launch events (in-memory, capped)
 """
 
 import argparse
 import json
 import html
+import threading
+import time
+from collections import deque
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import quote, unquote, parse_qs, urlparse
@@ -67,6 +79,11 @@ def load_tree() -> dict:
     return {name: item_from_dict(name, item_data) for name, item_data in data.items()}
 
 
+def decode_id(item_id: str) -> str:
+    """Turn an encoded tree-path id back into a readable path for display."""
+    return '/'.join(unquote(seg) for seg in item_id.split('/'))
+
+
 def encode_id(segments) -> str:
     """Encode a list of item names into a URL-safe tree-path id.
 
@@ -91,6 +108,52 @@ def resolve(tree: dict, item_id: str):
             return None
         items = item.items if isinstance(item, Folder) else None
     return item
+
+
+# --- Launch tracking (the per-tile status dots) ---
+
+class LaunchTracker:
+    """Remembers each tile's latest launch so /status can report it.
+
+    Status per tile: 'running' while the process is alive, then 'ok'
+    (exit 0) or 'fail' (nonzero exit, or the launch never spawned).
+    Transitions are also appended to an in-memory event log, capped so
+    the server can't grow without bound.
+    """
+
+    def __init__(self, history: int = 200):
+        self._lock = threading.Lock()
+        self._latest = {}  # canonical item id -> launch record
+        self.events = deque(maxlen=history)  # (timestamp, id, status)
+
+    def start(self, item_id: str, proc) -> str:
+        status = 'running' if proc is not None else 'fail'
+        with self._lock:
+            self._latest[item_id] = {'proc': proc, 'status': status}
+            self.events.append((time.time(), item_id, status))
+        return status
+
+    def statuses(self) -> dict:
+        """Current status per tile, polling any still-running processes."""
+        with self._lock:
+            for item_id, rec in self._latest.items():
+                if rec['status'] != 'running':
+                    continue
+                code = rec['proc'].poll()
+                if code is not None:
+                    rec['status'] = 'ok' if code == 0 else 'fail'
+                    self.events.append((time.time(), item_id, rec['status']))
+            return {item_id: rec['status']
+                    for item_id, rec in self._latest.items()}
+
+    def log(self) -> list:
+        """Chronological copy of the event log (oldest first)."""
+        self.statuses()  # settle any just-finished processes first
+        with self._lock:
+            return list(self.events)
+
+
+tracker = LaunchTracker()
 
 
 # --- HTML rendering (the bbs_page.py move: config in, page out) ---
@@ -171,7 +234,36 @@ main {{
 }}
 .tile.ok .box {{ outline: 3px solid {COLORS['light_green']}; }}
 .tile.fail .box {{ outline: 3px solid {COLORS['light_red']}; }}
+.badge {{
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 14px;
+    height: 14px;
+    border: 2px solid {COLORS['black']};
+    display: none;
+}}
+.badge.st-running {{ display: block; background: {COLORS['yellow']}; }}
+.badge.st-ok {{ display: block; background: {COLORS['light_green']}; }}
+.badge.st-fail {{ display: block; background: {COLORS['light_red']}; }}
 .empty {{ color: {COLORS['light_gray']}; padding: 20px; grid-column: 1 / -1; }}
+header .loglink {{ margin-left: auto; }}
+table.log {{
+    border-collapse: collapse;
+    margin: 14px;
+    width: calc(100% - 28px);
+    font-size: 0.9em;
+}}
+.log th, .log td {{
+    border: 1px solid {COLORS['dark_gray']};
+    padding: 5px 10px;
+    text-align: left;
+}}
+.log th {{ background: {COLORS['dark_gray']}; color: {COLORS['yellow']}; }}
+.log td {{ color: {COLORS['light_gray']}; }}
+.log td.st-running {{ color: {COLORS['yellow']}; }}
+.log td.st-ok {{ color: {COLORS['light_green']}; }}
+.log td.st-fail {{ color: {COLORS['light_red']}; }}
 footer {{
     color: {COLORS['dark_gray']};
     font-size: 0.8em;
@@ -180,7 +272,10 @@ footer {{
 """
 
 # Tap a shortcut tile -> POST its id, flash the tile green/red.
-# Without JS the plain form submit still works (server 303s back).
+# Corner badges show each tile's latest launch state (yellow running,
+# green exited 0, red failed) and refresh from /status every 2s.
+# Without JS the plain form submit still works (server 303s back) and
+# badges are rendered server-side on each page load.
 PAGE_SCRIPT = """
 document.querySelectorAll('form.launch').forEach(function (form) {
     form.addEventListener('submit', function (ev) {
@@ -192,7 +287,10 @@ document.querySelectorAll('form.launch').forEach(function (form) {
                       'Accept': 'application/json'},
             body: 'id=' + encodeURIComponent(form.elements.id.value)
         }).then(function (r) { return r.json(); })
-          .then(function (data) { flash(tile, data.ok); })
+          .then(function (data) {
+              flash(tile, data.ok);
+              setBadge(tile, data.status);
+          })
           .catch(function () { flash(tile, false); });
     });
 });
@@ -200,6 +298,22 @@ function flash(tile, ok) {
     tile.classList.add(ok ? 'ok' : 'fail');
     setTimeout(function () { tile.classList.remove('ok', 'fail'); }, 500);
 }
+function setBadge(tile, status) {
+    var badge = tile.querySelector('.badge');
+    if (badge) badge.className = 'badge' + (status ? ' st-' + status : '');
+}
+function pollStatus() {
+    if (document.hidden) return;
+    fetch('/status', {headers: {'Accept': 'application/json'}})
+        .then(function (r) { return r.json(); })
+        .then(function (statuses) {
+            document.querySelectorAll('.tile.shortcut').forEach(function (tile) {
+                setBadge(tile, statuses[tile.dataset.id]);
+            });
+        })
+        .catch(function () {});
+}
+setInterval(pollStatus, 2000);
 """
 
 
@@ -213,7 +327,7 @@ def render_icon(item: BaseItem) -> str:
     return html.escape(text)
 
 
-def render_tile(item: BaseItem, segments) -> str:
+def render_tile(item: BaseItem, segments, statuses: dict) -> str:
     item_id = encode_id(segments)
     name = html.escape(item.name)
     if isinstance(item, Folder):
@@ -221,14 +335,18 @@ def render_tile(item: BaseItem, segments) -> str:
                 f'<span class="box">{render_icon(item)}</span>'
                 f'<span class="name">{name}</span></a>')
     broken = '' if is_valid_target(item.path) else ' broken'
+    status = statuses.get(item_id)
+    badge_class = f'badge st-{status}' if status else 'badge'
     return (f'<form class="launch" method="POST" action="/launch">'
             f'<input type="hidden" name="id" value="{html.escape(item_id)}">'
-            f'<button class="tile shortcut{broken}" type="submit">'
-            f'<span class="box">{render_icon(item)}</span>'
+            f'<button class="tile shortcut{broken}" type="submit" '
+            f'data-id="{html.escape(item_id)}">'
+            f'<span class="box">{render_icon(item)}'
+            f'<span class="{badge_class}"></span></span>'
             f'<span class="name">{name}</span></button></form>')
 
 
-def render_page(segments, items: dict) -> str:
+def render_page(segments, items: dict, statuses: dict) -> str:
     """Render one folder level (segments == [] for the top level)."""
     crumbs = ['<a href="/">HOME</a>']
     for i, seg in enumerate(segments):
@@ -236,7 +354,8 @@ def render_page(segments, items: dict) -> str:
                       f'{html.escape(seg)}</a>')
     breadcrumb = ' <span>&gt;</span> '.join(crumbs)
 
-    tiles = [render_tile(item, segments + [name]) for name, item in items.items()]
+    tiles = [render_tile(item, segments + [name], statuses)
+             for name, item in items.items()]
     grid = '\n'.join(tiles) if tiles else '<p class="empty">No shortcuts here.</p>'
 
     title = html.escape(get_app_name())
@@ -249,12 +368,63 @@ def render_page(segments, items: dict) -> str:
 <style>{PAGE_STYLE}</style>
 </head>
 <body>
-<header><h1>{title}</h1><nav>{breadcrumb}</nav></header>
+<header><h1>{title}</h1><nav>{breadcrumb}</nav><nav class="loglink"><a href="/log">LOG</a></nav></header>
 <main>
 {grid}
 </main>
 <footer>Magic Launcher Server v{VERSION} - read-only view, edit in the native app</footer>
 <script>{PAGE_SCRIPT}</script>
+</body>
+</html>"""
+
+
+def items_json(segments, items: dict, statuses: dict) -> dict:
+    """The agent-facing view of one folder level: ids, names, types and
+    launch status only. Deliberately no paths or args - the launcher
+    reports what can be launched and what happened, nothing more."""
+    out = []
+    for name, item in items.items():
+        item_id = encode_id(segments + [name])
+        entry = {'id': item_id, 'name': name}
+        if isinstance(item, Folder):
+            entry['type'] = 'folder'
+        else:
+            entry['type'] = 'shortcut'
+            entry['status'] = statuses.get(item_id)
+            if not is_valid_target(item.path):
+                entry['broken'] = True
+        out.append(entry)
+    return {'path': segments, 'items': out}
+
+
+def render_log_page(events) -> str:
+    """Render the launch event log, newest first, auto-refreshing."""
+    rows = []
+    for ts, item_id, status in reversed(events):
+        stamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(ts))
+        rows.append(f'<tr><td>{stamp}</td>'
+                    f'<td>{html.escape(decode_id(item_id))}</td>'
+                    f'<td class="st-{status}">{status.upper()}</td></tr>')
+    if rows:
+        table = ('<table class="log"><tr><th>Time</th><th>Shortcut</th>'
+                 '<th>Status</th></tr>' + '\n'.join(rows) + '</table>')
+    else:
+        table = '<p class="empty">No launches yet.</p>'
+
+    title = html.escape(get_app_name())
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="5">
+<title>{title} - Log</title>
+<style>{PAGE_STYLE}</style>
+</head>
+<body>
+<header><h1>{title}</h1><nav><a href="/">HOME</a> <span>&gt;</span> LOG</nav></header>
+{table}
+<footer>Magic Launcher Server v{VERSION} - last {len(events)} launch events, in memory only</footer>
 </body>
 </html>"""
 
@@ -275,20 +445,50 @@ class StreamDeckHandler(BaseHTTPRequestHandler):
     def _send_html(self, code: int, text: str):
         self._send(code, 'text/html; charset=utf-8', text.encode('utf-8'))
 
+    def _wants_json(self) -> bool:
+        return 'application/json' in (self.headers.get('Accept') or '')
+
+    def _send_json(self, code: int, data):
+        self._send(code, 'application/json',
+                   json.dumps(data).encode('utf-8'))
+
     def _send_page(self, segments, items):
-        # Re-check target validity per page load so the red-X state
-        # tracks the filesystem, not the first request's cache.
+        # Re-check target validity per page load so the red-X/broken
+        # state tracks the filesystem, not the first request's cache.
         clear_validity_cache()
-        self._send_html(200, render_page(segments, items))
+        if self._wants_json():
+            self._send_json(200, items_json(segments, items, tracker.statuses()))
+        else:
+            self._send_html(200, render_page(segments, items, tracker.statuses()))
 
     def _not_found(self):
-        self._send_html(404, '<h1>404</h1><p>Not found.</p>')
+        if self._wants_json():
+            self._send_json(404, {'error': 'not found'})
+        else:
+            self._send_html(404, '<h1>404</h1><p>Not found.</p>')
 
     def do_GET(self):
         path = urlparse(self.path).path
 
         if path == '/':
             self._send_page([], load_tree())
+        elif path == '/status':
+            payload = json.dumps(tracker.statuses()).encode('utf-8')
+            self._send(200, 'application/json', payload)
+        elif path == '/log':
+            events = tracker.log()
+            if 'application/json' in (self.headers.get('Accept') or ''):
+                payload = json.dumps([
+                    {'time': ts,
+                     'iso': time.strftime('%Y-%m-%dT%H:%M:%S',
+                                          time.localtime(ts)),
+                     'id': item_id,
+                     'shortcut': decode_id(item_id),
+                     'status': status}
+                    for ts, item_id, status in events]).encode('utf-8')
+                self._send(200, 'application/json', payload)
+            else:
+                self._send_html(200, render_log_page(events))
         elif path.startswith('/folder/'):
             item_id = path[len('/folder/'):].rstrip('/')
             item = resolve(load_tree(), item_id)
@@ -337,13 +537,18 @@ class StreamDeckHandler(BaseHTTPRequestHandler):
             self._respond_launch(False, refused=True)
             return
 
-        ok = Launcher.launch(item.path, item.args)
-        self._respond_launch(ok)
+        # Canonical id (client encoding may differ) so the tracker key
+        # always matches the data-id the tiles are rendered with.
+        canonical_id = encode_id(unquote(seg) for seg in item_id.split('/'))
+        proc = Launcher.launch_process(item.path, item.args)
+        status = tracker.start(canonical_id, proc)
+        self._respond_launch(proc is not None, status=status)
 
-    def _respond_launch(self, ok: bool, refused: bool = False):
+    def _respond_launch(self, ok: bool, refused: bool = False,
+                        status: str = 'fail'):
         if 'application/json' in (self.headers.get('Accept') or ''):
             code = 404 if refused else 200
-            payload = json.dumps({'ok': ok}).encode('utf-8')
+            payload = json.dumps({'ok': ok, 'status': status}).encode('utf-8')
             self._send(code, 'application/json', payload)
         else:
             # No-JS form fallback: bounce back to the page the tap came from

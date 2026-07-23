@@ -4,6 +4,29 @@ All notable changes to Magic Launcher will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.3] - Just a Launcher - (DONE)
+
+### Agents Welcome, Tightly Bounded
+- The deck pages (`/` and `/folder/<id>`) now answer `Accept: application/json` with the tile list - id, name, type, latest launch status, and a broken flag. Combined with the existing JSON `/launch`, `/status` and `/log`, the whole surface is machine-readable without any HTML scraping.
+- Deliberately minimal: the JSON never exposes the paths or args behind tiles. An agent can see what's launchable and what happened - launched, running, finished, failed - and nothing else. More information is the job of the agent's other tools; Magic Launcher is just a launcher.
+- The security model is unchanged and is the point: an agent can only invoke entries you pre-defined in shortcuts.json, by id, over a LAN-scoped (or localhost-only) socket. 404s are JSON too when asked for JSON.
+
+## [1.2.2] - Paper Trail - (DONE)
+
+### Launch Log
+- New `/log` endpoint on the web deck: the recent launch history (timestamp, shortcut, status transition) as a CGA-styled table, newest first, auto-refreshing every 5 seconds. Linked from the header on every deck page.
+- Same endpoint answers `Accept: application/json` with the raw event list (epoch + ISO time, shortcut path, status) - the start of a machine-readable convention for agents and scripts, alongside the existing JSON `/status`.
+- Log is the in-memory event buffer from 1.2.1 (last 200 transitions), so it costs nothing extra and vanishes on restart - `launcher.log` remains the permanent record.
+
+## [1.2.1] - Green Means Go - (DONE)
+
+### Launch Feedback
+- Web tiles now carry a status dot in the icon corner: yellow while the launch is still running, green when it exited cleanly, red when it exited nonzero or failed to spawn.
+- Each tile tracks its own latest launch, so two things running is just two yellow dots - no global precedence rules.
+- New `/status` endpoint reports per-tile state as JSON; the page polls it every 2 seconds (paused while the tab is hidden). Without JavaScript, dots still render on each page load.
+- `Launcher` guts revamp: new `launch_process()` returns the process handle instead of discarding it, which is what makes exit-code tracking possible. `launch()` keeps its bool contract, so the native app is unchanged but can adopt the same trick later.
+- Status transitions are kept in a capped in-memory event log - groundwork for the 1.2.2 `/log` endpoint.
+
 ## [1.2] - Obscurity not Security - PLANNING
 
 ### Every Screen's a Stream Deck (DONE)

@@ -121,6 +121,22 @@ Then open `http://<machine-ip>:8180/` on the device. Folders drill down like
 the native app, tapping a shortcut launches it on the server's machine, and
 edits made in native Magic Launcher show up on the next page load.
 
+Each tile shows a status dot for its latest launch: yellow while it's still
+running, green once it exits cleanly, red if it exited with an error or never
+started. Note that a GUI app counts as "running" until you close it.
+
+The LOG link in the header (or `/log`) shows the recent launch history -
+timestamp, shortcut, and each status change. It's in-memory only (last 200
+events, cleared on restart); `launcher.log` keeps the permanent record.
+
+Scripts and agents can send `Accept: application/json` to any endpoint and
+get data instead of HTML: `/` and `/folder/<id>` list the tiles (id, name,
+type, latest status), `POST /launch` takes a tile id, and `/status` and
+`/log` report what happened. The JSON never exposes the commands behind
+tiles - an agent can only launch what you've pre-defined, by id, and see
+whether it launched, is running, finished or failed. Magic Launcher is just
+a launcher; anything more is the job of the agent's other tools.
+
 The web view is strictly read-only: all editing stays in the native app, and
 the browser can only launch shortcuts that already exist in `shortcuts.json` -
 it can never send a command of its own. There's no authentication, so only
