@@ -52,7 +52,7 @@ If you want the deep dive, check DOCS for the manifesto and various addendums to
 - To run it reliably on a machine, the following steps and prerequisites will be needed.
 
 1. Clone or download the repository
-2. Ensure Python 3 is installed. I recommend 3.10 or above but 3.6+ should work.
+2. Ensure Python 3 is installed. I recommend 3.10 or above.
 3. Confirm tkinter is installed (standard, sometimes)
 4. Install x11-apps to get display passthrough on Linux
 5. (Optional) On Windows, install an X server to avoid WSL passthrough for Docker containers.
@@ -62,7 +62,7 @@ If you want the deep dive, check DOCS for the manifesto and various addendums to
 
 ### Requirements
 CPU: Can it run Python 3?
-Python: 3.6+ but 3.9+ preferred.
+Python: 3.10+ preferred.
 RAM: About 20MB used at default scale. May increase with large or many image icons.
 GPU: Tkinter compatible software or hardware display output @ 640x480 or higher.
 VRAM: It does need a little to render the UI but flat colors and blocks mean 32-64MB of VRAM is already more than enough.
@@ -403,7 +403,7 @@ This is why import and scan functions for things which are not *in* the config f
 
 ## System Requirements
 
-- Python 3.9 or higher
+- Python 3.10 or higher
 - Tkinter (usually included with Python)
 - ~10MB disk space
 - ~20MB RAM
@@ -476,9 +476,8 @@ Contributions are welcome! Key areas for contribution:
 
 ## Donations
 
-If you wish to donate to the project, please instead give $5 to your favourite charity.
-If you feel like it, donate on behalf of Zerofuchs Software.
 Magic Launcher will always be free to download, use and modify.
+If you would like to leave a tip, please see my Github Sponsors page: https://github.com/sponsors/Bladetrain3r
 
 ## Acknowledgments
 
